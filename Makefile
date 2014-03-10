@@ -29,6 +29,8 @@ INSTALL_DATA=$(INSTALL) -m 644
 ECHO=echo
 #ECHOFLAGS=
 override ECHOFLAGS+= -e
+CTAGS=ctags
+#CTAGSFLAGS=
 
 # Do not modify anything below this line
 
@@ -92,9 +94,9 @@ test: $(testclasses) $(nontestclasses)
 	
 
 clean:
-	rm -f $(jarfile)
-	rm -rf $(bindir)/*
-	rm -rf $(testsbindir)/*
+	$(RM) $(jarfile)
+	$(RM) -r $(bindir)/*
+	$(RM) -r $(testsbindir)/*
 	$(MAKE) -C doc clean
 
 doc: dvi ps pdf
@@ -109,4 +111,4 @@ pdf:
 	$(MAKE) -C doc pdf
 
 TAGS:
-	ctags --languages=Java -R .
+	$(CTAGS) --languages=Java -R .
