@@ -1,0 +1,11 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.7	//
+Main	src/main/Main.java	/^public class Main$/;"	kind:c	line:3	language:Java
+Main.java	src/main/Main.java	1;"	kind:F	line:1	language:Java
+Main.main	src/main/Main.java	/^  public static void main(String[] args)$/;"	kind:m	line:5	language:Java	class:Main	access:public	signature:(String[] args)
+main	src/main/Main.java	/^  public static void main(String[] args)$/;"	kind:m	line:5	language:Java	class:Main	access:public	signature:(String[] args)
+main	src/main/Main.java	/^package main;$/;"	kind:p	line:1	language:Java
