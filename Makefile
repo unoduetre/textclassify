@@ -9,6 +9,8 @@ integrationtestsdir=$(prefix)/tests/integration
 testsbindir=$(prefix)/tests/bin
 libdir=$(prefix)/lib
 datadir=$(prefix)/data
+sgmldatadir=$(datadir)/sgml
+xmldatadir=$(datadir)/xml
 docdir=$(prefix)/doc
 manifest=$(prefix)/manifest.txt
 jarfile=$(prefix)/application.jar
@@ -31,6 +33,10 @@ ECHO=echo
 override ECHOFLAGS+= -e
 CTAGS=ctags
 #CTAGSFLAGS=
+SX=osx
+#SXFLAGS=
+TR=tr
+#TRFLAGS=
 
 # Do not modify anything below this line
 
@@ -39,6 +45,7 @@ classes=$(subst $(srcdir),$(bindir),$(patsubst %.java,%.class,$(call rwildcard,$
 testclasses=$(patsubst %.java,%.class,$(subst $(unittestsdir),$(testsbindir),$(call rwildcard,$(unittestsdir),%.java))) $(patsubst %.java,%.class,$(subst $(integrationtestsdir),$(testsbindir),$(call rwildcard,$(integrationtestsdir),%.java)))
 nontestclasses=$(subst $(bindir),$(testsbindir),$(classes))
 runtests=$(foreach testclass,$(subst /,.,$(subst .class,,$(subst $(testsbindir)/,,$(testclasses)))),$(JAVA) -classpath $(libdir)/*:$(testsbindir) org.junit.runner.JUnitCore $(testclass);)
+xmldata=$(subst $(sgmldatadir),$(xmldatadir),$(patsubst %.sgm,%.xml,$(call rwildcard,$(sgmldatadir),%.sgm)))
 
 .SUFFIXES:
 .SUFFIXES: .java .class .jar 
@@ -59,6 +66,9 @@ $(testsbindir)/%.class: $(unittestsdir)/%.java
 $(testsbindir)/%.class: $(integrationtestsdir)/%.java
 	$(JAVAC) $(JAVACFLAGS) -classpath $(libdir)/*:$(srcdir):$(integrationtestsdir) -d $(testsbindir) $<
 
+$(xmldatadir)/%.xml: $(sgmldatadir)/%.sgm
+	$(SX) -xno-nl-in-tag $< > $@
+
 %.jar: 
 	$(JAR) $(JARFLAGS) -cfm $(jarfile) $(manifest) -C $(bindir) .
 
@@ -72,6 +82,7 @@ help:
 	@$(ECHO) $(ECHOFLAGS) "\tdist - create a runnable jar file with the whole application"
 	@$(ECHO) $(ECHOFLAGS) "\tall - compile everything"
 	@$(ECHO) $(ECHOFLAGS) "\ttest - run tests"
+	@$(ECHO) $(ECHOFLAGS) "\tdata - convert and prepare data"
 	@$(ECHO) $(ECHOFLAGS) "\tclean - remove all compiled files and the jar file"
 	@$(ECHO) $(ECHOFLAGS) "\tdoc - generate documentation in all formats"
 	@$(ECHO) $(ECHOFLAGS) "\tdvi - generate documentation in the dvi format"
@@ -80,14 +91,16 @@ help:
 	@$(ECHO) $(ECHOFLAGS) "\tTAGS - create a tags file to use in vim"
 	@$(ECHO) $(ECHOFLAGS)
 
-run: $(jarfile)
-	@$(JAVA) -jar $(jarfile)
+run: $(jarfile) $(xmldata)
+	@$(JAVA) -jar $(jarfile) $(xmldata)
 
 dist: $(jarfile)
 
+all: $(classes)
+
 $(jarfile): $(classes)
 
-all: $(classes)
+data: $(xmldata)
 
 test: $(testclasses) $(nontestclasses)
 	@$(runtests)
