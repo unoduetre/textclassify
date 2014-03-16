@@ -4,8 +4,34 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.7	//
-Main	src/main/Main.java	/^public class Main$/;"	kind:c	line:3	language:Java
+Main	src/main/Main.java	/^public class Main$/;"	kind:c	line:12	language:Java
 Main.java	src/main/Main.java	1;"	kind:F	line:1	language:Java
-Main.main	src/main/Main.java	/^  public static void main(String[] args)$/;"	kind:m	line:5	language:Java	class:Main	access:public	signature:(String[] args)
-main	src/main/Main.java	/^  public static void main(String[] args)$/;"	kind:m	line:5	language:Java	class:Main	access:public	signature:(String[] args)
+Main.main	src/main/Main.java	/^  public static void main(String[] args)$/;"	kind:m	line:14	language:Java	class:Main	access:public	signature:(String[] args)
+MainTest	tests/unit/main/MainTest.java	/^public class MainTest$/;"	kind:c	line:12	language:Java
+MainTest.java	tests/unit/main/MainTest.java	1;"	kind:F	line:1	language:Java
+MainTest.main	tests/unit/main/MainTest.java	/^  public void main()$/;"	kind:m	line:35	language:Java	class:MainTest	access:public	signature:()
+MainTest.setUp	tests/unit/main/MainTest.java	/^  public void setUp()$/;"	kind:m	line:25	language:Java	class:MainTest	access:public	signature:()
+MainTest.setUpClass	tests/unit/main/MainTest.java	/^  public static void setUpClass()$/;"	kind:m	line:15	language:Java	class:MainTest	access:public	signature:()
+MainTest.tearDown	tests/unit/main/MainTest.java	/^  public void tearDown()$/;"	kind:m	line:30	language:Java	class:MainTest	access:public	signature:()
+MainTest.tearDownClass	tests/unit/main/MainTest.java	/^  public static void tearDownClass()$/;"	kind:m	line:20	language:Java	class:MainTest	access:public	signature:()
+XMLHandler	src/xml/XMLHandler.java	/^public class XMLHandler extends DefaultHandler$/;"	kind:c	line:8	language:Java	inherits:DefaultHandler
+XMLHandler.characters	src/xml/XMLHandler.java	/^  public void characters(char[] ch, int start, int length) $/;"	kind:m	line:35	language:Java	class:XMLHandler	access:public	signature:(char[] ch, int start, int length)
+XMLHandler.endDocument	src/xml/XMLHandler.java	/^  public void endDocument()$/;"	kind:m	line:17	language:Java	class:XMLHandler	access:public	signature:()
+XMLHandler.endElement	src/xml/XMLHandler.java	/^  public void endElement(String uri, String localName, String qName) $/;"	kind:m	line:29	language:Java	class:XMLHandler	access:public	signature:(String uri, String localName, String qName)
+XMLHandler.java	src/xml/XMLHandler.java	1;"	kind:F	line:1	language:Java
+XMLHandler.startDocument	src/xml/XMLHandler.java	/^  public void startDocument()$/;"	kind:m	line:11	language:Java	class:XMLHandler	access:public	signature:()
+XMLHandler.startElement	src/xml/XMLHandler.java	/^  public void startElement(String uri, String localName, String qName, Attributes attributes)$/;"	kind:m	line:23	language:Java	class:XMLHandler	access:public	signature:(String uri, String localName, String qName, Attributes attributes)
+characters	src/xml/XMLHandler.java	/^  public void characters(char[] ch, int start, int length) $/;"	kind:m	line:35	language:Java	class:XMLHandler	access:public	signature:(char[] ch, int start, int length)
+endDocument	src/xml/XMLHandler.java	/^  public void endDocument()$/;"	kind:m	line:17	language:Java	class:XMLHandler	access:public	signature:()
+endElement	src/xml/XMLHandler.java	/^  public void endElement(String uri, String localName, String qName) $/;"	kind:m	line:29	language:Java	class:XMLHandler	access:public	signature:(String uri, String localName, String qName)
+main	src/main/Main.java	/^  public static void main(String[] args)$/;"	kind:m	line:14	language:Java	class:Main	access:public	signature:(String[] args)
 main	src/main/Main.java	/^package main;$/;"	kind:p	line:1	language:Java
+main	tests/unit/main/MainTest.java	/^  public void main()$/;"	kind:m	line:35	language:Java	class:MainTest	access:public	signature:()
+main	tests/unit/main/MainTest.java	/^package main;$/;"	kind:p	line:1	language:Java
+setUp	tests/unit/main/MainTest.java	/^  public void setUp()$/;"	kind:m	line:25	language:Java	class:MainTest	access:public	signature:()
+setUpClass	tests/unit/main/MainTest.java	/^  public static void setUpClass()$/;"	kind:m	line:15	language:Java	class:MainTest	access:public	signature:()
+startDocument	src/xml/XMLHandler.java	/^  public void startDocument()$/;"	kind:m	line:11	language:Java	class:XMLHandler	access:public	signature:()
+startElement	src/xml/XMLHandler.java	/^  public void startElement(String uri, String localName, String qName, Attributes attributes)$/;"	kind:m	line:23	language:Java	class:XMLHandler	access:public	signature:(String uri, String localName, String qName, Attributes attributes)
+tearDown	tests/unit/main/MainTest.java	/^  public void tearDown()$/;"	kind:m	line:30	language:Java	class:MainTest	access:public	signature:()
+tearDownClass	tests/unit/main/MainTest.java	/^  public static void tearDownClass()$/;"	kind:m	line:20	language:Java	class:MainTest	access:public	signature:()
+xml	src/xml/XMLHandler.java	/^package xml;$/;"	kind:p	line:1	language:Java

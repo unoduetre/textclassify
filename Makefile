@@ -67,7 +67,7 @@ $(testsbindir)/%.class: $(integrationtestsdir)/%.java
 	$(JAVAC) $(JAVACFLAGS) -classpath $(libdir)/*:$(srcdir):$(integrationtestsdir) -d $(testsbindir) $<
 
 $(xmldatadir)/%.xml: $(sgmldatadir)/%.sgm
-	$(SX) -xno-nl-in-tag $< > $@
+	$(SX) $< > $@
 
 %.jar: 
 	$(JAR) $(JARFLAGS) -cfm $(jarfile) $(manifest) -C $(bindir) .

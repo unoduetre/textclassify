@@ -22,11 +22,11 @@ public class Main
 
       for(String arg : args)
       {
-        BufferedReader bufferedReader = null;
+        FileReader fileReader = null;
         try
         {
-          bufferedReader = new BufferedReader(new FileReader(arg));
-          reader.parse(new InputSource(bufferedReader));
+          fileReader = new FileReader(arg);
+          reader.parse(new InputSource(fileReader));
         }
         catch(Exception e)
         {
@@ -34,9 +34,9 @@ public class Main
         }
         finally
         {
-          if(bufferedReader != null)
+          if(fileReader != null)
           {
-            bufferedReader.close();
+            fileReader.close();
           }
         }
       }
