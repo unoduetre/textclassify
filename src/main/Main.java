@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -25,7 +26,8 @@ public class Main
 {
 
   static LinkedList<Text> texts = new LinkedList<Text>();
-  static LinkedList<FuzzySet> fuzzySets = new LinkedList<FuzzySet>();
+  static HashMap<String, FuzzySet> fuzzySets = new HashMap<String, FuzzySet>();
+  static LinkedList<String> ordering = new LinkedList<String>();
 
   public static void main(String[] args)
   {
@@ -33,9 +35,9 @@ public class Main
     {
       parseFuzzySets();
 
-      for(FuzzySet fuzzySet : fuzzySets)
+      for(String name : ordering)
       {
-        System.out.println(fuzzySet);
+        System.out.println(name+" := "+fuzzySets.get(name));
       }
 
       //parseTexts(args);
@@ -102,7 +104,9 @@ public class Main
           if(!entry.isDirectory() && entry.getName().startsWith(root.getName()))
           {
             stream = jar.getInputStream(entry);
-            fuzzySets.addLast(new FuzzySet(stream));
+            String name = (new File(entry.getName())).getName();
+            ordering.addLast(name);
+            fuzzySets.put(name,new FuzzySet(stream));
           }
         }
         catch(Exception e)
@@ -127,7 +131,9 @@ public class Main
         try
         {
           stream = new FileInputStream(file);
-          fuzzySets.addLast(new FuzzySet(stream));
+          String name = file.getName();
+          ordering.addLast(name);
+          fuzzySets.put(name,new FuzzySet(stream));
         }
         catch(Exception e)
         {
