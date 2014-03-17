@@ -4,6 +4,8 @@
 prefix=.
 bindir=$(prefix)/bin
 srcdir=$(prefix)/src
+resourcesdir=$(srcdir)/resources
+resourcesbindir=$(bindir)/resources
 unittestsdir=$(prefix)/tests/unit
 integrationtestsdir=$(prefix)/tests/integration
 testsbindir=$(prefix)/tests/bin
@@ -42,6 +44,7 @@ TR=tr
 
 rwildcard=$(foreach path,$(wildcard $1/*),$(call rwildcard,$(path),$2) $(filter $2,$(path)))
 classes=$(subst $(srcdir),$(bindir),$(patsubst %.java,%.class,$(call rwildcard,$(srcdir),%.java)))
+resources=$(subst $(srcdir),$(bindir),$(call rwildcard,$(resourcesdir),%))
 testclasses=$(patsubst %.java,%.class,$(subst $(unittestsdir),$(testsbindir),$(call rwildcard,$(unittestsdir),%.java))) $(patsubst %.java,%.class,$(subst $(integrationtestsdir),$(testsbindir),$(call rwildcard,$(integrationtestsdir),%.java)))
 nontestclasses=$(subst $(bindir),$(testsbindir),$(classes))
 runtests=$(foreach testclass,$(subst /,.,$(subst .class,,$(subst $(testsbindir)/,,$(testclasses)))),$(JAVA) -classpath $(libdir)/*:$(testsbindir) org.junit.runner.JUnitCore $(testclass);)
@@ -68,6 +71,10 @@ $(testsbindir)/%.class: $(integrationtestsdir)/%.java
 
 $(xmldatadir)/%.xml: $(sgmldatadir)/%.sgm
 	$(SX) $< > $@
+
+$(resourcesbindir)/%: $(resourcesdir)/%
+	mkdir -p $(dir $@)
+	if [ -f $< ]; then cp $< $@; fi
 
 %.jar: 
 	$(JAR) $(JARFLAGS) -cfm $(jarfile) $(manifest) -C $(bindir) .
@@ -98,7 +105,7 @@ dist: $(jarfile)
 
 all: $(classes)
 
-$(jarfile): $(classes)
+$(jarfile): $(classes) $(resources)
 
 data: $(xmldata)
 
