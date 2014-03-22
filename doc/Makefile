@@ -1,8 +1,11 @@
-document=main.tex
-includedocuments=packages.tex
-figures=
-epsfigures=$(addsuffix .eps,$(basename $(figures)))
-pdffigures=$(addsuffix .pdf,$(basename $(figures)))
+default_targets=article
+
+article_includes=
+article_figures=
+
+presentation_includes=
+presentation_figures=
+
 CONVERT=convert
 #CONVERTFLAGS=
 LATEX=latex
@@ -11,10 +14,6 @@ PDFLATEX=pdflatex
 #PDFLATEXFLAGS=
 DVIPS=dvips
 #DVIPSFLAGS=
-
-documentbasename=$(basename $(document))
-
-.PHONY: all dvi ps pdf clean
 
 %.eps: %.xpm
 	$(CONVERT) $(CONVERTFLAGS) $< $@
@@ -49,34 +48,40 @@ documentbasename=$(basename $(document))
 %.pdf: %.tif
 	$(CONVERT) $(CONVERTFLAGS) $< $@
 
-%.dvi: %.tex $(includedocuments) $(epsfigures)
+%.dvi: %.tex
 	$(LATEX) $(LATEXFLAGS) $<
 	$(LATEX) $(LATEXFLAGS) $<
 
-%.ps: %.dvi $(epsfigures)
+%.ps: %.dvi
 	$(DVIPS) $(DVIPSFLAGS) $<
 
-%.pdf: %.tex $(includedocuments) $(pdffigures)
+%.pdf: %.tex
 	$(PDFLATEX) $(PDFLATEXFLAGS) $<
 	$(PDFLATEX) $(PDFLATEXFLAGS) $<
 
-all: dvi ps pdf
-dvi: $(documentbasename).dvi
-ps: $(documentbasename).ps
-pdf: $(documentbasename).pdf
-$(documentbasename).dvi: $(includedocuments) $(epsfigures)
-$(documentbasename).ps: $(epsfigures)
-$(documentbasename).pdf: $(pdffigures)
+.PHONY: all article presentation
+
+all: $(default_targets)
+
+article: article.dvi article.ps article.pdf
+article.dvi: article.tex packages-common.tex packages-article.tex $(article_includes) $(addsuffix .eps,$(basename $(article_figures)))
+article.ps: $(addsuffix .eps,$(basename $(article_figures)))
+article.pdf: article.tex packages-common.tex packages-article.tex $(article_includes) $(addsuffix .pdf,$(basename $(article_figures)))
+
+presentation: presentation.dvi presentation.ps presentation.pdf
+presentation.dvi: presentation.tex packages-common.tex packages-presentation.tex $(presentation_includes) $(addsuffix .eps,$(basename $(presentation_figures)))
+presentation.ps: $(addsuffix .eps,$(basename $(presentation_figures)))
+presentation.pdf: presentation.tex packages-common.tex packages-presentation.tex $(presentation_includes) $(addsuffix .pdf,$(basename $(presentation_figures)))
 
 clean:
-	rm -f $(documentbasename).dvi 
-	rm -f $(documentbasename).aux 
-	rm -f $(documentbasename).log 
-	rm -f $(documentbasename).ps 
-	rm -f $(documentbasename).pdf 
-	rm -f $(documentbasename).out 
-	rm -f $(documentbasename).snm 
-	rm -f $(documentbasename).toc 
-	rm -f $(documentbasename).nav 
-	rm -f $(documentbasename).bbl 
-	rm -f $(documentbasename).blg
+	rm -f article.dvi presentation.dvi
+	rm -f article.aux presentation.aux
+	rm -f article.log presentation.log
+	rm -f article.ps  presentation.ps
+	rm -f article.pdf presentation.pdf
+	rm -f article.out presentation.out
+	rm -f article.snm presentation.snm
+	rm -f article.toc presentation.toc
+	rm -f article.nav presentation.nav
+	rm -f article.bbl presentation.bbl
+	rm -f article.blg presentation.blg

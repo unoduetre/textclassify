@@ -122,13 +122,13 @@ clean:
 doc: dvi ps pdf
 
 dvi:
-	$(MAKE) -C doc dvi
+	$(MAKE) -C doc article.dvi
 
 ps:
-	$(MAKE) -C doc ps
+	$(MAKE) -C doc article.ps
 
 pdf:
-	$(MAKE) -C doc pdf
+	$(MAKE) -C doc article.pdf
 
 TAGS:
 	$(CTAGS) --languages=Java -R .
