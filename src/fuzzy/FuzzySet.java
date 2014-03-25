@@ -1,50 +1,57 @@
 package fuzzy;
 
-import java.util.HashMap;
-import java.io.InputStream;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.io.InputStream;
+import java.util.TreeMap;
+import java.util.Scanner;
 
-public class FuzzySet extends HashMap<String,Float>
+public class FuzzySet extends TreeMap<String,Float>
 {
-  public FuzzySet(InputStream stream) throws Exception
+  File file = null;
+
+  public FuzzySet(File aFile) throws Exception
   {
     super();
-    StreamTokenizer tokenizer = new StreamTokenizer(new BufferedReader(new InputStreamReader(stream)));
-    tokenizer.resetSyntax();
-    tokenizer.wordChars(0x0000,0xFFFF);
-    tokenizer.whitespaceChars(' ',' ');
-    tokenizer.whitespaceChars('\t','\t');
-    tokenizer.whitespaceChars('\n','\n');
-    tokenizer.whitespaceChars('\u000B','\u000B');
-    tokenizer.whitespaceChars('\f','\f');
-    tokenizer.whitespaceChars('\r','\r');
-    tokenizer.eolIsSignificant(false);
-    tokenizer.parseNumbers();
-    tokenizer.commentChar('#');
-    tokenizer.slashSlashComments(false);
-    tokenizer.slashStarComments(false);
-    tokenizer.lowerCaseMode(false);
-
-    String token = null;
-    Float value = null;
-
-    while(tokenizer.nextToken() != StreamTokenizer.TT_EOF)
+    file = aFile;
+    Scanner scanner = null;
+    try
     {
-      switch(tokenizer.ttype)
+      scanner = new Scanner(file);
+      while(scanner.hasNext())
       {
-        case StreamTokenizer.TT_EOL:
-          break;
-        case StreamTokenizer.TT_WORD:
-          token = tokenizer.sval;
-          break;
-        case StreamTokenizer.TT_NUMBER:
-          put(token,new Float((float)tokenizer.nval));
-          break;
-        default:
-          break;
+        put(scanner.next(), scanner.nextFloat());
+      }
+    }
+    finally
+    {
+      if(scanner != null)
+      {
+        scanner.close();
+      }
+    }
+  }
+
+  public void save() throws Exception
+  {
+    PrintWriter writer = null;
+    try
+    {
+      writer = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+      for(String word : keySet())
+      {
+        writer.printf("%1$s %2$f%n", word, get(word));
+      }
+
+    }
+    finally
+    {
+      if(writer != null)
+      {
+        writer.close();
       }
     }
   }

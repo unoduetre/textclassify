@@ -2,7 +2,9 @@ package xml;
 
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.ListIterator;
+import java.util.List;
+import java.util.Deque;
+import java.util.Iterator;
 
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.Attributes;
@@ -12,14 +14,20 @@ import text.Text;
 public class XMLHandler extends DefaultHandler
 {
 
-  LinkedList<StringBuilder> elementContentStack = null;
-  LinkedList<String> elementStack = null;
-  LinkedList<Text> texts = null;
+  List<String> rootPath = null;
+  List<String> categoryPath = null;
+  List<String> textPath = null;
+  Deque<StringBuilder> elementContentStack = null;
+  Deque<String> elementStack = null;
+  List<Text> texts = null;
   Text currentText = null;
 
-  public XMLHandler(LinkedList<Text> someTexts)
+  public XMLHandler(List<Text> someTexts, List<String> aRootPath, List<String> aCategoryPath, List<String> aTextPath)
   {
     texts = someTexts;
+    rootPath = aRootPath;
+    categoryPath = aCategoryPath;
+    textPath = aTextPath;
   }
 
   @Override
@@ -39,7 +47,7 @@ public class XMLHandler extends DefaultHandler
   {
     elementStack.addLast(localName);
     elementContentStack.addLast(new StringBuilder());
-    if(path("LEWIS","REUTERS"))
+    if(path(rootPath))
     {
       currentText = new Text();
     }
@@ -48,17 +56,17 @@ public class XMLHandler extends DefaultHandler
   @Override
   public void endElement(String uri, String localName, String qName) 
   {
-    if(path("LEWIS","REUTERS","PLACES","D"))
+    if(path(categoryPath))
     {
       currentText.addCategory(String.valueOf(elementContentStack.getLast()));
     }
-    if(path("LEWIS","REUTERS","TEXT","BODY"))
+    if(path(textPath))
     {
       currentText.setText(String.valueOf(elementContentStack.getLast()));
     }
-    if(path("LEWIS","REUTERS"))
+    if(path(rootPath))
     {
-      texts.addLast(currentText);
+      texts.add(currentText);
     }
     elementStack.removeLast();
     elementContentStack.removeLast();
@@ -70,17 +78,17 @@ public class XMLHandler extends DefaultHandler
     elementContentStack.getLast().append(ch,start,length);
   }
 
-  private Boolean path(String... positions)
+  private Boolean path(List<String> positions)
   {
-    if(elementStack.size() != positions.length)
+    if(elementStack.size() != positions.size())
     {
       return false;
     }
-    ListIterator<String> iterator = elementStack.listIterator();
-    while(iterator.hasNext())
+    Iterator<String> elementStackIterator = elementStack.iterator();
+    Iterator<String> positionsIterator = elementStack.iterator();
+    while(elementStackIterator.hasNext())
     {
-      Integer index = iterator.nextIndex();
-      if(!iterator.next().equals(positions[index]))
+      if(!elementStackIterator.next().equals(positionsIterator.next()))
       {
         return false;
       }
