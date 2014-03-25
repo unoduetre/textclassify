@@ -2,19 +2,11 @@ package main;
 
 import java.io.FileReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Enumeration;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.JarURLConnection;
 
 
 import org.xml.sax.helpers.XMLReaderFactory;

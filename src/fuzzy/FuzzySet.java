@@ -4,13 +4,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.PrintWriter;
-import java.io.StreamTokenizer;
-import java.io.InputStream;
 import java.util.TreeMap;
 import java.util.Scanner;
 
 public class FuzzySet extends TreeMap<String,Float>
 {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -5237469610440917069L;
   File file = null;
 
   public FuzzySet(File aFile) throws Exception

@@ -1,5 +1,6 @@
 package text;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,15 +15,31 @@ public class Text
     categories.add(aCategory);
   }
 
+  private String fixWord(String iWord) {
+    String tmp = iWord.toLowerCase();
+    tmp = tmp.replaceAll("&[#\\w]*;", "");
+    tmp = Normalizer.normalize(tmp, Normalizer.Form.NFD);
+    tmp = tmp.replaceAll("[^a-z]", "");
+    return tmp.length() < 2 ? null : tmp;
+  }
+  
   public void setText(String aText)
   {
     text = new ArrayList<String>();
     Scanner scanner = new Scanner(aText);
     while(scanner.hasNext())
     {
-      text.add(scanner.next());
+      String word = fixWord(scanner.next());
+      if(word != null)
+      {
+        text.add(word);
+      }
     }
     scanner.close();
+    
+    if (text.size() != 0 && text.get(text.size() - 1).equals("reuter")) {
+      text.remove(text.size() - 1);
+    }
   }
 
   public Integer numberOfCategories()
