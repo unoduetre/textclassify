@@ -54,7 +54,18 @@ public class Main
         }
       }
 
-      createDataSetsFromReutersByCountry(0.6, 0.4, false, false);
+      createDataSetsFromReutersByCountry();
+      // createDataSetsFromReutersByTopic();
+      
+      System.out.println("Picking training set and test set...");
+      pickTrainingAndTestSets(0.6, 0.4, false, false);
+      
+      for(Text text : texts)
+      {
+        System.out.println("--------------------------------------------------------");
+        System.out.println(String.valueOf(text.getCategories()));
+        System.out.println(String.valueOf(text));
+      }
       
     }
     catch(Exception e)
@@ -64,36 +75,7 @@ public class Main
   }
   
   
-  private static void createDataSetsFromReutersByCountry(double trainingSetSize, double testSetSize, boolean randomizeSets, boolean allowOverlap) throws Exception {
-    Set<String> validCategories = new HashSet<String>(Arrays.asList("canada", "japan", "france", "uk", "usa", "west-germany"));
-    
-    System.out.println("Mode: Reuters, countries [canada|japan|france|uk|usa|west-germany] are labels.");
-    
-    System.out.println("Parsing texts...");
-    
-    List<File> files = Arrays.asList(new File("data/xml").listFiles());
-    Collections.sort(files);
-    
-    parseTexts(
-        texts,
-        files,
-        Arrays.asList("LEWIS","REUTERS"),
-        Arrays.asList("LEWIS","REUTERS","PLACES","D"),
-        Arrays.asList("LEWIS","REUTERS","TEXT","BODY")
-    );
-    
-    int i = 0;
-    while(i < texts.size()) {
-      if(texts.get(i).getCategories().size() != 1
-          || (! validCategories.contains(texts.get(i).getCategory()))) {
-        texts.remove(i);
-      } else {
-        ++i;
-      }
-    }
-    
-    System.out.println("Picking training set and test set...");
-    
+  private static void pickTrainingAndTestSets(double trainingSetSize, double testSetSize, boolean randomizeSets, boolean allowOverlap) {
     trainingSet = new LinkedList<Text>();
     testSet = new LinkedList<Text>();
     
@@ -148,12 +130,70 @@ public class Main
         }
       }
     }
+  }
+  
+  @SuppressWarnings("unused")
+  private static void createDataSetsFromReutersByCountry() throws Exception {
+    Set<String> validCategories = new HashSet<String>(Arrays.asList("canada", "japan", "france", "uk", "usa", "west-germany"));
     
-    for(Text text : texts)
-    {
-      System.out.println("--------------------------------------------------------");
-      System.out.println(String.valueOf(text.getCategories()));
-      System.out.println(String.valueOf(text));
+    System.out.println("Mode: Reuters, countries [canada|japan|france|uk|usa|west-germany] are labels.");
+    
+    System.out.println("Parsing texts...");
+    
+    List<File> files = Arrays.asList(new File("data/xml").listFiles());
+    Collections.sort(files);
+    
+    parseTexts(
+        texts,
+        files,
+        Arrays.asList("LEWIS","REUTERS"),
+        Arrays.asList("LEWIS","REUTERS","PLACES","D"),
+        Arrays.asList("LEWIS","REUTERS","TEXT","BODY")
+    );
+    
+    int i = 0;
+    while(i < texts.size()) {
+      if(texts.get(i).getCategories().size() != 1
+          || (! validCategories.contains(texts.get(i).getCategory()))) {
+        texts.remove(i);
+      } else {
+        ++i;
+      }
+    }
+  }
+  
+  
+  @SuppressWarnings("unused")
+  private static void createDataSetsFromReutersByTopic() throws Exception {
+    System.out.println("Mode: Reuters, topics [grain|interest] are labels.");
+    
+    System.out.println("Parsing texts...");
+    
+    List<File> files = Arrays.asList(new File("data/xml").listFiles());
+    Collections.sort(files);
+    
+    parseTexts(
+        texts,
+        files,
+        Arrays.asList("LEWIS","REUTERS"),
+        Arrays.asList("LEWIS","REUTERS","TOPICS","D"),
+        Arrays.asList("LEWIS","REUTERS","TEXT","BODY")
+    );
+    
+    int i = 0;
+    while(i < texts.size()) {
+      boolean aboutGrain = false, aboutInterest = false;
+      for(String category: texts.get(i).getCategories()) {
+        if(category.equals("grain")) aboutGrain = true;
+        if(category.equals("interest")) aboutInterest = true;
+      }
+      if(aboutGrain ^ aboutInterest) {
+        if(aboutGrain) texts.get(i).setCategories(Arrays.asList("grain"));
+        if(aboutInterest) texts.get(i).setCategories(Arrays.asList("interest"));
+        ++i;
+      } else {
+        texts.remove(i);
+      }
     }
   }
   
@@ -183,6 +223,16 @@ public class Main
         {
           fileReader.close();
         }
+      }
+    }
+    
+    // Tekst bez słów nie niesie zbyt wiele informacji...
+    int i = 0;
+    while(i < texts.size()) {
+      if(texts.get(i).getText().size() == 0) {
+        texts.remove(i);
+      } else {
+        ++i;
       }
     }
   }

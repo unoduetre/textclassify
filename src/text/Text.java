@@ -52,6 +52,12 @@ public class Text
     return categories;
   }
 
+  public void setCategories(List<String> newCategories)
+  {
+    categories = newCategories;
+  }
+
+
   public String getCategory()
   {
     if(categories.size() > 0)
