@@ -3,10 +3,13 @@ package main;
 import java.io.FileReader;
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 
 import org.xml.sax.helpers.XMLReaderFactory;
@@ -22,6 +25,10 @@ public class Main
 
   static List<Text> texts = new LinkedList<Text>();
   static Map<String, Map<String, FuzzySet>> fuzzySets = new HashMap<String, Map<String, FuzzySet>>();
+  
+  static List<Text> trainingSet = new LinkedList<Text>();
+  static List<Text> testSet = new LinkedList<Text>();
+  
   /*
    * W powyższym każdy zbiór rozmyty oznaczony jest przez 2 napisy. Pierwszy oznacza kategorię której dotyczy dany zbiór.
    * Drugi oznacza już konkretny zbiór. Na przykład dla krajów pierwszy łańcuch to canada, a drugi to geography.
@@ -39,30 +46,15 @@ public class Main
         for(String fuzzySetType : fuzzySets.get(fuzzySetCategory).keySet())
         {
           FuzzySet fuzzySet = fuzzySets.get(fuzzySetCategory).get(fuzzySetType);
-          System.out.println(fuzzySetCategory + "_" + fuzzySetType + " = " + String.valueOf(fuzzySet));
+          // System.out.println(fuzzySetCategory + "_" + fuzzySetType + " = " + String.valueOf(fuzzySet));
           fuzzySet.put("keyword1",new Float(0.0));
           fuzzySet.put("keyword2",new Float(0.0));
-          System.out.println(fuzzySetCategory + "_" + fuzzySetType + " = " + String.valueOf(fuzzySet));
+          // System.out.println(fuzzySetCategory + "_" + fuzzySetType + " = " + String.valueOf(fuzzySet));
           fuzzySet.save();
         }
       }
 
-      parseTexts(
-          texts, 
-          //Arrays.asList(new File("data/xml").listFiles()),
-          Arrays.asList(new File("data/xml/reut2-012.xml")),
-          Arrays.asList("LEWIS","REUTERS"),
-          Arrays.asList("LEWIS","REUTERS","PLACES","D"),
-          Arrays.asList("LEWIS","REUTERS","TEXT","BODY")
-      );
-
-      for(Text text : texts)
-      {
-
-        System.out.println("--------------------------------------------------------");
-        System.out.println(String.valueOf(text.getCategories()));
-        System.out.println(String.valueOf(text));
-      }
+      createDataSetsFromReutersByCountry(0.6, 0.4, false, false);
       
     }
     catch(Exception e)
@@ -70,7 +62,102 @@ public class Main
       e.printStackTrace();
     }
   }
-
+  
+  
+  private static void createDataSetsFromReutersByCountry(double trainingSetSize, double testSetSize, boolean randomizeSets, boolean allowOverlap) throws Exception {
+    Set<String> validCategories = new HashSet<String>(Arrays.asList("canada", "japan", "france", "uk", "usa", "west-germany"));
+    
+    System.out.println("Mode: Reuters, countries [canada|japan|france|uk|usa|west-germany] are labels.");
+    
+    System.out.println("Parsing texts...");
+    
+    List<File> files = Arrays.asList(new File("data/xml").listFiles());
+    Collections.sort(files);
+    
+    parseTexts(
+        texts,
+        files,
+        Arrays.asList("LEWIS","REUTERS"),
+        Arrays.asList("LEWIS","REUTERS","PLACES","D"),
+        Arrays.asList("LEWIS","REUTERS","TEXT","BODY")
+    );
+    
+    int i = 0;
+    while(i < texts.size()) {
+      if(texts.get(i).getCategories().size() != 1
+          || (! validCategories.contains(texts.get(i).getCategory()))) {
+        texts.remove(i);
+      } else {
+        ++i;
+      }
+    }
+    
+    System.out.println("Picking training set and test set...");
+    
+    trainingSet = new LinkedList<Text>();
+    testSet = new LinkedList<Text>();
+    
+    if(randomizeSets) {
+      if(allowOverlap) {
+        assert trainingSetSize <= 1.0 && testSetSize <= 1.0;
+        
+        {
+          List<Integer> availableIDs = new LinkedList<Integer>();
+          for(int j = 0; j < texts.size(); ++j) availableIDs.add(j);
+          for(int k = 0; k < trainingSetSize * texts.size(); ++k) {
+            int r = (int) (Math.random() * availableIDs.size());
+            trainingSet.add(texts.get(availableIDs.get(r)));
+            availableIDs.remove(r);
+          }
+        }
+        
+        {
+          List<Integer> availableIDs = new LinkedList<Integer>();
+          for(int j = 0; j < texts.size(); ++j) availableIDs.add(j);
+          for(int k = 0; k < testSetSize * texts.size(); ++k) {
+            int r = (int) (Math.random() * availableIDs.size());
+            testSet.add(texts.get(availableIDs.get(r)));
+            availableIDs.remove(r);
+          }
+        }
+      } else {
+        assert trainingSetSize + testSetSize <= 1.0;
+        List<Integer> availableIDs = new LinkedList<Integer>();
+        for(int j = 0; j < texts.size(); ++j) availableIDs.add(j);
+        
+        for(int k = 0; k < trainingSetSize * texts.size(); ++k) {
+          int r = (int) (Math.random() * availableIDs.size());
+          trainingSet.add(texts.get(availableIDs.get(r)));
+          availableIDs.remove(r);
+        }
+        
+        for(int k = 0; k < testSetSize * texts.size(); ++k) {
+          int r = (int) (Math.random() * availableIDs.size());
+          testSet.add(texts.get(availableIDs.get(r)));
+          availableIDs.remove(r);
+        }
+      }
+    } else {
+      double sumOfSetSizes = trainingSetSize + testSetSize;
+      assert sumOfSetSizes <= 1.0;
+      for(int j = 0; j < sumOfSetSizes * texts.size(); ++j) {
+        if(j < trainingSetSize * texts.size()) {
+          trainingSet.add(texts.get(j));
+        } else {
+          testSet.add(texts.get(j));
+        }
+      }
+    }
+    
+    for(Text text : texts)
+    {
+      System.out.println("--------------------------------------------------------");
+      System.out.println(String.valueOf(text.getCategories()));
+      System.out.println(String.valueOf(text));
+    }
+  }
+  
+  
   private static void parseTexts(List<Text> texts, List<File> files, List<String> rootNode, List<String> categoryNode, List<String> textNode) throws Exception
   {
     XMLReader reader = XMLReaderFactory.createXMLReader();
