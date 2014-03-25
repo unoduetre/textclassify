@@ -50,13 +50,15 @@ public class Main
           System.out.println(fuzzySetCategory + "_" + fuzzySetType + " = " + String.valueOf(fuzzySet));
           fuzzySet.put("keyword1",new Float(0.0));
           fuzzySet.put("keyword2",new Float(0.0));
+          System.out.println(fuzzySetCategory + "_" + fuzzySetType + " = " + String.valueOf(fuzzySet));
           fuzzySet.save();
         }
       }
 
       parseTexts(
           texts, 
-          Arrays.asList(new File("data/xml").listFiles()),
+          //Arrays.asList(new File("data/xml").listFiles()),
+          Arrays.asList(new File("data/xml/reut2-012.xml")),
           Arrays.asList("LEWIS","REUTERS"),
           Arrays.asList("LEWIS","REUTERS","PLACES","D"),
           Arrays.asList("LEWIS","REUTERS","TEXT","BODY")
@@ -64,7 +66,10 @@ public class Main
 
       for(Text text : texts)
       {
-        System.out.print(text);
+
+        System.out.println("--------------------------------------------------------");
+        System.out.println(String.valueOf(text.getCategories()));
+        System.out.println(String.valueOf(text));
       }
       
     }

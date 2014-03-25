@@ -85,7 +85,7 @@ public class XMLHandler extends DefaultHandler
       return false;
     }
     Iterator<String> elementStackIterator = elementStack.iterator();
-    Iterator<String> positionsIterator = elementStack.iterator();
+    Iterator<String> positionsIterator = positions.iterator();
     while(elementStackIterator.hasNext())
     {
       if(!elementStackIterator.next().equals(positionsIterator.next()))

@@ -1,20 +1,28 @@
 package text;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class Text
 {
-  LinkedList<String> categories = new LinkedList<String>();
-  String text = null;
+  List<String> categories = new ArrayList<String>();
+  List<String> text = new ArrayList<String>();
 
   public void addCategory(String aCategory)
   {
-    categories.addLast(aCategory);
+    categories.add(aCategory);
   }
 
   public void setText(String aText)
   {
-    text = aText;
+    text = new ArrayList<String>();
+    Scanner scanner = new Scanner(aText);
+    while(scanner.hasNext())
+    {
+      text.add(scanner.next());
+    }
+    scanner.close();
   }
 
   public Integer numberOfCategories()
@@ -22,7 +30,7 @@ public class Text
     return categories.size();
   }
 
-  public LinkedList<String> getCategories()
+  public List<String> getCategories()
   {
     return categories;
   }
@@ -31,7 +39,7 @@ public class Text
   {
     if(categories.size() > 0)
     {
-      return categories.getLast();
+      return categories.get(0);
     }
     else
     {
@@ -39,7 +47,7 @@ public class Text
     }
   }
 
-  public String getText()
+  public List<String> getText()
   {
     return text;
   }
@@ -50,21 +58,18 @@ public class Text
     Boolean first = true;
     StringBuilder builder = new StringBuilder();
 
-    builder.append("------------------------------------------------------\n");
-
-    builder.append("<TEXT>\n<CATEGORIES>\n");
-    for(String category : categories)
+    for(String word : text)
     {
-      if(!first)
+      if(first)
+      {
+        first = false;
+      }
+      else
       {
         builder.append(" ");
       }
-      builder.append(category);
-      first = false;
+      builder.append(word);
     }
-    builder.append("\n</CATEGORIES>\n<VALUE>\n");
-    builder.append(text);
-    builder.append("\n</VALUE>\n</TEXT>\n");
     return String.valueOf(builder);
   }
 }
