@@ -60,12 +60,12 @@ public class Main
       System.out.println("Picking training set and test set...");
       pickTrainingAndTestSets(0.6, 0.4, false, false);
       
-      for(Text text : texts)
+      /* for(Text text : texts)
       {
         System.out.println("--------------------------------------------------------");
         System.out.println(String.valueOf(text.getCategories()));
         System.out.println(String.valueOf(text));
-      }
+      } */
       
     }
     catch(Exception e)

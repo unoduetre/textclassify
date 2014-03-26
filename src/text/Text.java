@@ -3,13 +3,16 @@ package text;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class Text
 {
   List<String> categories = new ArrayList<String>();
   List<String> text = new ArrayList<String>();
-
+  Map<String, Integer> histogram = new TreeMap<String, Integer>();
+  
   public void addCategory(String aCategory)
   {
     categories.add(aCategory);
@@ -20,7 +23,12 @@ public class Text
     tmp = tmp.replaceAll("&[#\\w]*;", "");
     tmp = Normalizer.normalize(tmp, Normalizer.Form.NFD);
     tmp = tmp.replaceAll("[^a-z]", "");
+    tmp = tmp.replaceAll("(s|d|a|i?es|i?ed|ing|e?y)$", "");
     return tmp.length() < 2 ? null : tmp;
+  }
+  
+  public int getWordCount(String iWord) {
+    return histogram.containsKey(iWord) ? histogram.get(iWord) : 0;
   }
   
   public void setText(String aText)
@@ -39,6 +47,10 @@ public class Text
     
     if (text.size() != 0 && text.get(text.size() - 1).equals("reuter")) {
       text.remove(text.size() - 1);
+    }
+    
+    for(String word: text) {
+      histogram.put(word, getWordCount(word) + 1);
     }
   }
 
