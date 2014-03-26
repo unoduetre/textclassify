@@ -18,7 +18,7 @@ public class Text
     categories.add(aCategory);
   }
 
-  private String fixWord(String iWord) {
+  public static String fixWord(String iWord) {
     String tmp = iWord.toLowerCase();
     tmp = tmp.replaceAll("&[#\\w]*;", "");
     tmp = Normalizer.normalize(tmp, Normalizer.Form.NFD);
