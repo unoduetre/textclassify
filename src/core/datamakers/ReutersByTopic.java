@@ -13,10 +13,6 @@ public class ReutersByTopic extends DataMaker {
 
   @Override
   public void createDataSets(List<Text> texts) throws Exception {
-    System.out.println("Mode: Reuters, topics [grain|interest] are labels.");
-    
-    System.out.println("Parsing texts...");
-    
     List<File> files = Arrays.asList(new File("data/xml").listFiles());
     Collections.sort(files);
     

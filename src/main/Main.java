@@ -3,8 +3,8 @@ package main;
 import java.io.File;
 
 import core.Engine;
-import core.datamakers.ReutersByTopic;
-import core.datamakers.ReutersByCountry;
+// import core.datamakers.ReutersByTopic;
+// import core.datamakers.ReutersByCountry;
 import core.datamakers.CustomSamples;
 import text.Text;
 import fuzzy.FuzzySet;

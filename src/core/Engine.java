@@ -105,6 +105,10 @@ public class Engine {
     return texts;
   }
 
+  public void clearTexts() {
+    texts.clear();
+  }
+  
   public Map<String, Map<String, FuzzySet>> getFuzzySets() {
     return fuzzySets;
   }

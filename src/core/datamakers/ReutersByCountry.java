@@ -17,10 +17,6 @@ public class ReutersByCountry extends DataMaker {
   public void createDataSets(List<Text> texts) throws Exception {
     Set<String> validCategories = new HashSet<String>(Arrays.asList("canada", "japan", "france", "uk", "usa", "west-germany"));
     
-    System.out.println("Mode: Reuters, countries [canada|japan|france|uk|usa|west-germany] are labels.");
-    
-    System.out.println("Parsing texts...");
-    
     List<File> files = Arrays.asList(new File("data/xml").listFiles());
     Collections.sort(files);
     

@@ -13,10 +13,6 @@ public class CustomSamples extends DataMaker {
 
   @Override
   public void createDataSets(List<Text> texts) throws Exception {
-System.out.println("Mode: Custom texts, authors [Byron|Shakespeare] are labels.");
-    
-    System.out.println("Parsing texts...");
-    
     List<File> files = Arrays.asList(new File("data/xml-custom").listFiles());
     Collections.sort(files);
     
