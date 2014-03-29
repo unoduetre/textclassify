@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -15,7 +16,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.SwingUtilities;
+
+import utils.DisableablePanel;
 
 import core.DataMaker;
 import core.Engine;
@@ -32,6 +36,11 @@ public class MainFrame extends JFrame {
   private Map<String, DataMaker> dataMakers;
   private JComboBox<Object> dataMakerChoice;
   private Engine engine;
+  private DisableablePanel parsePane;
+  private DisableablePanel pickPane;
+  private DisableablePanel extractionPane;
+  private DisableablePanel trainPane;
+  private DisableablePanel classifyPane;
   private JButton parseTextsButton;
   private JButton forgetTextsButton;
   private JLabel parsingResults;
@@ -73,18 +82,18 @@ public class MainFrame extends JFrame {
     JPanel mainPane = new JPanel();
     mainPane.setLayout(new BoxLayout(mainPane, BoxLayout.PAGE_AXIS));
     
-    JPanel parsePane = new JPanel();
+    parsePane = new DisableablePanel();
     parsePane.setLayout(new BoxLayout(parsePane, BoxLayout.Y_AXIS));
     parsePane.setBorder(BorderFactory.createCompoundBorder(
         BorderFactory.createTitledBorder("Parse input data"),
         BorderFactory.createEmptyBorder(5,5,5,5)));
-    JPanel dataMakerPane = new JPanel();
+    DisableablePanel dataMakerPane = new DisableablePanel();
     dataMakerPane.add(new JLabel("Data to parse: "));
     dataMakerChoice = new JComboBox<>(dataMakers.keySet().toArray());
     dataMakerChoice.setSelectedItem("Reuters, 6 chosen countries are labels");
     dataMakerPane.add(dataMakerChoice);
     parsePane.add(dataMakerPane);
-    JPanel parseButtonsPane = new JPanel();
+    DisableablePanel parseButtonsPane = new DisableablePanel();
     parseTextsButton = new JButton("Parse texts");
     parseTextsButton.addActionListener(new ActionListener() {
       @Override
@@ -111,32 +120,52 @@ public class MainFrame extends JFrame {
     parsePane.add(parsingResults);
     mainPane.add(parsePane);
     
-    JPanel pickPane = new JPanel();
+    pickPane = new DisableablePanel();
     pickPane.setBorder(BorderFactory.createCompoundBorder(
         BorderFactory.createTitledBorder("Pick training set and test set"),
         BorderFactory.createEmptyBorder(5,5,5,5)));
-    pickPane.add(new JLabel("TODO"));
+    DisableablePanel setSizesPane = new DisableablePanel();
+    setSizesPane.setLayout(new GridLayout(2,2,5,5));
+    setSizesPane.add(new JLabel("Training set size [%]: "));
+    JSlider trainingSetSizeSlider = new JSlider(JSlider.HORIZONTAL, 10, 100, 60);
+    trainingSetSizeSlider.setMajorTickSpacing(30);
+    trainingSetSizeSlider.setMinorTickSpacing(5);
+    trainingSetSizeSlider.setPaintTicks(true);
+    trainingSetSizeSlider.setPaintLabels(true);
+    setSizesPane.add(trainingSetSizeSlider);
+    setSizesPane.add(new JLabel("Test set size [%]: "));
+    JSlider testSetSizeSlider = new JSlider(JSlider.HORIZONTAL, 10, 100, 40);
+    testSetSizeSlider.setMajorTickSpacing(30);
+    testSetSizeSlider.setMinorTickSpacing(5);
+    testSetSizeSlider.setPaintTicks(true);
+    testSetSizeSlider.setPaintLabels(true);
+    setSizesPane.add(testSetSizeSlider);
+    pickPane.add(setSizesPane);
+    pickPane.setEnabled(false);
     mainPane.add(pickPane);
     
-    JPanel extractionPane = new JPanel();
+    extractionPane = new DisableablePanel();
     extractionPane.setBorder(BorderFactory.createCompoundBorder(
         BorderFactory.createTitledBorder("Extract features"),
         BorderFactory.createEmptyBorder(5,5,5,5)));
     extractionPane.add(new JLabel("TODO"));
+    extractionPane.setEnabled(false);
     mainPane.add(extractionPane);
     
-    JPanel trainPane = new JPanel();
+    trainPane = new DisableablePanel();
     trainPane.setBorder(BorderFactory.createCompoundBorder(
         BorderFactory.createTitledBorder("Train the classifier"),
         BorderFactory.createEmptyBorder(5,5,5,5)));
     trainPane.add(new JLabel("TODO"));
+    trainPane.setEnabled(false);
     mainPane.add(trainPane);
     
-    JPanel classifyPane = new JPanel();
+    classifyPane = new DisableablePanel();
     classifyPane.setBorder(BorderFactory.createCompoundBorder(
         BorderFactory.createTitledBorder("Perform the classification"),
         BorderFactory.createEmptyBorder(5,5,5,5)));
     classifyPane.add(new JLabel("TODO"));
+    classifyPane.setEnabled(false);
     mainPane.add(classifyPane);
     
     add(mainPane);
@@ -149,6 +178,7 @@ public class MainFrame extends JFrame {
     parseTextsButton.setEnabled(false);
     forgetTextsButton.setEnabled(true);
     parsingResults.setText(Integer.toString(engine.getTexts().size()) + " pieces of text read.");
+    pickPane.setEnabled(true);
   }
 
   protected void forgetTexts() {
@@ -157,6 +187,7 @@ public class MainFrame extends JFrame {
     parseTextsButton.setEnabled(true);
     forgetTextsButton.setEnabled(false);
     parsingResults.setText(" ");
+    pickPane.setEnabled(false);
   }
 
   public static void main(String[] args) {
