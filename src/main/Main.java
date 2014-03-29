@@ -54,18 +54,19 @@ public class Main
         }
       }
 
-      createDataSetsFromReutersByCountry();
+      // createDataSetsFromReutersByCountry();
       // createDataSetsFromReutersByTopic();
+      createDataSetsFromCustomSamples();
       
       System.out.println("Picking training set and test set...");
       pickTrainingAndTestSets(0.6, 0.4, false, false);
       
-      /* for(Text text : texts)
+      for(Text text : texts)
       {
         System.out.println("--------------------------------------------------------");
         System.out.println(String.valueOf(text.getCategories()));
         System.out.println(String.valueOf(text));
-      } */
+      }
       
     }
     catch(Exception e)
@@ -197,6 +198,23 @@ public class Main
     }
   }
   
+  @SuppressWarnings("unused")
+  private static void createDataSetsFromCustomSamples() throws Exception {
+    System.out.println("Mode: Custom texts, authors [Byron|Shakespeare] are labels.");
+    
+    System.out.println("Parsing texts...");
+    
+    List<File> files = Arrays.asList(new File("data/xml-custom").listFiles());
+    Collections.sort(files);
+    
+    parseTexts(
+        texts,
+        files,
+        Arrays.asList("CUSTOMSAMPLES","SAMPLE"),
+        Arrays.asList("CUSTOMSAMPLES","SAMPLE","AUTHOR"),
+        Arrays.asList("CUSTOMSAMPLES","SAMPLE","CONTENT")
+    );
+  }
   
   private static void parseTexts(List<Text> texts, List<File> files, List<String> rootNode, List<String> categoryNode, List<String> textNode) throws Exception
   {
