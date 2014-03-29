@@ -67,14 +67,16 @@ public class Engine {
         }
       }
     } else {
-      double sumOfSetSizes = trainingSetSize + testSetSize;
-      assert sumOfSetSizes <= 1.0;
-      for(int j = 0; j < sumOfSetSizes * texts.size(); ++j) {
-        if(j < trainingSetSize * texts.size()) {
-          trainingSet.add(texts.get(j));
-        } else {
-          testSet.add(texts.get(j));
-        }
+      if(allowOverlap) {
+        assert trainingSetSize <= 1.0 && testSetSize <= 1.0;
+      } else {
+        assert trainingSetSize + testSetSize <= 1.0;
+      }
+      for(int j = 0; j < trainingSetSize * texts.size(); ++j) {
+        trainingSet.add(texts.get(j));
+      }
+      for(int j = (int) ((1.0 - testSetSize) * texts.size()); j < texts.size(); ++j) {
+        testSet.add(texts.get(j));
       }
     }
   }
@@ -109,7 +111,20 @@ public class Engine {
     texts.clear();
   }
   
+  public void clearTrainingAndTestSets() {
+    trainingSet = new LinkedList<Text>();
+    testSet = new LinkedList<Text>();
+  }
+  
   public Map<String, Map<String, FuzzySet>> getFuzzySets() {
     return fuzzySets;
+  }
+
+  public List<Text> getTrainingSet() {
+    return trainingSet;
+  }
+
+  public List<Text> getTestSet() {
+    return testSet;
   }
 }
