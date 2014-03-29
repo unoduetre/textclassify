@@ -3,6 +3,9 @@ package main;
 import java.io.File;
 
 import core.Engine;
+import core.datamakers.ReutersByTopic;
+import core.datamakers.ReutersByCountry;
+import core.datamakers.CustomSamples;
 import text.Text;
 import fuzzy.FuzzySet;
 
@@ -32,9 +35,9 @@ public class Main
         }
       }
 
-      // engine.createDataSetsFromReutersByCountry();
-      // engine.createDataSetsFromReutersByTopic();
-      engine.createDataSetsFromCustomSamples();
+      // (new ReutersByCountry()).createDataSets(engine.getTexts());
+      // (new ReutersByTopic()).createDataSets(engine.getTexts());
+      (new CustomSamples()).createDataSets(engine.getTexts());
       
       System.out.println("Picking training set and test set...");
       engine.pickTrainingAndTestSets(0.6, 0.4, false, false);
