@@ -13,9 +13,10 @@ import core.Engine;
 import core.datamakers.CustomSamples;
 import core.datamakers.ReutersByCountry;
 import text.Text;
-import text.TrivialTextVector;
-import text.TrivialTextVectorsManager;
 import text.WordList;
+import extraction.FuzzyVectorsManager;
+import extraction.TrivialTextVector;
+import extraction.TrivialTextVectorsManager;
 import fuzzy.FuzzySet;
 import fuzzy.WordTypeParser;
 
@@ -41,12 +42,17 @@ public class Main
         }
       } */
 
-      // (new ReutersByCountry()).createDataSets(engine.getTexts());
+      (new ReutersByCountry()).createDataSets(engine.getTexts());
       // (new ReutersByTopic()).createDataSets(engine.getTexts());
-      (new CustomSamples()).createDataSets(engine.getTexts());
+      // (new CustomSamples()).createDataSets(engine.getTexts());
       
       System.out.println("Picking training set and test set...");
       engine.pickTrainingAndTestSets(0.6, 0.4, false, false);
+      
+      FuzzyVectorsManager fvm = new FuzzyVectorsManager(engine.getTrainingSet(), engine.getFuzzySets());
+      for(MetricClassifiable fv : fvm.getVectors()) {
+        System.out.println(fv.getVector());
+      }
       
       /* TrivialTextVectorsManager ttvm = new TrivialTextVectorsManager(engine.getTrainingSet(), null);
       for(MetricClassifiable ttv : ttvm.getVectors()) {

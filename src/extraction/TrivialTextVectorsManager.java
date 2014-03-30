@@ -1,13 +1,15 @@
-package text;
+package extraction;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import text.Text;
+
 import metrics.MetricClassifiable;
 
-public class TrivialTextVectorsManager {
+public class TrivialTextVectorsManager implements VectorManager {
   
   private List<String> keywords = null;
   private List<MetricClassifiable> vectors = null;
@@ -29,10 +31,12 @@ public class TrivialTextVectorsManager {
     }
   }
   
+  @Override
   public List<MetricClassifiable> getVectors() {
     return vectors;
   }
   
+  @Override
   public MetricClassifiable getVectorForNewSample(Text text) {
     return new TrivialTextVector(text, keywords);
   }

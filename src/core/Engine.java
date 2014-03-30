@@ -55,13 +55,13 @@ public class Engine {
         List<Integer> availableIDs = new LinkedList<Integer>();
         for(int j = 0; j < texts.size(); ++j) availableIDs.add(j);
         
-        for(int k = 0; k < trainingSetSize * texts.size(); ++k) {
+        for(int k = 0; k < (int) (trainingSetSize * texts.size()); ++k) {
           int r = (int) (Math.random() * availableIDs.size());
           trainingSet.add(texts.get(availableIDs.get(r)));
           availableIDs.remove(r);
         }
         
-        for(int k = 0; k < testSetSize * texts.size(); ++k) {
+        for(int k = 0; k < (int) (testSetSize * texts.size()); ++k) {
           int r = (int) (Math.random() * availableIDs.size());
           testSet.add(texts.get(availableIDs.get(r)));
           availableIDs.remove(r);

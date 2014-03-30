@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import categories.StringCategory;
+
 import text.Text;
 
 import core.DataMaker;
@@ -31,7 +33,7 @@ public class ReutersByCountry extends DataMaker {
     int i = 0;
     while(i < texts.size()) {
       if(texts.get(i).getCategories().size() != 1
-          || (! validCategories.contains(texts.get(i).getCategory()))) {
+          || (! validCategories.contains(((StringCategory) texts.get(i).getCategory()).getString()))) {
         texts.remove(i);
       } else {
         ++i;
