@@ -19,10 +19,18 @@ public class WordList extends LinkedList<String> {
     Scanner scanner = new Scanner(file);
     while(scanner.hasNext()) {
       String s = scanner.next();
+      int c = 0;
       for(String word: s.split("\\-")) {
         String fw = Text.fixWord(word);
         if(fw != null) {
-          ss.add(Text.fixWord(word));
+          ss.add(fw);
+        }
+        c += 1;
+      }
+      if(c > 1) {
+        String fw = Text.fixWord(s);
+        if(fw != null) {
+          ss.add(fw);
         }
       }
     }
