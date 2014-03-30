@@ -3,7 +3,9 @@ package gui;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,6 +18,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -26,6 +29,9 @@ import javax.swing.JSlider;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileFilter;
+
+import categories.StringCategory;
 
 import comparators.JaccardKNNComparator;
 import comparators.KeywordsKNNComparator;
@@ -98,6 +104,10 @@ public class MainFrame extends JFrame {
   private List<Classifiable> objects = null;
   private List<Category> answers = null;
   private KNNComparator comparator = null;
+  private JButton gcrButton1;
+  private JButton gcrButton2;
+  private JButton gcrButton3;
+  private JButton classifyButton;
   
   
   public MainFrame() {
@@ -342,7 +352,8 @@ public class MainFrame extends JFrame {
     classifyPane.setBorder(BorderFactory.createCompoundBorder(
         BorderFactory.createTitledBorder("Classify the test set"),
         BorderFactory.createEmptyBorder(5,5,5,5)));
-    JButton classifyButton = new JButton("Classify test set!");
+    classifyPane.setLayout(new BoxLayout(classifyPane, BoxLayout.X_AXIS));
+    classifyButton = new JButton("Classify test set!");
     classifyButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent arg0) {
@@ -350,6 +361,45 @@ public class MainFrame extends JFrame {
       }
     });
     classifyPane.add(classifyButton);
+    gcrButton1 = new JButton("Get per-sample log");
+    gcrButton1.setEnabled(false);
+    gcrButton1.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        try {
+          MainFrame.this.getPerSampleCSV();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+    classifyPane.add(gcrButton1);
+    gcrButton2 = new JButton("Get per-class statistics (TPR, PPV)");
+    gcrButton2.setEnabled(false);
+    gcrButton2.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        try {
+          MainFrame.this.getPerClassCSV();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+    classifyPane.add(gcrButton2);
+    gcrButton3 = new JButton("Get class relations matrix");
+    gcrButton3.setEnabled(false);
+    gcrButton3.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        try {
+          MainFrame.this.getMatrixCSV();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+    classifyPane.add(gcrButton3);
     classifyPane.setVisible(false);
     classifyPane.setEnabled(false);
     mainPane.add(classifyPane);
@@ -548,6 +598,10 @@ public class MainFrame extends JFrame {
     forgetTrainingButton.setEnabled(false);
     pickPane.setEnabled(true);
     pickPane.setVisible(true);
+    classifyButton.setEnabled(true);
+    gcrButton1.setEnabled(false);
+    gcrButton2.setEnabled(false);
+    gcrButton3.setEnabled(false);
     classifyPane.setVisible(false);
     classifyPane.setEnabled(false);
     trainingResults.setText(" ");
@@ -555,15 +609,48 @@ public class MainFrame extends JFrame {
   
   public void classify() {
     knn.classify(objects, comparator);
-    
-    int correct = 0;
-    
-    for(int i = 0; i < objects.size(); ++i) {
-      System.out.println(objects.get(i).getCategory() + " " + answers.get(i));
-      if(objects.get(i).getCategory().equals(answers.get(i))) ++correct;
+    classifyButton.setEnabled(false);
+    gcrButton1.setEnabled(true);
+    gcrButton2.setEnabled(true);
+    gcrButton3.setEnabled(true);
+  }
+  
+  public void getPerSampleCSV() throws Exception {
+    System.err.println("Not implemented yet!"); // TODO!!!
+    JFileChooser fc = new JFileChooser();
+    fc.addChoosableFileFilter(new FileFilter() {
+      @Override
+      public String getDescription() {
+        return "*.csv (Comma Separated File)";
+      }
+      
+      @Override
+      public boolean accept(File arg0) {
+        return arg0.getPath().endsWith(".csv");
+      }
+    });
+    int ret = fc.showSaveDialog(null);
+    if(ret == JFileChooser.APPROVE_OPTION) {
+      BufferedWriter out = new BufferedWriter(new FileWriter(fc.getSelectedFile()));
+      out.write("Sample index, Actual category, Classification result \n");
+      for(int i = 0; i < objects.size(); ++i) {
+        out.write(Integer.toString(i + 1));
+        out.write(", ");
+        out.write(((StringCategory) answers.get(i)).getString());
+        out.write(", ");
+        out.write(((StringCategory) objects.get(i).getCategory()).getString());
+        out.write(" \n");
+      }
+      out.close();
     }
-    
-    System.out.println(((correct * 100.0) / objects.size()) + "% of classifications are correct.");
+  }
+  
+  public void getPerClassCSV() {
+    System.err.println("Not implemented yet!"); // TODO!!!
+  }
+  
+  public void getMatrixCSV() {
+    System.err.println("Not implemented yet!"); // TODO!!!
   }
   
   public static void main(String[] args) {
