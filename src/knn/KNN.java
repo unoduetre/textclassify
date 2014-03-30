@@ -35,7 +35,7 @@ public class KNN
         }
       }
 
-      System.out.println(queue);
+      // System.out.println(queue);
 
       Map<Category, Integer> votingTable = new TreeMap<Category, Integer>();
       for(Classifiable vote : queue)
@@ -51,7 +51,7 @@ public class KNN
         }
       }
 
-      System.out.println(votingTable);
+      // System.out.println(votingTable);
 
       Integer maximalCount = 0;
       Category maximalCategory = null;

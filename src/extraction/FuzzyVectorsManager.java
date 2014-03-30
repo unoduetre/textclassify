@@ -34,8 +34,9 @@ public class FuzzyVectorsManager implements VectorManager {
 
   @Override
   public Classifiable getVectorForNewSample(Text text) {
-    // TODO Auto-generated method stub
-    return null;
+    Classifiable ret = new FuzzyVector(text, fuzzySets);
+    ret.setCategory(null);
+    return ret;
   }
 
 }

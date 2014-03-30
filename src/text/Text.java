@@ -17,6 +17,16 @@ public class Text implements Classifiable
   List<String> text = new ArrayList<String>();
   Map<String, Integer> histogram = new TreeMap<String, Integer>();
   
+  public Text() { }
+  
+  public Text(Text o) {
+    categories.addAll(o.categories);
+    text.addAll(o.text);
+    for(String s: o.histogram.keySet()) {
+      histogram.put(s, o.histogram.get(s));
+    }
+  }
+
   public void addCategory(Category aCategory)
   {
     categories.add(aCategory);

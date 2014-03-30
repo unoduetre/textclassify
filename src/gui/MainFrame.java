@@ -4,9 +4,10 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -26,15 +27,22 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import comparators.JaccardKNNComparator;
+import comparators.KeywordsKNNComparator;
+import comparators.MetricKNNComparator;
+import comparators.NGramComparator;
+
 import metrics.ChebyshevMetric;
 import metrics.EuclidMetric;
-import metrics.Metric;
 import metrics.MetricClassifiable;
 import metrics.TaxicabMetric;
 
+import knn.Category;
 import knn.Classifiable;
 import knn.KNN;
+import knn.KNNComparator;
 
+import text.Text;
 import text.WordList;
 import utils.DisableablePanel;
 
@@ -57,13 +65,15 @@ public class MainFrame extends JFrame {
   @SuppressWarnings("rawtypes")
   private JComboBox dataMakerChoice;
   private Engine engine;
+  private JLabel parsingResults;
+  private JLabel pickingResults;
+  private JLabel trainingResults;
   private DisableablePanel parsePane;
   private DisableablePanel pickPane;
   private DisableablePanel trainPane;
   private DisableablePanel classifyPane;
   private JButton parseTextsButton;
   private JButton forgetTextsButton;
-  private JLabel parsingResults;
   private JSlider trainingSetSizeSlider;
   private JSlider testSetSizeSlider;
   private JCheckBox allowSetOverlapCb;
@@ -71,20 +81,23 @@ public class MainFrame extends JFrame {
   private JComboBox randomizeSettingChoice;
   private JButton pickSetsButton;
   private JButton forgetSetsButton;
-  private JLabel pickingResults;
   private DisableablePanel similarityPane;
+  @SuppressWarnings("rawtypes")
   private JComboBox similarityChoice;
   private DisableablePanel metricPane;
+  @SuppressWarnings("rawtypes")
   private JComboBox vectorContentsChoice;
+  @SuppressWarnings("rawtypes")
   private JComboBox distanceChoice;
   private JButton trainButton;
   private JButton forgetTrainingButton;
   private JSlider kknnSlider;
   private KNN knn = null;
   private VectorManager vectorManager = null;
-  private List<Classifiable> votes;
-  private JLabel trainingResults;
-  private Metric metric;
+  private List<Classifiable> votes = null;
+  private List<Classifiable> objects = null;
+  private List<Category> answers = null;
+  private KNNComparator comparator = null;
   
   
   public MainFrame() {
@@ -329,7 +342,14 @@ public class MainFrame extends JFrame {
     classifyPane.setBorder(BorderFactory.createCompoundBorder(
         BorderFactory.createTitledBorder("Classify the test set"),
         BorderFactory.createEmptyBorder(5,5,5,5)));
-    classifyPane.add(new JLabel("TODO"));
+    JButton classifyButton = new JButton("Classify test set!");
+    classifyButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        MainFrame.this.classify();
+      }
+    });
+    classifyPane.add(classifyButton);
     classifyPane.setVisible(false);
     classifyPane.setEnabled(false);
     mainPane.add(classifyPane);
@@ -397,8 +417,8 @@ public class MainFrame extends JFrame {
   public void train() throws Exception {
     int k = kknnSlider.getValue();
     
-    votes = new LinkedList<Classifiable>();
-    metric = null;
+    votes = null;
+    comparator = null;
     
     StringBuilder message = new StringBuilder();
     
@@ -407,7 +427,6 @@ public class MainFrame extends JFrame {
     message.append(",<br>");
     
     if(similarityChoice.getSelectedIndex() == 0) { // metric
-      
       message.append("samples translated into R^n vectors,<br>");
       if(vectorContentsChoice.getSelectedIndex() == 0) { // all
         message.append("all words taken into consideration,<br>");
@@ -429,30 +448,70 @@ public class MainFrame extends JFrame {
         vectorManager = new FuzzyVectorsManager(engine.getTrainingSet(), engine.getFuzzySets());
         votes = vectorManager.getVectors();
       }
-      
       if(distanceChoice.getSelectedIndex() == 0) {
         message.append("Eudlidean distance will be used,<br>");
-        metric = new EuclidMetric();
+        comparator = new MetricKNNComparator(new EuclidMetric());
       } else if(distanceChoice.getSelectedIndex() == 1) {
         message.append("Chebyshev distance will be used,<br>");
-        metric = new ChebyshevMetric();
+        comparator = new MetricKNNComparator(new ChebyshevMetric());
       } else if(distanceChoice.getSelectedIndex() == 2) {
         message.append("Taxicab distance will be used,<br>");
-        metric = new TaxicabMetric();
+        comparator = new MetricKNNComparator(new TaxicabMetric());
       }
-      
       message.append("Dimensions: ");
       message.append(((MetricClassifiable) votes.get(0)).getVector().size());
       message.append(".");
+      objects = new ArrayList<Classifiable>();
+      answers = new ArrayList<Category>();
+      for(Text text: engine.getTestSet()) {
+        objects.add(vectorManager.getVectorForNewSample(text));
+        answers.add(text.getCategory());
+      }
     } else if(similarityChoice.getSelectedIndex() == 1) {
       message.append("samples will be tested for the presence of keywords.");
-      System.err.println("Keywords based comparator not supported by GUI yet!");
+      votes = new ArrayList<Classifiable>();
+      votes.addAll(engine.getTrainingSet());
+      objects = new ArrayList<Classifiable>();
+      answers = new ArrayList<Category>();
+      for(Text text: engine.getTestSet()) {
+        Text object = new Text(text);
+        object.setCategory(null);
+        objects.add(object);
+        answers.add(text.getCategory());
+      }
+      WordList keywords = new WordList(Arrays.asList(
+          new File("data/wordtypes/exchanges.txt"),
+          new File("data/wordtypes/orgs.txt"),
+          new File("data/wordtypes/people.txt"),
+          new File("data/wordtypes/places.txt"),
+          new File("data/wordtypes/topics.txt")));
+      comparator = new KeywordsKNNComparator(new HashSet<String>(keywords));
     } else if(similarityChoice.getSelectedIndex() == 2) {
       message.append("N-grams statistics will be used.");
-      System.err.println("N-grams based comparator not supported by GUI yet!");
+      votes = new ArrayList<Classifiable>();
+      votes.addAll(engine.getTrainingSet());
+      objects = new ArrayList<Classifiable>();
+      answers = new ArrayList<Category>();
+      for(Text text: engine.getTestSet()) {
+        Text object = new Text(text);
+        object.setCategory(null);
+        objects.add(object);
+        answers.add(text.getCategory());
+      }
+      comparator = new NGramComparator();
     } else if(similarityChoice.getSelectedIndex() == 3) {
       message.append("Jaccard coefficient will be used.");
-      System.err.println("Jaccard comparator not supported by GUI yet!");
+      votes = new ArrayList<Classifiable>();
+      votes.addAll(engine.getTrainingSet());
+      objects = new ArrayList<Classifiable>();
+      answers = new ArrayList<Category>();
+      for(Text text: engine.getTestSet()) {
+        Text object = new Text(text);
+        object.setCategory(null);
+        objects.add(object);
+        answers.add(text.getCategory());
+      }
+      comparator = new JaccardKNNComparator();
     }
     
     message.append("</html>");
@@ -475,7 +534,10 @@ public class MainFrame extends JFrame {
 
   public void forgetTraining() {
     votes = null;
+    objects = null;
+    answers = null;
     vectorManager = null;
+    comparator = null;
     knn = null;
     
     similarityChoice.setEnabled(true);
@@ -489,6 +551,19 @@ public class MainFrame extends JFrame {
     classifyPane.setVisible(false);
     classifyPane.setEnabled(false);
     trainingResults.setText(" ");
+  }
+  
+  public void classify() {
+    knn.classify(objects, comparator);
+    
+    int correct = 0;
+    
+    for(int i = 0; i < objects.size(); ++i) {
+      System.out.println(objects.get(i).getCategory() + " " + answers.get(i));
+      if(objects.get(i).getCategory().equals(answers.get(i))) ++correct;
+    }
+    
+    System.out.println(((correct * 100.0) / objects.size()) + "% of classifications are correct.");
   }
   
   public static void main(String[] args) {

@@ -31,8 +31,8 @@ public class ReutersByTopic extends DataMaker {
     while(i < texts.size()) {
       boolean aboutGrain = false, aboutInterest = false;
       for(Category category: texts.get(i).getCategories()) {
-        if(((StringCategory)category).getString().equals(new StringCategory("grain"))) aboutGrain = true;
-        if(((StringCategory)category).getString().equals(new StringCategory("interest"))) aboutInterest = true;
+        if(((StringCategory) category).getString().equals("grain")) aboutGrain = true;
+        if(((StringCategory) category).getString().equals("interest")) aboutInterest = true;
       }
       if(aboutGrain ^ aboutInterest) {
         if(aboutGrain) texts.get(i).setCategories(Arrays.asList(((Category)new StringCategory("grain"))));

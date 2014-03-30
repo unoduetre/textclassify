@@ -38,6 +38,8 @@ public class TrivialTextVectorsManager implements VectorManager {
   
   @Override
   public Classifiable getVectorForNewSample(Text text) {
-    return new TrivialTextVector(text, keywords);
+    Classifiable ret = new TrivialTextVector(text, keywords);
+    ret.setCategory(null);
+    return ret;
   }
 }
