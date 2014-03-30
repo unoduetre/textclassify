@@ -19,11 +19,11 @@ public class ChebyshevMetric extends Metric
 
     if(max1 < max2)
     {
-      return -1;
+      return 1;
     }
     else if(max1 > max2)
     {
-      return 1;
+      return -1;
     }
     else
     {
