@@ -1,6 +1,7 @@
 package fuzzy;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -16,7 +17,7 @@ public class WordTypeParser {
   public static Map<String, FuzzySet> parse(List<Text> data, String wordType, File directory) throws Exception {
     Set<String> labels = new HashSet<String>();
     Map<String, Map<String, Double>> measurements = new TreeMap<String, Map<String, Double>>();
-    WordList keywords = new WordList(new File("data/wordtypes/" + wordType + ".txt"));
+    WordList keywords = new WordList(Arrays.asList(new File("data/wordtypes/" + wordType + ".txt")));
     
     for(Text text: data) {
       labels.add(((StringCategory)text.getCategory()).getString());

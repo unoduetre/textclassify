@@ -3,6 +3,8 @@ package gui;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,6 +29,7 @@ import javax.swing.event.ChangeListener;
 import knn.Classifiable;
 import knn.KNN;
 
+import text.WordList;
 import utils.DisableablePanel;
 
 import core.DataMaker;
@@ -34,6 +37,9 @@ import core.Engine;
 import core.datamakers.CustomSamples;
 import core.datamakers.ReutersByCountry;
 import core.datamakers.ReutersByTopic;
+import extraction.FuzzyVectorsManager;
+import extraction.TrivialTextVectorsManager;
+import extraction.VectorManager;
 
 public class MainFrame extends JFrame {
 
@@ -68,6 +74,8 @@ public class MainFrame extends JFrame {
   private JButton trainButton;
   private JButton forgetTrainingButton;
   private JSlider kknnSlider;
+  private KNN knn = null;
+  private VectorManager vectorManager = null;
   
   
   public MainFrame() {
@@ -283,7 +291,11 @@ public class MainFrame extends JFrame {
     trainButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        MainFrame.this.train();
+        try {
+          MainFrame.this.train();
+        } catch (Exception e1) {
+          e1.printStackTrace();
+        }
       }
     });
     trainButtonsPane.add(trainButton);
@@ -360,13 +372,26 @@ public class MainFrame extends JFrame {
     trainPane.setEnabled(false);
   }
   
-  public void train() {
+  public void train() throws Exception {
     int k = kknnSlider.getValue();
     
     List<Classifiable> votes = new LinkedList<Classifiable>();
     
-    if(similarityChoice.getSelectedIndex() == 0) {
-      System.err.println("Not even the easiest comparator is supported by GUI yet!");
+    if(similarityChoice.getSelectedIndex() == 0) { // metric
+      if(vectorContentsChoice.getSelectedIndex() == 0) { // all
+        vectorManager = new TrivialTextVectorsManager(engine.getTrainingSet(), null);
+      } else if(vectorContentsChoice.getSelectedIndex() == 1) { // keywords
+        WordList keywords = new WordList(Arrays.asList(
+            new File("data/wordtypes/exchanges.txt"),
+            new File("data/wordtypes/orgs.txt"),
+            new File("data/wordtypes/people.txt"),
+            new File("data/wordtypes/places.txt"),
+            new File("data/wordtypes/topics.txt")));
+        vectorManager = new TrivialTextVectorsManager(engine.getTrainingSet(), keywords);
+      } else if(vectorContentsChoice.getSelectedIndex() == 2) { // fuzzy
+        engine.createNewFuzzySets(new File("data/fuzzy/countries"), Arrays.asList("exchanges", "orgs", "people", "places", "topics"));
+        vectorManager = new FuzzyVectorsManager(engine.getTrainingSet(), engine.getFuzzySets());
+      }
     } else if(similarityChoice.getSelectedIndex() == 1) {
       System.err.println("Keywords based comparator not supported by GUI yet!");
     } else if(similarityChoice.getSelectedIndex() == 2) {
@@ -375,7 +400,7 @@ public class MainFrame extends JFrame {
       System.err.println("Jaccard comparator not supported by GUI yet!");
     }
 
-    KNN knn = new KNN(k);
+    knn = new KNN(k);
     knn.train(votes);
     
     similarityChoice.setEnabled(false);
@@ -386,7 +411,7 @@ public class MainFrame extends JFrame {
     pickPane.setEnabled(false);
     classifyPane.setEnabled(true);
   }
-  
+
   public void forgetTraining() {
     similarityChoice.setEnabled(true);
     vectorContentsChoice.setEnabled(true);
