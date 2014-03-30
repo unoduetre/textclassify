@@ -9,6 +9,9 @@ import text.Text;
 
 import core.DataMaker;
 
+import knn.Category;
+import categories.StringCategory;
+
 public class ReutersByTopic extends DataMaker {
 
   @Override
@@ -27,13 +30,13 @@ public class ReutersByTopic extends DataMaker {
     int i = 0;
     while(i < texts.size()) {
       boolean aboutGrain = false, aboutInterest = false;
-      for(String category: texts.get(i).getCategories()) {
-        if(category.equals("grain")) aboutGrain = true;
-        if(category.equals("interest")) aboutInterest = true;
+      for(Category category: texts.get(i).getCategories()) {
+        if(((StringCategory)category).equals(new StringCategory("grain"))) aboutGrain = true;
+        if(((StringCategory)category).equals(new StringCategory("interest"))) aboutInterest = true;
       }
       if(aboutGrain ^ aboutInterest) {
-        if(aboutGrain) texts.get(i).setCategories(Arrays.asList("grain"));
-        if(aboutInterest) texts.get(i).setCategories(Arrays.asList("interest"));
+        if(aboutGrain) texts.get(i).setCategories(Arrays.asList(((Category)new StringCategory("grain"))));
+        if(aboutInterest) texts.get(i).setCategories(Arrays.asList((Category)new StringCategory("interest")));
         ++i;
       } else {
         texts.remove(i);

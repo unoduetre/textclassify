@@ -10,6 +10,9 @@ import org.xml.sax.Attributes;
 
 import text.Text;
 
+import knn.Category;
+import categories.StringCategory;
+
 public class XMLHandler extends DefaultHandler
 {
 
@@ -57,7 +60,7 @@ public class XMLHandler extends DefaultHandler
   {
     if(path(categoryPath))
     {
-      currentText.addCategory(String.valueOf(elementContentStack.getLast()));
+      currentText.addCategory(new StringCategory(String.valueOf(elementContentStack.getLast())));
     }
     if(path(textPath))
     {

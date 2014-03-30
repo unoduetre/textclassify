@@ -1,5 +1,6 @@
 package knn;
 
-interface Category extends Comparable<Category>
+public interface Category
 {
+  boolean equals(Category category);
 }

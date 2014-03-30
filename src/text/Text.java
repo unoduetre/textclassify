@@ -6,14 +6,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
+import java.util.Set;
 
-public class Text
+import knn.Classifiable;
+import knn.Category;
+
+public class Text implements Classifiable
 {
-  List<String> categories = new ArrayList<String>();
+  List<Category> categories = new ArrayList<Category>();
   List<String> text = new ArrayList<String>();
   Map<String, Integer> histogram = new TreeMap<String, Integer>();
   
-  public void addCategory(String aCategory)
+  public void addCategory(Category aCategory)
   {
     categories.add(aCategory);
   }
@@ -27,8 +31,13 @@ public class Text
     return tmp.length() < 2 ? null : tmp;
   }
   
-  public int getWordCount(String iWord) {
+  public Integer getWordCount(String iWord) {
     return histogram.containsKey(iWord) ? histogram.get(iWord) : 0;
+  }
+
+  public Set<String> getWords()
+  {
+    return histogram.keySet();
   }
   
   public void setText(String aText)
@@ -59,18 +68,18 @@ public class Text
     return categories.size();
   }
 
-  public List<String> getCategories()
+  public List<Category> getCategories()
   {
     return categories;
   }
 
-  public void setCategories(List<String> newCategories)
+  public void setCategories(List<Category> newCategories)
   {
     categories = newCategories;
   }
 
 
-  public String getCategory()
+  public Category getCategory()
   {
     if(categories.size() > 0)
     {
@@ -80,6 +89,12 @@ public class Text
     {
       return null;
     }
+  }
+
+  public void setCategory(Category category)
+  {
+    categories = new ArrayList<Category>();
+    categories.add(category);
   }
 
   public List<String> getText()

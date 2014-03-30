@@ -50,7 +50,7 @@ public class MainFrame extends JFrame {
   private JSlider trainingSetSizeSlider;
   private JSlider testSetSizeSlider;
   private JCheckBox allowSetOverlapCb;
-  private JComboBox<String> randomizeSettingChoice;
+  private JComboBox randomizeSettingChoice;
   private JButton pickSetsButton;
   private JButton forgetSetsButton;
   private JLabel pickingResults;
@@ -196,7 +196,7 @@ public class MainFrame extends JFrame {
     pickPane.add(allowSetOverlapCb);
     DisableablePanel setRandomizeSettingsPane = new DisableablePanel();
     setRandomizeSettingsPane.add(new JLabel("Choice method: "));
-    randomizeSettingChoice = new JComboBox<>(new String[]{"Pick test set from the beginning, training set from the end", "Perform random choice"});
+    randomizeSettingChoice = new JComboBox(new String[]{"Pick test set from the beginning, training set from the end", "Perform random choice"});
     setRandomizeSettingsPane.add(randomizeSettingChoice);
     pickPane.add(setRandomizeSettingsPane);
     DisableablePanel pickButtonsPane = new DisableablePanel();
