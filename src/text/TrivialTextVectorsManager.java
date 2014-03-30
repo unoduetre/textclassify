@@ -12,14 +12,17 @@ public class TrivialTextVectorsManager {
   private List<String> keywords = null;
   private List<MetricClassifiable> vectors = null;
   
-  public TrivialTextVectorsManager(List<Text> samples) {
-    Set<String> keywordsSet = new HashSet<String>();
-    for(Text text: samples) {
-      keywordsSet.addAll(text.getWords());
+  public TrivialTextVectorsManager(List<Text> samples, List<String> iKeywords) {
+    if(iKeywords == null) { // brak zadanej z góry lista słów kluczowych => wszystkie słowa
+      Set<String> keywordsSet = new HashSet<String>();
+      for(Text text: samples) {
+        keywordsSet.addAll(text.getWords());
+      }
+      keywords = new ArrayList<String>(keywordsSet.size());
+      keywords.addAll(keywordsSet);
+    } else { // zadana z góry lista słów kluczowych
+      keywords = iKeywords;
     }
-    keywords = new ArrayList<String>(keywordsSet.size());
-    keywords.addAll(keywordsSet);
-    
     vectors = new ArrayList<MetricClassifiable>(samples.size());
     for(Text text: samples) {
       vectors.add(new TrivialTextVector(text, keywords));

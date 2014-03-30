@@ -48,7 +48,7 @@ public class Main
       System.out.println("Picking training set and test set...");
       engine.pickTrainingAndTestSets(0.6, 0.4, false, false);
       
-      /* TrivialTextVectorsManager ttvm = new TrivialTextVectorsManager(engine.getTrainingSet());
+      /* TrivialTextVectorsManager ttvm = new TrivialTextVectorsManager(engine.getTrainingSet(), null);
       for(MetricClassifiable ttv : ttvm.getVectors()) {
         System.out.println(ttv.getVector());
       } */
