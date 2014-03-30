@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -74,6 +76,7 @@ public class MainFrame extends JFrame {
   private JLabel parsingResults;
   private JLabel pickingResults;
   private JLabel trainingResults;
+  private JLabel classificationResults;
   private DisableablePanel parsePane;
   private DisableablePanel pickPane;
   private DisableablePanel trainPane;
@@ -404,6 +407,9 @@ public class MainFrame extends JFrame {
     classifyPane.setEnabled(false);
     mainPane.add(classifyPane);
     
+    classificationResults = new JLabel(" ");
+    mainPane.add(classificationResults);
+    
     add(mainPane);
   }
 
@@ -605,6 +611,7 @@ public class MainFrame extends JFrame {
     classifyPane.setVisible(false);
     classifyPane.setEnabled(false);
     trainingResults.setText(" ");
+    classificationResults.setText(" ");
   }
   
   public void classify() {
@@ -613,10 +620,15 @@ public class MainFrame extends JFrame {
     gcrButton1.setEnabled(true);
     gcrButton2.setEnabled(true);
     gcrButton3.setEnabled(true);
+    
+    int correct = 0;
+    for(int i = 0; i < objects.size(); ++i)
+      if(objects.get(i).getCategory().equals(answers.get(i))) ++correct;
+    
+    classificationResults.setText(Double.toString((correct * 100.0) / objects.size()) + "% of classifications are correct.");
   }
   
   public void getPerSampleCSV() throws Exception {
-    System.err.println("Not implemented yet!"); // TODO!!!
     JFileChooser fc = new JFileChooser();
     fc.addChoosableFileFilter(new FileFilter() {
       @Override
@@ -632,25 +644,129 @@ public class MainFrame extends JFrame {
     int ret = fc.showSaveDialog(null);
     if(ret == JFileChooser.APPROVE_OPTION) {
       BufferedWriter out = new BufferedWriter(new FileWriter(fc.getSelectedFile()));
-      out.write("Sample index, Actual category, Classification result \n");
+      out.write("Sample index,Actual category,Classification result\n");
       for(int i = 0; i < objects.size(); ++i) {
         out.write(Integer.toString(i + 1));
-        out.write(", ");
+        out.write(",");
         out.write(((StringCategory) answers.get(i)).getString());
-        out.write(", ");
+        out.write(",");
         out.write(((StringCategory) objects.get(i).getCategory()).getString());
-        out.write(" \n");
+        out.write("\n");
       }
       out.close();
     }
   }
   
-  public void getPerClassCSV() {
-    System.err.println("Not implemented yet!"); // TODO!!!
+  public void getPerClassCSV() throws Exception {
+    JFileChooser fc = new JFileChooser();
+    fc.addChoosableFileFilter(new FileFilter() {
+      @Override
+      public String getDescription() {
+        return "*.csv (Comma Separated File)";
+      }
+      
+      @Override
+      public boolean accept(File arg0) {
+        return arg0.getPath().endsWith(".csv");
+      }
+    });
+    int ret = fc.showSaveDialog(null);
+    if(ret == JFileChooser.APPROVE_OPTION) {
+      BufferedWriter out = new BufferedWriter(new FileWriter(fc.getSelectedFile()));
+      out.write("Category,Elements in category,Sensitivity (TPR),Elements classified as category,Precision (PPV)\n");
+      
+      Set<String> categoriesSet = new TreeSet<String>();
+      for(Classifiable cla: objects) categoriesSet.add(((StringCategory) cla.getCategory()).getString());
+      for(Category cat: answers) categoriesSet.add(((StringCategory) cat).getString());
+      List<String> categoriesList = new ArrayList<String>(categoriesSet);
+      Map<String, Integer> categoryIDs = new HashMap<String, Integer>();
+      for(int j = 0; j < categoriesList.size(); ++j) categoryIDs.put(categoriesList.get(j), j);
+      Integer[][] counters = new Integer[categoriesList.size()][categoriesList.size()];
+      
+      for(int j = 0; j < categoriesList.size(); ++j)
+        for(int k = 0; k < categoriesList.size(); ++k)
+          counters[j][k] = 0;
+      
+      for(int i = 0; i < objects.size(); ++i) {
+        String actual = ((StringCategory) answers.get(i)).getString();
+        String guessed = ((StringCategory) objects.get(i).getCategory()).getString();
+        counters[categoryIDs.get(actual)][categoryIDs.get(guessed)] += 1;
+      }
+      
+      for(int j = 0; j < categoriesList.size(); ++j) {
+        int classSize = 0;
+        int picksCount = 0;
+        for(int k = 0; k < categoriesList.size(); ++k) classSize += counters[j][k];
+        for(int k = 0; k < categoriesList.size(); ++k) picksCount += counters[k][j];
+        out.write(categoriesList.get(j));
+        out.write(",");
+        out.write(Integer.toString(classSize));
+        out.write(",");
+        out.write(Double.toString((counters[j][j] * 100.0) / classSize));
+        out.write("%");
+        out.write(",");
+        out.write(Integer.toString(picksCount));
+        out.write(",");
+        out.write(Double.toString((counters[j][j] * 100.0) / picksCount));
+        out.write("%");
+        out.write("\n");
+      }
+      out.close();
+    }
   }
   
-  public void getMatrixCSV() {
-    System.err.println("Not implemented yet!"); // TODO!!!
+  public void getMatrixCSV() throws Exception {
+    JFileChooser fc = new JFileChooser();
+    fc.addChoosableFileFilter(new FileFilter() {
+      @Override
+      public String getDescription() {
+        return "*.csv (Comma Separated File)";
+      }
+      
+      @Override
+      public boolean accept(File arg0) {
+        return arg0.getPath().endsWith(".csv");
+      }
+    });
+    int ret = fc.showSaveDialog(null);
+    if(ret == JFileChooser.APPROVE_OPTION) {
+      BufferedWriter out = new BufferedWriter(new FileWriter(fc.getSelectedFile()));
+      
+      Set<String> categoriesSet = new TreeSet<String>();
+      for(Classifiable cla: objects) categoriesSet.add(((StringCategory) cla.getCategory()).getString());
+      for(Category cat: answers) categoriesSet.add(((StringCategory) cat).getString());
+      List<String> categoriesList = new ArrayList<String>(categoriesSet);
+      Map<String, Integer> categoryIDs = new HashMap<String, Integer>();
+      for(int j = 0; j < categoriesList.size(); ++j) categoryIDs.put(categoriesList.get(j), j);
+      Integer[][] counters = new Integer[categoriesList.size()][categoriesList.size()];
+      
+      for(int j = 0; j < categoriesList.size(); ++j)
+        for(int k = 0; k < categoriesList.size(); ++k)
+          counters[j][k] = 0;
+      
+      for(int i = 0; i < objects.size(); ++i) {
+        String actual = ((StringCategory) answers.get(i)).getString();
+        String guessed = ((StringCategory) objects.get(i).getCategory()).getString();
+        counters[categoryIDs.get(actual)][categoryIDs.get(guessed)] += 1;
+      }
+      
+      out.write("Actual/Classified as");
+      for(int j = 0; j < categoriesList.size(); ++j) {
+        out.write(",");
+        out.write(categoriesList.get(j));
+      }
+      out.write("\n");
+      
+      for(int j = 0; j < categoriesList.size(); ++j) {
+        out.write(categoriesList.get(j));
+        for(int k = 0; k < categoriesList.size(); ++k) {
+          out.write(",");
+          out.write(Integer.toString(counters[j][k]));
+        }
+        out.write("\n");
+      }
+      out.close();
+    }
   }
   
   public static void main(String[] args) {
