@@ -19,11 +19,11 @@ public class EuclidMetric extends Metric
 
     if(sum1 < sum2)
     {
-      return -1;
+      return 1;
     }
     else if(sum1 > sum2)
     {
-      return 1;
+      return -1;
     }
     else
     {
