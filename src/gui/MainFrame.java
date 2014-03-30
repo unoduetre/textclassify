@@ -422,7 +422,7 @@ public class MainFrame extends JFrame {
     
     StringBuilder message = new StringBuilder();
     
-    message.append("<html>K-NN data perpared with k=");
+    message.append("<html>Classifier to be used: K-NN with k=");
     message.append(k);
     message.append(",<br>");
     
