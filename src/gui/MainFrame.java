@@ -37,6 +37,7 @@ public class MainFrame extends JFrame {
    */
   private static final long serialVersionUID = -8026416994513756565L;
   private Map<String, DataMaker> dataMakers;
+  @SuppressWarnings("rawtypes")
   private JComboBox dataMakerChoice;
   private Engine engine;
   private DisableablePanel parsePane;
@@ -50,6 +51,7 @@ public class MainFrame extends JFrame {
   private JSlider trainingSetSizeSlider;
   private JSlider testSetSizeSlider;
   private JCheckBox allowSetOverlapCb;
+  @SuppressWarnings("rawtypes")
   private JComboBox randomizeSettingChoice;
   private JButton pickSetsButton;
   private JButton forgetSetsButton;
@@ -74,6 +76,7 @@ public class MainFrame extends JFrame {
     buildUI();
   }
   
+  @SuppressWarnings({ "unchecked", "rawtypes" })
   private void buildUI() {
     JMenuBar menuBar = new JMenuBar();
     JMenu fileMenu = new JMenu("File");

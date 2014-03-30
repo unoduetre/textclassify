@@ -10,7 +10,6 @@ import org.xml.sax.Attributes;
 
 import text.Text;
 
-import knn.Category;
 import categories.StringCategory;
 
 public class XMLHandler extends DefaultHandler
