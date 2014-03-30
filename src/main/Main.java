@@ -42,7 +42,7 @@ public class Main
         }
       } */
 
-      (new ReutersByCountry()).createDataSets(engine.getTexts());
+      // (new ReutersByCountry()).createDataSets(engine.getTexts());
       // (new ReutersByTopic()).createDataSets(engine.getTexts());
       // (new CustomSamples()).createDataSets(engine.getTexts());
       
