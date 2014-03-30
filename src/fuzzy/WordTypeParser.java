@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 import text.Text;
 import text.WordList;
+import categories.StringCategory;
 
 public class WordTypeParser {
   public static Map<String, FuzzySet> parse(List<Text> data, String wordType, File directory) throws Exception {
@@ -18,7 +19,7 @@ public class WordTypeParser {
     WordList keywords = new WordList(new File("data/wordtypes/" + wordType + ".txt"));
     
     for(Text text: data) {
-      labels.add(text.getCategory());
+      labels.add(((StringCategory)text.getCategory()).getString());
     }
     
     for(String word: keywords) {
@@ -29,7 +30,7 @@ public class WordTypeParser {
     }
     
     for(Text text: data) {
-      String label = text.getCategory();
+      String label = ((StringCategory)text.getCategory()).getString();
       for(String word: keywords) {
         double oldVal = measurements.get(word).get(label);
         double newVal = oldVal + text.getWordCount(word);

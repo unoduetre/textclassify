@@ -37,7 +37,7 @@ public class MainFrame extends JFrame {
    */
   private static final long serialVersionUID = -8026416994513756565L;
   private Map<String, DataMaker> dataMakers;
-  private JComboBox<Object> dataMakerChoice;
+  private JComboBox dataMakerChoice;
   private Engine engine;
   private DisableablePanel parsePane;
   private DisableablePanel pickPane;
@@ -99,7 +99,7 @@ public class MainFrame extends JFrame {
     parsePane.setLayout(new BoxLayout(parsePane, BoxLayout.Y_AXIS));
     DisableablePanel dataMakerPane = new DisableablePanel();
     dataMakerPane.add(new JLabel("Data to parse: "));
-    dataMakerChoice = new JComboBox<Object>(dataMakers.keySet().toArray());
+    dataMakerChoice = new JComboBox(dataMakers.keySet().toArray());
     dataMakerChoice.setSelectedItem("Reuters, 6 chosen countries are labels");
     dataMakerPane.add(dataMakerChoice);
     parsePane.add(dataMakerPane);
