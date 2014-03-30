@@ -1,13 +1,19 @@
 package main;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
 
 import core.Engine;
 // import core.datamakers.ReutersByTopic;
 // import core.datamakers.ReutersByCountry;
 import core.datamakers.CustomSamples;
+import core.datamakers.ReutersByCountry;
 import text.Text;
+import text.WordList;
 import fuzzy.FuzzySet;
+import fuzzy.WordTypeParser;
 
 public class Main
 {
@@ -27,28 +33,25 @@ public class Main
         for(String fuzzySetType : engine.getFuzzySets().get(fuzzySetCategory).keySet())
         {
           FuzzySet fuzzySet = engine.getFuzzySets().get(fuzzySetCategory).get(fuzzySetType);
-          // System.out.println(fuzzySetCategory + "_" + fuzzySetType + " = " + String.valueOf(fuzzySet));
-          fuzzySet.put("keyword1",new Float(0.0));
-          fuzzySet.put("keyword2",new Float(0.0));
-          // System.out.println(fuzzySetCategory + "_" + fuzzySetType + " = " + String.valueOf(fuzzySet));
-          fuzzySet.save();
+          System.out.println(fuzzySetCategory + "_" + fuzzySetType + " = " + String.valueOf(fuzzySet));
         }
       }
 
-      // (new ReutersByCountry()).createDataSets(engine.getTexts());
+      (new ReutersByCountry()).createDataSets(engine.getTexts());
       // (new ReutersByTopic()).createDataSets(engine.getTexts());
-      (new CustomSamples()).createDataSets(engine.getTexts());
+      // (new CustomSamples()).createDataSets(engine.getTexts());
       
       System.out.println("Picking training set and test set...");
       engine.pickTrainingAndTestSets(0.6, 0.4, false, false);
       
-      for(Text text : engine.getTexts())
+      /* for(Text text : engine.getTexts())
       {
         System.out.println("--------------------------------------------------------");
         System.out.println(String.valueOf(text.getCategories()));
         System.out.println(String.valueOf(text));
-      }
+      } */
       
+      engine.createNewFuzzySets(new File("data/fuzzy/countries"), Arrays.asList("exchanges", "orgs", "people", "places", "topics"));
     }
     catch(Exception e)
     {

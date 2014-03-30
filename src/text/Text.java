@@ -27,7 +27,7 @@ public class Text implements Classifiable
     tmp = tmp.replaceAll("&[#\\w]*;", "");
     tmp = Normalizer.normalize(tmp, Normalizer.Form.NFD);
     tmp = tmp.replaceAll("[^a-z]", "");
-    tmp = tmp.replaceAll("(s|d|a|i?es|i?ed|ing|e?y)$", "");
+    tmp = tmp.replaceAll("((i?e)?s|(i?e)?d|ing)$", "");
     return tmp.length() < 2 ? null : tmp;
   }
   

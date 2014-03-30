@@ -7,14 +7,22 @@ import java.io.PrintWriter;
 import java.util.TreeMap;
 import java.util.Scanner;
 
-public class FuzzySet extends TreeMap<String,Float>
+public class FuzzySet extends TreeMap<String,Double>
 {
   /**
    * 
    */
   private static final long serialVersionUID = -5237469610440917069L;
   File file = null;
-
+  
+  protected FuzzySet() {
+    super();
+  }
+  
+  protected void setFile(File iFile) {
+    file = iFile;
+  }
+  
   public FuzzySet(File aFile) throws Exception
   {
     super();
@@ -25,7 +33,7 @@ public class FuzzySet extends TreeMap<String,Float>
       scanner = new Scanner(file);
       while(scanner.hasNext())
       {
-        put(scanner.next(), scanner.nextFloat());
+        put(scanner.next(), scanner.nextDouble());
       }
     }
     finally

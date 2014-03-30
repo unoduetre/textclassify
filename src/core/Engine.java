@@ -8,6 +8,7 @@ import java.util.Map;
 
 import text.Text;
 import fuzzy.FuzzySet;
+import fuzzy.WordTypeParser;
 
 public class Engine {
   private List<Text> texts = new LinkedList<Text>();
@@ -80,7 +81,26 @@ public class Engine {
       }
     }
   }
-
+  
+  public void createNewFuzzySets(File directory, List<String> wordTypes) throws Exception {
+    fuzzySets = new HashMap<String, Map<String, FuzzySet>>();
+    
+    for(String wordType: wordTypes) {
+      Map<String, FuzzySet> fuzzySetsEntry = WordTypeParser.parse(getTrainingSet(), wordType, directory);
+      fuzzySets.put(wordType, fuzzySetsEntry);
+    }
+    
+    for(File file : directory.listFiles()) {
+      file.delete();
+    }
+    
+    for(Map<String, FuzzySet> fse: fuzzySets.values()) {
+      for(FuzzySet fs: fse.values()) {
+        fs.save();
+      }
+    }
+  }
+  
   public void parseFuzzySets(File directory) throws Exception
   {
     for(File file : directory.listFiles())
