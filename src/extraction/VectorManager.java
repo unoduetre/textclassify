@@ -2,11 +2,12 @@ package extraction;
 
 import java.util.List;
 
-import metrics.MetricClassifiable;
+import knn.Classifiable;
+
 import text.Text;
 
 public interface VectorManager {
-  public List<MetricClassifiable> getVectors();
+  public List<Classifiable> getVectors();
   
-  public MetricClassifiable getVectorForNewSample(Text text);
+  public Classifiable getVectorForNewSample(Text text);
 }

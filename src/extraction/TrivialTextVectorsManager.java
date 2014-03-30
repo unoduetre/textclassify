@@ -5,14 +5,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import text.Text;
+import knn.Classifiable;
 
-import metrics.MetricClassifiable;
+import text.Text;
 
 public class TrivialTextVectorsManager implements VectorManager {
   
   private List<String> keywords = null;
-  private List<MetricClassifiable> vectors = null;
+  private List<Classifiable> vectors = null;
   
   public TrivialTextVectorsManager(List<Text> samples, List<String> iKeywords) {
     if(iKeywords == null) { // brak zadanej z góry lista słów kluczowych => wszystkie słowa
@@ -25,19 +25,19 @@ public class TrivialTextVectorsManager implements VectorManager {
     } else { // zadana z góry lista słów kluczowych
       keywords = iKeywords;
     }
-    vectors = new ArrayList<MetricClassifiable>(samples.size());
+    vectors = new ArrayList<Classifiable>(samples.size());
     for(Text text: samples) {
       vectors.add(new TrivialTextVector(text, keywords));
     }
   }
   
   @Override
-  public List<MetricClassifiable> getVectors() {
+  public List<Classifiable> getVectors() {
     return vectors;
   }
   
   @Override
-  public MetricClassifiable getVectorForNewSample(Text text) {
+  public Classifiable getVectorForNewSample(Text text) {
     return new TrivialTextVector(text, keywords);
   }
 }

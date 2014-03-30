@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
+import knn.Classifiable;
+
 import metrics.MetricClassifiable;
 
 import core.Engine;
@@ -44,14 +46,14 @@ public class Main
 
       // (new ReutersByCountry()).createDataSets(engine.getTexts());
       // (new ReutersByTopic()).createDataSets(engine.getTexts());
-      // (new CustomSamples()).createDataSets(engine.getTexts());
+      (new CustomSamples()).createDataSets(engine.getTexts());
       
       System.out.println("Picking training set and test set...");
       engine.pickTrainingAndTestSets(0.6, 0.4, false, false);
       
       FuzzyVectorsManager fvm = new FuzzyVectorsManager(engine.getTrainingSet(), engine.getFuzzySets());
-      for(MetricClassifiable fv : fvm.getVectors()) {
-        System.out.println(fv.getVector());
+      for(Classifiable fv : fvm.getVectors()) {
+        System.out.println(((MetricClassifiable) fv).getVector());
       }
       
       /* TrivialTextVectorsManager ttvm = new TrivialTextVectorsManager(engine.getTrainingSet(), null);

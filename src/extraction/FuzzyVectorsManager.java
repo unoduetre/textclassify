@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import fuzzy.FuzzySet;
+import knn.Classifiable;
 
-import metrics.MetricClassifiable;
+import fuzzy.FuzzySet;
 import text.Text;
 
 public class FuzzyVectorsManager implements VectorManager {
 
   private List<FuzzySet> fuzzySets = null;
-  private List<MetricClassifiable> vectors = null;
+  private List<Classifiable> vectors = null;
   
   public FuzzyVectorsManager(List<Text> samples, Map<String, Map<String, FuzzySet>> iFuzzySets) {
     fuzzySets = new ArrayList<FuzzySet>();
@@ -21,19 +21,19 @@ public class FuzzyVectorsManager implements VectorManager {
         fuzzySets.add(fs);
       }
     }
-    vectors = new ArrayList<MetricClassifiable>(samples.size());
+    vectors = new ArrayList<Classifiable>(samples.size());
     for(Text text: samples) {
       vectors.add(new FuzzyVector(text, fuzzySets));
     }
   }
   
   @Override
-  public List<MetricClassifiable> getVectors() {
+  public List<Classifiable> getVectors() {
     return vectors;
   }
 
   @Override
-  public MetricClassifiable getVectorForNewSample(Text text) {
+  public Classifiable getVectorForNewSample(Text text) {
     // TODO Auto-generated method stub
     return null;
   }

@@ -26,6 +26,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import metrics.ChebyshevMetric;
+import metrics.EuclidMetric;
+import metrics.Metric;
+import metrics.MetricClassifiable;
+import metrics.TaxicabMetric;
+
 import knn.Classifiable;
 import knn.KNN;
 
@@ -76,6 +82,9 @@ public class MainFrame extends JFrame {
   private JSlider kknnSlider;
   private KNN knn = null;
   private VectorManager vectorManager = null;
+  private List<Classifiable> votes;
+  private JLabel trainingResults;
+  private Metric metric;
   
   
   public MainFrame() {
@@ -84,7 +93,7 @@ public class MainFrame extends JFrame {
     setLocationRelativeTo(null);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-    setSize(800, 800);
+    setSize(800, 640);
     
     engine = new Engine();
     
@@ -113,8 +122,10 @@ public class MainFrame extends JFrame {
     
     
     JPanel mainPane = new JPanel();
-    mainPane.setLayout(new BoxLayout(mainPane, BoxLayout.PAGE_AXIS));
-    
+    mainPane.setLayout(new BoxLayout(mainPane, BoxLayout.Y_AXIS));
+
+    parsingResults = new JLabel(" ");
+    mainPane.add(parsingResults);
     parsePane = new DisableablePanel();
     parsePane.setBorder(BorderFactory.createCompoundBorder(
         BorderFactory.createTitledBorder("Parse input data"),
@@ -149,10 +160,10 @@ public class MainFrame extends JFrame {
     });
     parseButtonsPane.add(forgetTextsButton);
     parsePane.add(parseButtonsPane);
-    parsingResults = new JLabel(" ");
-    parsePane.add(parsingResults);
     mainPane.add(parsePane);
-    
+
+    pickingResults = new JLabel(" ");
+    mainPane.add(pickingResults);
     pickPane = new DisableablePanel();
     pickPane.setBorder(BorderFactory.createCompoundBorder(
         BorderFactory.createTitledBorder("Pick training set and test set"),
@@ -241,11 +252,12 @@ public class MainFrame extends JFrame {
     pickButtonsPane.add(forgetSetsButton);
     forgetSetsButton.setEnabled(false);
     pickPane.add(pickButtonsPane);
-    pickingResults = new JLabel(" ");
-    pickPane.add(pickingResults);
+    pickPane.setVisible(false);
     pickPane.setEnabled(false);
     mainPane.add(pickPane);
     
+    trainingResults = new JLabel(" ");
+    mainPane.add(trainingResults);
     trainPane = new DisableablePanel();
     trainPane.setBorder(BorderFactory.createCompoundBorder(
         BorderFactory.createTitledBorder("Extraction & training"),
@@ -309,6 +321,7 @@ public class MainFrame extends JFrame {
     });
     trainButtonsPane.add(forgetTrainingButton);
     trainPane.add(trainButtonsPane);
+    trainPane.setVisible(false);
     trainPane.setEnabled(false);
     mainPane.add(trainPane);
     
@@ -317,6 +330,7 @@ public class MainFrame extends JFrame {
         BorderFactory.createTitledBorder("Classify the test set"),
         BorderFactory.createEmptyBorder(5,5,5,5)));
     classifyPane.add(new JLabel("TODO"));
+    classifyPane.setVisible(false);
     classifyPane.setEnabled(false);
     mainPane.add(classifyPane);
     
@@ -329,8 +343,9 @@ public class MainFrame extends JFrame {
     dataMakerChoice.setEnabled(false);
     parseTextsButton.setEnabled(false);
     forgetTextsButton.setEnabled(true);
-    parsingResults.setText(Integer.toString(engine.getTexts().size()) + " pieces of text available.");
+    parsingResults.setText("<html>" + Integer.toString(engine.getTexts().size()) + " pieces of text are available<br>(from ``" + dataMakerChoice.getSelectedItem() + "'' set).</html>");
     pickPane.setEnabled(true);
+    pickPane.setVisible(true);
   }
 
   protected void forgetTexts() {
@@ -339,7 +354,9 @@ public class MainFrame extends JFrame {
     parseTextsButton.setEnabled(true);
     forgetTextsButton.setEnabled(false);
     parsingResults.setText(" ");
+    pickPane.setVisible(false);
     pickPane.setEnabled(false);
+    parsingResults.setText(" ");
   }
 
   protected void pickSets() {
@@ -348,15 +365,17 @@ public class MainFrame extends JFrame {
     boolean randomizeSets = (randomizeSettingChoice.getSelectedIndex() == 1);
     boolean allowOverlap = allowSetOverlapCb.isSelected();
     engine.pickTrainingAndTestSets(trainingSetSize, testSetSize, randomizeSets, allowOverlap);
-    pickingResults.setText(Integer.toString(engine.getTrainingSet().size()) + " training samples, " + Integer.toString(engine.getTestSet().size()) + " test samples.");
+    pickingResults.setText("<html> Picked " + Integer.toString(engine.getTrainingSet().size()) + " training samples, " + Integer.toString(engine.getTestSet().size()) + " test samples<br>(with " + (randomizeSets ? "random" : "predefined") + " order, " + (allowOverlap ? "overlapping allowed" : "without overlapping") + ").</html>");
     trainingSetSizeSlider.setEnabled(false);
     testSetSizeSlider.setEnabled(false);
     allowSetOverlapCb.setEnabled(false);
     randomizeSettingChoice.setEnabled(false);
     pickSetsButton.setEnabled(false);
     forgetSetsButton.setEnabled(true);
+    parsePane.setVisible(false);
     parsePane.setEnabled(false);
     trainPane.setEnabled(true);
+    trainPane.setVisible(true);
   }
   
   protected void forgetSets() {
@@ -369,18 +388,33 @@ public class MainFrame extends JFrame {
     pickSetsButton.setEnabled(true);
     forgetSetsButton.setEnabled(false);
     parsePane.setEnabled(true);
+    parsePane.setVisible(true);
+    trainPane.setVisible(false);
     trainPane.setEnabled(false);
+    pickingResults.setText(" ");
   }
   
   public void train() throws Exception {
     int k = kknnSlider.getValue();
     
-    List<Classifiable> votes = new LinkedList<Classifiable>();
+    votes = new LinkedList<Classifiable>();
+    metric = null;
+    
+    StringBuilder message = new StringBuilder();
+    
+    message.append("<html>K-NN data perpared with k=");
+    message.append(k);
+    message.append(",<br>");
     
     if(similarityChoice.getSelectedIndex() == 0) { // metric
+      
+      message.append("samples translated into R^n vectors,<br>");
       if(vectorContentsChoice.getSelectedIndex() == 0) { // all
+        message.append("all words taken into consideration,<br>");
         vectorManager = new TrivialTextVectorsManager(engine.getTrainingSet(), null);
+        votes = vectorManager.getVectors();
       } else if(vectorContentsChoice.getSelectedIndex() == 1) { // keywords
+        message.append("only keywords into consideration,<br>");
         WordList keywords = new WordList(Arrays.asList(
             new File("data/wordtypes/exchanges.txt"),
             new File("data/wordtypes/orgs.txt"),
@@ -388,38 +422,73 @@ public class MainFrame extends JFrame {
             new File("data/wordtypes/places.txt"),
             new File("data/wordtypes/topics.txt")));
         vectorManager = new TrivialTextVectorsManager(engine.getTrainingSet(), keywords);
+        votes = vectorManager.getVectors();
       } else if(vectorContentsChoice.getSelectedIndex() == 2) { // fuzzy
+        message.append("method based on fuzzy set used,<br>");
         engine.createNewFuzzySets(new File("data/fuzzy/countries"), Arrays.asList("exchanges", "orgs", "people", "places", "topics"));
         vectorManager = new FuzzyVectorsManager(engine.getTrainingSet(), engine.getFuzzySets());
+        votes = vectorManager.getVectors();
       }
+      
+      if(distanceChoice.getSelectedIndex() == 0) {
+        message.append("Eudlidean distance will be used,<br>");
+        metric = new EuclidMetric();
+      } else if(distanceChoice.getSelectedIndex() == 1) {
+        message.append("Chebyshev distance will be used,<br>");
+        metric = new ChebyshevMetric();
+      } else if(distanceChoice.getSelectedIndex() == 2) {
+        message.append("Taxicab distance will be used,<br>");
+        metric = new TaxicabMetric();
+      }
+      
+      message.append("Dimensions: ");
+      message.append(((MetricClassifiable) votes.get(0)).getVector().size());
+      message.append(".");
     } else if(similarityChoice.getSelectedIndex() == 1) {
+      message.append("samples will be tested for the presence of keywords.");
       System.err.println("Keywords based comparator not supported by GUI yet!");
     } else if(similarityChoice.getSelectedIndex() == 2) {
+      message.append("N-grams statistics will be used.");
       System.err.println("N-grams based comparator not supported by GUI yet!");
     } else if(similarityChoice.getSelectedIndex() == 3) {
+      message.append("Jaccard coefficient will be used.");
       System.err.println("Jaccard comparator not supported by GUI yet!");
     }
-
+    
+    message.append("</html>");
+    trainingResults.setText(message.toString());
+    
     knn = new KNN(k);
     knn.train(votes);
     
     similarityChoice.setEnabled(false);
     vectorContentsChoice.setEnabled(false);
     distanceChoice.setEnabled(false);
+    kknnSlider.setEnabled(false);
     trainButton.setEnabled(false);
     forgetTrainingButton.setEnabled(true);
+    pickPane.setVisible(false);
     pickPane.setEnabled(false);
     classifyPane.setEnabled(true);
+    classifyPane.setVisible(true);
   }
 
   public void forgetTraining() {
+    votes = null;
+    vectorManager = null;
+    knn = null;
+    
     similarityChoice.setEnabled(true);
     vectorContentsChoice.setEnabled(true);
     distanceChoice.setEnabled(true);
+    kknnSlider.setEnabled(true);
     trainButton.setEnabled(true);
     forgetTrainingButton.setEnabled(false);
     pickPane.setEnabled(true);
+    pickPane.setVisible(true);
+    classifyPane.setVisible(false);
     classifyPane.setEnabled(false);
+    trainingResults.setText(" ");
   }
   
   public static void main(String[] args) {
