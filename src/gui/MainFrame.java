@@ -3,7 +3,11 @@ package gui;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
@@ -22,6 +26,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import knn.Classifiable;
+import knn.KNN;
+
+import text.WordList;
 import utils.DisableablePanel;
 
 import core.DataMaker;
@@ -29,6 +37,9 @@ import core.Engine;
 import core.datamakers.CustomSamples;
 import core.datamakers.ReutersByCountry;
 import core.datamakers.ReutersByTopic;
+import extraction.FuzzyVectorsManager;
+import extraction.TrivialTextVectorsManager;
+import extraction.VectorManager;
 
 public class MainFrame extends JFrame {
 
@@ -42,7 +53,6 @@ public class MainFrame extends JFrame {
   private Engine engine;
   private DisableablePanel parsePane;
   private DisableablePanel pickPane;
-  private DisableablePanel extractionPane;
   private DisableablePanel trainPane;
   private DisableablePanel classifyPane;
   private JButton parseTextsButton;
@@ -56,6 +66,16 @@ public class MainFrame extends JFrame {
   private JButton pickSetsButton;
   private JButton forgetSetsButton;
   private JLabel pickingResults;
+  private DisableablePanel similarityPane;
+  private JComboBox similarityChoice;
+  private DisableablePanel metricPane;
+  private JComboBox vectorContentsChoice;
+  private JComboBox distanceChoice;
+  private JButton trainButton;
+  private JButton forgetTrainingButton;
+  private JSlider kknnSlider;
+  private KNN knn = null;
+  private VectorManager vectorManager = null;
   
   
   public MainFrame() {
@@ -64,7 +84,7 @@ public class MainFrame extends JFrame {
     setLocationRelativeTo(null);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-    setSize(640, 640);
+    setSize(800, 800);
     
     engine = new Engine();
     
@@ -226,25 +246,75 @@ public class MainFrame extends JFrame {
     pickPane.setEnabled(false);
     mainPane.add(pickPane);
     
-    extractionPane = new DisableablePanel();
-    extractionPane.setBorder(BorderFactory.createCompoundBorder(
-        BorderFactory.createTitledBorder("Extract features"),
-        BorderFactory.createEmptyBorder(5,5,5,5)));
-    extractionPane.add(new JLabel("TODO"));
-    extractionPane.setEnabled(false);
-    mainPane.add(extractionPane);
-    
     trainPane = new DisableablePanel();
     trainPane.setBorder(BorderFactory.createCompoundBorder(
-        BorderFactory.createTitledBorder("Train the classifier"),
+        BorderFactory.createTitledBorder("Extraction & training"),
         BorderFactory.createEmptyBorder(5,5,5,5)));
-    trainPane.add(new JLabel("TODO"));
+    similarityPane = new DisableablePanel();
+    similarityPane.add(new JLabel("Similarity measure: "));
+    similarityChoice = new JComboBox(new String[]{"Metric space on R^n", "Keywords based", "N-Gram based", "Jaccard coefficient"});
+    similarityChoice.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent arg0) {
+        if(MainFrame.this.similarityChoice.getSelectedIndex() == 0) {
+          metricPane.setEnabled(true);
+          metricPane.setVisible(true);
+        } else {
+          metricPane.setVisible(false);
+          metricPane.setEnabled(false);
+        }
+      }
+    });
+    similarityPane.add(similarityChoice);
+    trainPane.add(similarityPane);
+    metricPane = new DisableablePanel();
+    metricPane.setLayout(new GridLayout(2,2,5,5));
+    metricPane.add(new JLabel("Vector contents: "));
+    vectorContentsChoice = new JComboBox(new String[]{"All the words (SLOW!)", "Predefined keywords", "Based on fuzzy sets"});
+    metricPane.add(vectorContentsChoice);
+    metricPane.add(new JLabel("Distance function: "));
+    distanceChoice = new JComboBox(new String[]{"Euclidean", "Chebyshev", "Manhattan"});
+    metricPane.add(distanceChoice);
+    trainPane.add(metricPane);
+    
+    DisableablePanel kknnPane = new DisableablePanel();
+    kknnPane.add(new JLabel("``k'' parameter for k-NN: "));
+    kknnSlider = new JSlider(JSlider.HORIZONTAL, 3, 15, 5);
+    kknnSlider.setMajorTickSpacing(4);
+    kknnSlider.setMinorTickSpacing(1);
+    kknnSlider.setPaintTicks(true);
+    kknnSlider.setPaintLabels(true);
+    kknnPane.add(kknnSlider);
+    trainPane.add(kknnPane);
+    DisableablePanel trainButtonsPane = new DisableablePanel();
+    trainButton = new JButton("Perform training");
+    trainButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        try {
+          MainFrame.this.train();
+        } catch (Exception e1) {
+          e1.printStackTrace();
+        }
+      }
+    });
+    trainButtonsPane.add(trainButton);
+    forgetTrainingButton = new JButton("Forget training results");
+    forgetTrainingButton.setEnabled(false);
+    forgetTrainingButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        MainFrame.this.forgetTraining();
+      }
+    });
+    trainButtonsPane.add(forgetTrainingButton);
+    trainPane.add(trainButtonsPane);
     trainPane.setEnabled(false);
     mainPane.add(trainPane);
     
     classifyPane = new DisableablePanel();
     classifyPane.setBorder(BorderFactory.createCompoundBorder(
-        BorderFactory.createTitledBorder("Perform the classification"),
+        BorderFactory.createTitledBorder("Classify the test set"),
         BorderFactory.createEmptyBorder(5,5,5,5)));
     classifyPane.add(new JLabel("TODO"));
     classifyPane.setEnabled(false);
@@ -286,7 +356,7 @@ public class MainFrame extends JFrame {
     pickSetsButton.setEnabled(false);
     forgetSetsButton.setEnabled(true);
     parsePane.setEnabled(false);
-    extractionPane.setEnabled(true);
+    trainPane.setEnabled(true);
   }
   
   protected void forgetSets() {
@@ -299,7 +369,57 @@ public class MainFrame extends JFrame {
     pickSetsButton.setEnabled(true);
     forgetSetsButton.setEnabled(false);
     parsePane.setEnabled(true);
-    extractionPane.setEnabled(false);
+    trainPane.setEnabled(false);
+  }
+  
+  public void train() throws Exception {
+    int k = kknnSlider.getValue();
+    
+    List<Classifiable> votes = new LinkedList<Classifiable>();
+    
+    if(similarityChoice.getSelectedIndex() == 0) { // metric
+      if(vectorContentsChoice.getSelectedIndex() == 0) { // all
+        vectorManager = new TrivialTextVectorsManager(engine.getTrainingSet(), null);
+      } else if(vectorContentsChoice.getSelectedIndex() == 1) { // keywords
+        WordList keywords = new WordList(Arrays.asList(
+            new File("data/wordtypes/exchanges.txt"),
+            new File("data/wordtypes/orgs.txt"),
+            new File("data/wordtypes/people.txt"),
+            new File("data/wordtypes/places.txt"),
+            new File("data/wordtypes/topics.txt")));
+        vectorManager = new TrivialTextVectorsManager(engine.getTrainingSet(), keywords);
+      } else if(vectorContentsChoice.getSelectedIndex() == 2) { // fuzzy
+        engine.createNewFuzzySets(new File("data/fuzzy/countries"), Arrays.asList("exchanges", "orgs", "people", "places", "topics"));
+        vectorManager = new FuzzyVectorsManager(engine.getTrainingSet(), engine.getFuzzySets());
+      }
+    } else if(similarityChoice.getSelectedIndex() == 1) {
+      System.err.println("Keywords based comparator not supported by GUI yet!");
+    } else if(similarityChoice.getSelectedIndex() == 2) {
+      System.err.println("N-grams based comparator not supported by GUI yet!");
+    } else if(similarityChoice.getSelectedIndex() == 3) {
+      System.err.println("Jaccard comparator not supported by GUI yet!");
+    }
+
+    knn = new KNN(k);
+    knn.train(votes);
+    
+    similarityChoice.setEnabled(false);
+    vectorContentsChoice.setEnabled(false);
+    distanceChoice.setEnabled(false);
+    trainButton.setEnabled(false);
+    forgetTrainingButton.setEnabled(true);
+    pickPane.setEnabled(false);
+    classifyPane.setEnabled(true);
+  }
+
+  public void forgetTraining() {
+    similarityChoice.setEnabled(true);
+    vectorContentsChoice.setEnabled(true);
+    distanceChoice.setEnabled(true);
+    trainButton.setEnabled(true);
+    forgetTrainingButton.setEnabled(false);
+    pickPane.setEnabled(true);
+    classifyPane.setEnabled(false);
   }
   
   public static void main(String[] args) {
