@@ -1,7 +1,7 @@
 default_targets=article
 
 article_includes=
-article_figures=
+article_figures=uml.png
 
 presentation_includes=
 presentation_figures=
