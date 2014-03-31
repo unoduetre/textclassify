@@ -1,42 +1,156 @@
-\documentclass[a4paper]{article}
+\documentclass[a4paper]{classrep}
 \usepackage{polski}
 \input{packages-article}
-\title{Komputerowe systemy rozpoznawania}
-\author{Mateusz Grotek 186816 \and Paweł Tarasiuk 186875}
-\date{}
+
+\studycycle{Informatyka, studia dzienne, II st.}
+\coursesemester{II}
+
+\coursename{Komputerowe systemy rozpoznawania}
+\courseyear{2013/2014}
+
+\courseteacher{prof. dr hab. inż. Adam Niewiadomski}
+\coursegroup{poniedziałek, 10:30}
+
+\author{%
+  \studentinfo{Mateusz Grotek}{186816} \and
+  \studentinfo{Paweł Tarasiuk}{186875}
+}
+
+\title{Zadanie 1.: Ekstrakcja cech, miary podobieństwa, klasyfikacja}
+
 \begin{document}
 \maketitle
+\section{Cel}
+Celem niniejszego zadania jest zbadanie różnych metod ekstrakcji cech
+oraz miar podobieństwa dla tekstu i zastosowanie ich w procesie klasyfikacji słabym klasyfikatorem kNN.
+Omówione zostaną metody znane w literaturze oraz nasze własne pomysły,
+a wszystkie te elementy znajdą swoje odzwierciedlenie w przygotowanej
+przez nas implementacji, co umożliwi nam wygenerowanie i ocenę wyników
+działania różnych metod.
+\section{Wprowadzenie}
+Klasyfikator kNN (k nearest neighbours, k najbliższych sąsiadów) to słaby klasyfikator, posiadający jednak istotną zaletę jaką jest prostota implementacji.
+Dlatego jest on szeroko stosowany, gdyż pomimo swojej prostoty daje relatywnie dobre wyniki. Dodatkowo można go użyć w technikach typu AdaBoost,
+które pozwalają z kilku słabych klasyfikatorów stworzyć jeden silny. Jego idea polega na wybraniu takiej kategorii która jest najczęstsza wśród sąsiadów wektora podlegającego klasyfikacji.
+Potencjalni sąsiedzi są dostarczani do klasyfikatora na etapie jego uczenia. Aby wskazać najbliższych sąsiadów należy oczywiście użyć jakiejś miary odległości, czyli metryki.
+Istnieje też odmiana klasyfikatora, którą moglibyśmy określić jako k najbardziej podobnych sąsiadów. W tej odmianie zamiast odległości w zadanej metryce używana jest funkcja podobieństwa.
+Pokazuje to jak szerokie zastosowanie może mieć ten klasyfikator.
+
+W naszym projekcie użyliśmy następujących funkcji podobieństwa:
+\begin{itemize}
+\item miara Jaccarda,
+\item metoda \(n\)-gramów,
+\item autorska metoda bazująca na słowach kluczowych
+\end{itemize}
+Użyte zostały następujące metryki:
+\begin{itemize}
+\item metryka euklidesowa
+\item metryka uliczna
+\item metryka Czebyszewa
+\end{itemize}
+
+Klasyfikacji można dokonywać bezpośrednio na podanych tekstach, jednak takie rozwiązanie charakteryzuje się wysokim kosztem obliczeniowym. Dlatego często lepiej jest
+wyekstrachować ze zbiorów pewne wektory cech, które pozwolą szybko sklasyfikować dane teksty. Wybór wektorów cech zależy od postawionego zadania.
+W naszym projekcie użyliśmy trzech sposobów ekstrakcji cech:
+\begin{itemize}
+\item naiwny sposób bazujący na użyciu wszystkich słów
+\item bazujący na macierzy częstości terminów
+\item autorska matoda bazująca na zbiorach rozmytych
+\end{itemize}
+
+Sama klasyfikacja została wykonana na dwóch zbiorach danych, każdy podzielony na podzbiór uczący i podzbiór testowy, przy czym sposób podziału jest wybierany w aplikacji.
+Można dokonać podziału w sposób losowy (przy zadanych proporcjach), lub w ustalony sposób (60\% początkowych tekstów jako zbiór uczący, reszta to zbiór testowy).
+Pierwszy zbiór danych, to zestaw krótkich wiadomości prasowych firmy Reuters. Drugi zestaw przygotowany przez nas, to teksty znanych pisarzy. Teksty prasowe zostały
+sklasyfikowane na podstawie dwóch kategorii: miejsca którego dotyczą i tematu. Jeśli chodzi o teksty znanych pisarzy, to zostały one sklasyfikowane kategorią, którą są nazwiska pisarzy.
+
+Poniżej omówimy autorskie metody ekstrakcji cech i miarę podobieństwa, których użyliśmy. 
+Główną ideą naszej metody ekstrakcji są słowa kluczowe. Zbiór takich słów należy przygotować dla konkretnego zadania. Może on być wyznaczony ręcznie,
+lub wygenerowany automatycznie na podstawie danych uczących. Zbiór takich słów dzielimy na podzbiory na podstawie ich znaczenia. Można oczywiście używać tylko jednego podzbioru
+w którym są umieszczone wszystkie słowa kluczowe, ale zwiększenie ilości podzbiorów może poprawić klasyfikację, ze względu na zwiększenie wymiarowości przestrzeni. 
+W jednym podzbiorze powinny być słowa oznaczająca podobne obiekty, na przykład nazwy geograficzne. Następnie dla każdej kategorii względem której klasyfikujemy przygotowujemy
+osobny zestaw podzbiorów. Inaczej mówiąc jeżeli kategorią jest ,,kanada'' a jednym w jednym z podzbiorów znajdują się ,,organizacje'', to tworzymy podzbiór ,,kanadyjskie organizacje''.
+Widać, że jest to metoda analogiczna do tego jak ludzie kategoryzują obiekty. Wystarczy następnie zauważyć, że określenie ,,kanadyjskie organizacji'' możemy modelować
+jako pewien zbiór rozmyty. Niektóre organizacje są stricte kanadyjskie, inne tylko częściowo. Na podstawie danych uczących, lub wiedzy eksperckiej jesteśmy w stanie podać
+funkcję przynależności do danego zbioru.
+
+Mając taki zestaw zbiorów możemy wyekstrachować cechy z tekstów zbioru uczącego i na tej podstawie nauczyć klasyfikator. Ekstrakcja przebiega następująco. Wstępnie każdy element wektora
+cech jest liczbą, która jest sumą wartości funkcji przynależności dla każdego słowa, kluczowego z podanego zbioru rozmytego, które wystąpiło w podanym tekście.
+Opisuje to wzór
+\[f_1(T,n)=\sum_{s\in K(n) \cap T} \mu_{K(n)}(s),\]
+przy czym \(T\) to tekst z którego ekstrachujemy cechy, \(n\) to numer składowej wektora cech którą obliczamy, \(K(n)\) to \(n\)-ty zbiór rozmyty, \(\mu(s)\) to funkcja przynależności
+dla zbioru \(K(n)\).
+Następnie wektor taki jest normalizowany do długości równej \(1\).
+Przy obliczaniu funkcji podobieństwa również użyliśmy słów kluczowych. Dla wybranych słów kluczowych liczony jest prosty współczynnik dopasowania (simple matching coefficient).
+%Tworzymy 36 zbiorów rozmytych, po jednym dla każdej kombinacji podzbioru słów kluczowych i klasy.
+%Do każdego zbioru rozmytego dla określonej kategorii i określonej klasy wrzucamy wszystkie słowa kluczowe z tej kategorii i początkowo przypisujemy im \(0{,}0\) jako wartośc
+%funkcji przynależności do zbioru. Następnie przeglądamy zbiór uczący i do każdego elementu elementu przypisujemy stosunek pojawiania się danego słowa kluczowego w danej klasie
+%względem jego pojawiania się we wszystkich klasach. Na przykład, jeżeli słowo pojawiło się w tekstach dotyczących kanady \(x\) razy, a we wszystkich tekstach pojawiło się \(y\) razy,
+%to stosunek wynosi \(x/y\). Stosunek ten mówi jak dobrze słowo pasuje do podanej klasy. Na wejście kNN podajemy wektory uczące zawierające 36 wartości. Wektory te obliczamy dla
+%tekstów uczących jako sumę wartości funkcji przynależności wystąpień każdego słowa podzieloną przez długość danego wektora.
+%
+%Algorytm ten jest rozszerzoną wersją prostszego algorytmu, który po prostu zlicza wystąpienia słów kluczowych w tekście. Dzięki uwzględnieniu rozmytości nie ma problemu ze słowami,
+%które dobrze opisują więcej niż jedną klasę. Na przykład angielskie nazwiska pasują równie dobrze do wielkiej brytanii, jak i usa, więc będą miały mniejszą wagę,
+%niż nazwiska japońskie przy rozpoznawaniu kraju.
+%
+%Dodatkową regułą, którą chcielibyśmy zastosować jest domyślne przypisanie do klasy usa w wypadku, gdy wartości dla innych klas nie przekraczają pewnej wartości. Reguła ta będzie
+%szczególnie użyteczna w wypadku rozróżnienia między usa i uk.
+\section{Opis implementacji}
+Implementacja programu została wykonana w języku Java. 
+
+{\color{blue}
+Należy tu zamieścić krótki i zwięzły opis zaprojektowanych klas oraz powiązań
+między nimi. Powinien się tu również znaleźć diagram UML  (diagram klas)
+prezentujący najistotniejsze elementy stworzonej aplikacji. Należy także
+podać, w jakim języku programowania została stworzona aplikacja. }
+
+\section{Materiały i metody}
+{\color{blue}
+W tym miejscu należy opisać, jak przeprowadzone zostały wszystkie badania,
+których wyniki i dyskusja zamieszczane są w dalszych sekcjach. Opis ten
+powinien być na tyle dokładny, aby osoba czytająca go potrafiła wszystkie
+przeprowadzone badania samodzielnie powtórzyć w celu zweryfikowania ich
+poprawności (a zatem m.in. należy zamieścić tu opis architektury sieci,
+wartości współczynników użytych w kolejnych eksperymentach, sposób
+inicjalizacji wag, metodę uczenia itp. oraz informacje o danych, na których
+prowadzone były badania). Przy opisie należy odwoływać się i stosować do
+opisanych w sekcji drugiej wzorów i oznaczeń, a także w jasny sposób opisać
+cel konkretnego testu. Najlepiej byłoby wyraźnie wyszczególnić (ponumerować)
+poszczególne eksperymenty tak, aby łatwo było się do nich odwoływać dalej.}
+
+\section{Wyniki}
+{\color{blue}
+W tej sekcji należy zaprezentować, dla każdego przeprowadzonego eksperymentu,
+kompletny zestaw wyników w postaci tabel, wykresów itp. Powinny być one tak
+ponazywane, aby było wiadomo, do czego się odnoszą. Wszystkie tabele i wykresy
+należy oczywiście opisać (opisać co jest na osiach, w kolumnach itd.) stosując
+się do przyjętych wcześniej oznaczeń. Nie należy tu komentować i interpretować
+wyników, gdyż miejsce na to jest w kolejnej sekcji. Tu również dobrze jest
+wprowadzić oznaczenia (tabel, wykresów) aby móc się do nich odwoływać
+poniżej.}
+
+\section{Dyskusja}
+{\color{blue}
+Sekcja ta powinna zawierać dokładną interpretację uzyskanych wyników
+eksperymentów wraz ze szczegółowymi wnioskami z nich płynącymi. Najcenniejsze
+są, rzecz jasna, wnioski o charakterze uniwersalnym, które mogą być istotne
+przy innych, podobnych zadaniach. Należy również omówić i wyjaśnić wszystkie
+napotakane problemy (jeśli takie były). Każdy wniosek powinien mieć poparcie
+we wcześniej przeprowadzonych eksperymentach (odwołania do konkretnych
+wyników). Jest to jedna z najważniejszych sekcji tego sprawozdania, gdyż
+prezentuje poziom zrozumienia badanego problemu.}
+\section{Wnioski}
+{\color{blue}W tej, przedostatniej, sekcji należy zamieścić podsumowanie
+najważniejszych wniosków z sekcji poprzedniej. Najlepiej jest je po prostu
+wypunktować. Znów, tak jak poprzednio, najistotniejsze są wnioski o
+charakterze uniwersalnym.}
+
+
+\begin{thebibliography}{0}
+\end{thebibliography}
+{\color{blue} 
+Na końcu należy obowiązkowo podać cytowaną w sprawozdaniu
+literaturę, z której grupa korzystała w trakcie prac nad zadaniem (przykład na
+końcu szablonu)}
+
 \section{Wersja wstępna algorytmu}
-Główną ideą na której chcemy oprzeć naszą klasyfikację są słowa kluczowe. Zbiór słów kluczowych dzielimy na następujące podzbiory:
-\begin{itemize}
-\item nazwy geograficzne
-\item imiona i nazwiska
-\item nazwy walut
-\item nazwy instytucji państwowych
-\item nazwy/skróty nazw firm wraz z typem spółki (jeśli występuje)
-\item produkty powiązane z konkretnymi krajami
-\end{itemize}
-Klasyfkacja ma za zadanie przyporządkować każdy tekst do jednej z poniższych klas:
-\begin{itemize}
-\item west-germany
-\item usa
-\item france
-\item uk
-\item canada
-\item japan
-\end{itemize}
-Tworzymy 36 zbiorów rozmytych, po jednym dla każdej kombinacji podzbioru słów kluczowych i klasy.
-Do każdego zbioru rozmytego dla określonej kategorii i określonej klasy wrzucamy wszystkie słowa kluczowe z tej kategorii i początkowo przypisujemy im \(0{,}0\) jako wartośc
-funkcji przynależności do zbioru. Następnie przeglądamy zbiór uczący i do każdego elementu elementu przypisujemy stosunek pojawiania się danego słowa kluczowego w danej klasie
-względem jego pojawiania się we wszystkich klasach. Na przykład, jeżeli słowo pojawiło się w tekstach dotyczących kanady \(x\) razy, a we wszystkich tekstach pojawiło się \(y\) razy,
-to stosunek wynosi \(x/y\). Stosunek ten mówi jak dobrze słowo pasuje do podanej klasy. Na wejście kNN podajemy wektory uczące zawierające 36 wartości. Wektory te obliczamy dla
-tekstów uczących jako sumę wartości funkcji przynależności wystąpień każdego słowa podzieloną przez długość danego wektora.
-
-Algorytm ten jest rozszerzoną wersją prostszego algorytmu, który po prostu zlicza wystąpienia słów kluczowych w tekście. Dzięki uwzględnieniu rozmytości nie ma problemu ze słowami,
-które dobrze opisują więcej niż jedną klasę. Na przykład angielskie nazwiska pasują równie dobrze do wielkiej brytanii, jak i usa, więc będą miały mniejszą wagę,
-niż nazwiska japońskie przy rozpoznawaniu kraju.
-
-Dodatkową regułą, którą chcielibyśmy zastosować jest domyślne przypisanie do klasy usa w wypadku, gdy wartości dla innych klas nie przekraczają pewnej wartości. Reguła ta będzie
-szczególnie użyteczna w wypadku rozróżnienia między usa i uk.
 %\tableofcontents
 \end{document}
