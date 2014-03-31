@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2009.4.7)  31 MAR 2014 09:35
+This is pdfTeX, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2009.4.7)  31 MAR 2014 09:46
 entering extended mode
 **article.tex
 (./article.tex
@@ -564,7 +564,7 @@ File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 File: uni-0.def 2004/10/17 UCS: Unicode data U+0000..U+00FF
 ) [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] <uml.pdf, id=56, 674.5
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] <uml.pdf, id=52, 674.5
 2pt x 481.8pt>
 File: uml.pdf Graphic file (type pdf)
  <use uml.pdf>
@@ -572,34 +572,32 @@ File: uml.pdf Graphic file (type pdf)
 has been already used, duplicate ignored
 <to be read again> 
                    \endgroup \set@typeset@protect 
-l.119 
-       <./uml.pdf>]
-
-LaTeX Warning: Empty `thebibliography' environment on input line 149.
-
-[4] (./article.aux) ) 
+l.116 W
+        tej sekcji należy zaprezentować, dla każdego przeprowadzonego eks...
+ <./uml.pdf>] [4] (./article.aux) ) 
 Here is how much of TeX's memory you used:
- 8781 strings out of 94086
- 115531 string characters out of 1167701
- 180629 words of memory out of 3500000
- 11844 multiletter control sequences out of 10000+50000
- 15265 words of font info for 43 fonts, out of 1200000 for 2000
+ 8783 strings out of 94086
+ 115545 string characters out of 1167701
+ 180632 words of memory out of 3500000
+ 11845 multiletter control sequences out of 10000+50000
+ 15954 words of font info for 44 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
  39i,8n,34p,384b,501s stack positions out of 5000i,500n,6000p,200000b,5000s
-{/usr/share/texmf/fonts/enc/dvips/pl/plms.enc}{/usr/share/
-texmf/fonts/enc/dvips/pl/plmi.enc}{/usr/share/texmf/fonts/enc/dvips/pl/plme.enc
-}{/usr/share/texmf/fonts/enc/dvips/pl/plrm.enc}{/usr/share/texmf/fonts/enc/dvip
-s/cm-super/cm-super-t1.enc}</usr/share/texmf/fonts/type1/public/pl/plex10.pfb><
-/usr/share/texmf/fonts/type1/public/pl/plmi12.pfb></usr/share/texmf/fonts/type1
-/public/pl/plmi8.pfb></usr/share/texmf/fonts/type1/public/pl/plr12.pfb></usr/sh
-are/texmf/fonts/type1/public/pl/plr8.pfb></usr/share/texmf/fonts/type1/public/p
-l/plsy8.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/sh
-are/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type
-1/public/cm-super/sfrm1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sf
-rm2074.pfb>
-Output written on article.pdf (4 pages, 310495 bytes).
+{/usr/share/texmf/fonts/enc/dvips/cm-super/c
+m-super-t1.enc}{/usr/share/texmf/fonts/enc/dvips/pl/plms.enc}{/usr/share/texmf/
+fonts/enc/dvips/pl/plmi.enc}{/usr/share/texmf/fonts/enc/dvips/pl/plme.enc}{/usr
+/share/texmf/fonts/enc/dvips/pl/plrm.enc}</usr/share/texmf/fonts/type1/public/p
+l/plex10.pfb></usr/share/texmf/fonts/type1/public/pl/plmi12.pfb></usr/share/tex
+mf/fonts/type1/public/pl/plmi8.pfb></usr/share/texmf/fonts/type1/public/pl/plr1
+2.pfb></usr/share/texmf/fonts/type1/public/pl/plr8.pfb></usr/share/texmf/fonts/
+type1/public/pl/plsy8.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx144
+0.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/te
+xmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/publ
+ic/cm-super/sfrm1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm2074
+.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1095.pfb>
+Output written on article.pdf (4 pages, 355933 bytes).
 PDF statistics:
- 118 PDF objects out of 1000 (max. 8388607)
+ 123 PDF objects out of 1000 (max. 8388607)
  14 named destinations out of 1000 (max. 131072)
- 94 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 86 words of extra memory for PDF output out of 10000 (max. 10000000)
 
