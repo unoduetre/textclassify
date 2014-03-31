@@ -6,7 +6,7 @@ import knn.KNNComparator;
 import knn.Classifiable;
 import text.Text;
 
-public class NGramComparator implements KNNComparator
+public class NGramKNNComparator implements KNNComparator
 {
   private Text reference = null;
 
@@ -39,7 +39,7 @@ public class NGramComparator implements KNNComparator
     }
   }
 
-  private Double calculateNGramSimilarityForStrings(Integer n, Set<String> words1, Set<String> words2)
+  public Double calculateNGramSimilarityForStrings(Integer n, Set<String> words1, Set<String> words2)
   {
     Double sum = 0.0;
     for(String word1 : words1)
@@ -56,7 +56,7 @@ public class NGramComparator implements KNNComparator
     return sum / words1.size();
   }
 
-  private Double calculateNGramSimilarityForWords(Integer n, String word1, String word2)
+  public Double calculateNGramSimilarityForWords(Integer n, String word1, String word2)
   {
     if(word1.length() < n || word2.length() < n)
     {

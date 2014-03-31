@@ -38,7 +38,7 @@ import categories.StringCategory;
 import comparators.JaccardKNNComparator;
 import comparators.KeywordsKNNComparator;
 import comparators.MetricKNNComparator;
-import comparators.NGramComparator;
+import comparators.NGramKNNComparator;
 
 import metrics.ChebyshevMetric;
 import metrics.EuclidMetric;
@@ -554,7 +554,7 @@ public class MainFrame extends JFrame {
         objects.add(object);
         answers.add(text.getCategory());
       }
-      comparator = new NGramComparator();
+      comparator = new NGramKNNComparator();
     } else if(similarityChoice.getSelectedIndex() == 3) {
       message.append("Jaccard coefficient will be used.");
       votes = new ArrayList<Classifiable>();
