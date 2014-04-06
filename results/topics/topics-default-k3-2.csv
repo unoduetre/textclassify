@@ -1,0 +1,3 @@
+Category,Elements in category,Sensitivity (TPR),Elements classified as category,Precision (PPV)
+grain,225,93.77777777777777%,213,99.06103286384976%
+interest,175,98.85714285714286%,187,92.51336898395722%

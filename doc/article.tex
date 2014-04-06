@@ -1,6 +1,7 @@
 \documentclass[a4paper]{classrep}
 \usepackage{polski}
 \input{packages-article}
+\usepackage{multirow}
 
 \studycycle{Informatyka, studia dzienne, II st.}
 \coursesemester{II}
@@ -94,9 +95,43 @@ Przy obliczaniu funkcji podobieństwa również użyliśmy słów kluczowych. Dl
 %Dodatkową regułą, którą chcielibyśmy zastosować jest domyślne przypisanie do klasy usa w wypadku, gdy wartości dla innych klas nie przekraczają pewnej wartości. Reguła ta będzie
 %szczególnie użyteczna w wypadku rozróżnienia między usa i uk.
 \section{Opis implementacji}
+%{\color{blue}
+%Należy tu zamieścić krótki i zwięzły opis zaprojektowanych klas oraz powiązań
+%między nimi. Powinien się tu również znaleźć diagram UML  (diagram klas)
+%prezentujący najistotniejsze elementy stworzonej aplikacji. Należy także
+%podać, w jakim języku programowania została stworzona aplikacja. }
 Implementacja programu została wykonana w języku Java. Poniżej prezentujemy orientacyjny wycinek diagramu klas naszego programu.
 \obraz{uml}{uml}{Wycinek uproszczonego diagramu klas aplikacji}
 \section{Materiały i metody}
+%{\color{blue}
+%W tym miejscu należy opisać, jak przeprowadzone zostały wszystkie badania,
+%których wyniki i dyskusja zamieszczane są w dalszych sekcjach. Opis ten
+%powinien być na tyle dokładny, aby osoba czytająca go potrafiła wszystkie
+%przeprowadzone badania samodzielnie powtórzyć w celu zweryfikowania ich
+%poprawności (a zatem m.in. należy zamieścić tu opis architektury sieci,
+%wartości współczynników użytych w kolejnych eksperymentach, sposób
+%inicjalizacji wag, metodę uczenia itp. oraz informacje o danych, na których
+%prowadzone były badania). Przy opisie należy odwoływać się i stosować do
+%opisanych w sekcji drugiej wzorów i oznaczeń, a także w jasny sposób opisać
+%cel konkretnego testu. Najlepiej byłoby wyraźnie wyszczególnić (ponumerować)
+%poszczególne eksperymenty tak, aby łatwo było się do nich odwoływać dalej.}
+
+Przygotowane rozwiązanie zawiera w sobie także interfejs graficzny wykonany
+przy wykorzystaniu biblioteki Swing. Wybór ten został podyktowany tym, że
+biblioteka ta jest domyślnie obecna w środowisku uruchomieniowym Javy,
+dzięki czemu nasz projekt nie ma żadnych dodatkowych zewnętrznych zależności.
+Interfejs pozwala wybrać przetwarzany zestaw danych, dopasować parametry
+wskazywania zbioru uczącego i testowego oraz daje dostęp do wszystkich
+dostępnych w projekcie metod i parametrów ekstrakcji cech, porównywania próbek
+i klasyfikacji. Po ustaleniu wszystkich właściwości zadanego problemu
+program wyświetla uogólnioną informację o tym, jaka część próbek została sklasyfikowana
+poprawnie oraz pozwala zapisać szczegółowe wyniki w plikach csv. Dostępne są
+trzy tryby generowania szczegółowych wyników:
+\begin{itemize}
+\item Raport z poszczególnych próbek ze zbioru testowego (do jakiej kategorii powinny należeć, a do jakiej zostały zaklasyfikowane)
+\item Statystyki TPR (jaka część próbek które powinny do niej należeć faktycznie do niej trafiła) i PPV (jaka część próbek zaklasyfikowanych do danej kategorii faktycznie do niej należy) opisujące każdą z kategorii
+\item Macierz, w której dla każdej pary właściwa kategoria/kategoria wskazana przez klasyfikator przechowywane są liczby przypadków w których tak się stało
+\end{itemize}
 
 {\color{blue}
 W tym miejscu należy opisać, jak przeprowadzone zostały wszystkie badania,
@@ -121,6 +156,8 @@ się do przyjętych wcześniej oznaczeń. Nie należy tu komentować i interpret
 wyników, gdyż miejsce na to jest w kolejnej sekcji. Tu również dobrze jest
 wprowadzić oznaczenia (tabel, wykresów) aby móc się do nich odwoływać
 poniżej.}
+
+\include{results}
 
 \section{Dyskusja}
 Powyższe wyniki wskazują, że zwiększając parametr \(k\) klasyfikatora w podanych granicach polepsza się jakość klasyfikacji. Najlepsza dla zbioru notatek prasowych 

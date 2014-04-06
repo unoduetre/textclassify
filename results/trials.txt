@@ -1,0 +1,67 @@
+# name                                                  size    rand    overl   simil           data            metric          k
+
+# Countries -- tests related with complete data -- fuzzy sets only
+countries-metric-keywords-euclidean                     1.0     no      no      metric          keywords        euclidean       5
+countries-metric-fuzzy-euclidean                        1.0     no      no      metric          fuzzy           euclidean       5
+countries-metric-fuzzy-chebyshev                        1.0     no      no      metric          fuzzy           chebyshev       5
+countries-metric-fuzzy-taxicab                          1.0     no      no      metric          fuzzy           taxicab         5
+countries-metric-fuzzy-euclidean-k3-                    1.0     no      no      metric          fuzzy           euclidean       3
+countries-metric-fuzzy-euclidean-k11-                   1.0     no      no      metric          fuzzy           euclidean       11
+countries-metric-fuzzy-halfdatanorandom-                0.5     yes     no      metric          fuzzy           euclidean       5
+countries-metric-fuzzy-1data-random-nooverlap-          1.0     yes     no      metric          fuzzy           euclidean       5
+countries-metric-fuzzy-1data-random-overlap-            1.0     yes     yes     metric          fuzzy           euclidean       5
+countries-metric-fuzzy-1.5data-random-overlap-          1.5     yes     yes     metric          fuzzy           euclidean       5
+
+# Countries -- 1/2 data -- all words (3h) VS fuzzy sets (few mins)
+countries-0.5data-default                               0.5     no      no      metric          allwords        euclidean       5
+countries-0.5data-metric-keywords-euclidean             0.5     no      no      metric          keywords        euclidean       5
+countries-0.5data-fuzzy-euclidean                       0.5     no      no      metric          fuzzy           euclidean       5
+countries-0.5data-jaccard                               0.5     no      no      jaccard         na              na              5
+
+# Countries -- 1/4 data -- all words (40 mins) VS fuzzy sets (few mins)
+countries-0.25data-default                              0.25     no      no      metric          allwords        euclidean       5
+countries-0.25data-metric-keywords-euclidean            0.25     no      no      metric          keywords        euclidean       5
+countries-0.25data-fuzzy-euclidean                      0.25     no      no      metric          fuzzy           euclidean       5
+countries-0.25data-jaccard                              0.25     no      no      jaccard         na              na              5
+countries-0.25data-keywords                             0.25     no      no      keywords        na              na              5
+
+# Countires -- 1/10 data -- almost full tests (all methods used)
+countries-0.1data-default                               0.1     no      no      metric          allwords        euclidean       5
+countries-0.1data-metric-allwords-chebyshev             0.1     no      no      metric          allwords        chebyshev       5
+countries-0.1data-metric-allwords-taxicab               0.1     no      no      metric          allwords        taxicab         5
+countries-0.1data-default-k3-                           0.1     no      no      metric          allwords        euclidean       3
+countries-0.1data-default-k11-                          0.1     no      no      metric          allwords        euclidean       11
+countries-0.1data-metric-keywords-euclidean             0.1     no      no      metric          keywords        euclidean       5
+countries-0.1data-fuzzy-euclidean                       0.1     no      no      metric          fuzzy           euclidean       5
+countries-0.1data-jaccard                               0.1     no      no      jaccard         na              na              5
+countries-0.1data-keywords                              0.1     no      no      keywords        na              na              5
+countries-0.1data-ngram                                 0.1     no      no      fuzzy           na              na              5
+
+# Topics -- full tests
+topics-default                                          1.0     no      no      metric          allwords        euclidean       5
+topics-metric-allwords-chebyshev                        1.0     no      no      metric          allwords        chebyshev       5
+topics-metric-allwords-taxicab                          1.0     no      no      metric          allwords        taxicab         5
+topics-default-k3-                                      1.0     no      no      metric          allwords        euclidean       3
+topics-default-k11-                                     1.0     no      no      metric          allwords        euclidean       11
+topics-default-halfdatanorandom-                        0.5     yes     no      metric          allwords        euclidean       5
+topics-default-1data-random-nooverlap-                  1.0     yes     no      metric          allwords        euclidean       5
+topics-default-1data-random-overlap-                    1.0     yes     yes     metric          allwords        euclidean       5
+topics-default-1.5data-random-overlap-                  1.5     yes     yes     metric          allwords        euclidean       5
+topics-metric-keywords-euclidean                        1.0     no      no      metric          keywords        euclidean       5
+topics-metric-fuzzy-euclidean                           1.0     no      no      metric          fuzzy           euclidean       5
+topics-jaccard                                          1.0     no      no      jaccard         na              na              5
+topics-keywords                                         1.0     no      no      keywords        na              na              5
+topics-ngram                                            1.0     no      no      fuzzy           na              na              5
+
+# Shakespeare vs Byron -- full tests
+
+sb-default                                              1.0     no      no      metric          allwords        euclidean       5
+sb-metric-allwords-chebyshev                            1.0     no      no      metric          allwords        chebyshev       5
+sb-metric-allwords-taxicab                              1.0     no      no      metric          allwords        taxicab         5
+sb-default-k3-                                          1.0     no      no      metric          allwords        euclidean       3
+sb-default-k11-                                         1.0     no      no      metric          allwords        euclidean       11
+sb-metric-keywords-euclidean                            1.0     no      no      metric          keywords        euclidean       5
+sb-metric-fuzzy-euclidean                               1.0     no      no      metric          fuzzy           euclidean       5
+sb-jaccard                                              1.0     no      no      jaccard         na              na              5
+sb-keywords                                             1.0     no      no      keywords        na              na              5
+sb-ngram                                                1.0     no      no      ngram           na              na              5

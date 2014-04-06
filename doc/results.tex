@@ -1,0 +1,406 @@
+{
+
+\makeatletter
+\newcommand\nobreakcline[1]{\@nobreakcline#1\@nil}%
+\def\@nobreakcline#1-#2\@nil{%
+  \omit
+  \@multicnt#1%
+  \advance\@multispan\m@ne
+  \ifnum\@multicnt=\@ne\@firstofone{&\omit}\fi
+  \@multicnt#2%
+  \advance\@multicnt-#1%
+  \advance\@multispan\@ne
+  \leaders\hrule\@height\arrayrulewidth\hfill\\*
+  \noalign{\vskip-\arrayrulewidth}}
+\makeatother
+
+\begingroup
+\setlength{\LTleft}{-20cm plus -1fill}
+\setlength{\LTright}{\LTleft}
+\ltabela{Wyniki przeprowadzonych prób}{|c|c|c|c|c|c|c|c|}{ \hline
+\textbf{\#} & \textbf{Zestaw} & \textbf{Zb. tr./ucz.} & \textbf{Podobieństwo} & $\mathbf{k}$ & \textbf{Kategoria} & \textbf{TPR} & \textbf{PPV} \\
+\hline
+\endhead
+\multirow{7}{*}{1} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$40\%$/$60\%$} & \multirow{7}{*}{$R^n$, wybr. sł., $d_e$} & \multirow{7}{*}{5} & canada & $28,39\%$ & $72,00\%$ \\*
+ & & & & & france & $56,18\%$ & $75,76\%$ \\*
+ & & & & & japan & $65,09\%$ & $82,63\%$ \\*
+ & & & & & uk & $65,69\%$ & $84,81\%$ \\*
+ & & & & & usa & $97,71\%$ & $89,71\%$ \\*
+ & & & & & west-germany & $41,04\%$ & $70,51\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{88,41\%}$} \\
+\hline
+\multirow{7}{*}{2} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$40\%$/$60\%$} & \multirow{7}{*}{$R^n$, zb. rozm., $d_e$} & \multirow{7}{*}{5} & canada & $28,08\%$ & $72,36\%$ \\*
+ & & & & & france & $60,67\%$ & $68,35\%$ \\*
+ & & & & & japan & $74,53\%$ & $82,29\%$ \\*
+ & & & & & uk & $68,63\%$ & $80,15\%$ \\*
+ & & & & & usa & $97,62\%$ & $90,59\%$ \\*
+ & & & & & west-germany & $38,81\%$ & $77,61\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{88,88\%}$} \\
+\hline
+\multirow{7}{*}{3} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$40\%$/$60\%$} & \multirow{7}{*}{$R^n$, zb. rozm., $d_\infty$} & \multirow{7}{*}{5} & canada & $29,34\%$ & $72,09\%$ \\*
+ & & & & & france & $66,29\%$ & $68,60\%$ \\*
+ & & & & & japan & $75,94\%$ & $83,85\%$ \\*
+ & & & & & uk & $66,99\%$ & $79,77\%$ \\*
+ & & & & & usa & $97,52\%$ & $90,82\%$ \\*
+ & & & & & west-germany & $41,79\%$ & $74,67\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{89,01\%}$} \\
+\hline
+\multirow{7}{*}{4} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$40\%$/$60\%$} & \multirow{7}{*}{$R^n$, zb. rozm., $d_1$} & \multirow{7}{*}{5} & canada & $28,08\%$ & $72,36\%$ \\*
+ & & & & & france & $53,93\%$ & $72,73\%$ \\*
+ & & & & & japan & $70,75\%$ & $82,87\%$ \\*
+ & & & & & uk & $65,69\%$ & $83,06\%$ \\*
+ & & & & & usa & $97,89\%$ & $90,00\%$ \\*
+ & & & & & west-germany & $38,81\%$ & $77,61\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{88,67\%}$} \\
+\hline
+\multirow{7}{*}{5} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$40\%$/$60\%$} & \multirow{7}{*}{$R^n$, zb. rozm., $d_e$} & \multirow{7}{*}{3} & canada & $31,55\%$ & $38,76\%$ \\*
+ & & & & & france & $58,43\%$ & $57,78\%$ \\*
+ & & & & & japan & $72,17\%$ & $80,95\%$ \\*
+ & & & & & uk & $65,36\%$ & $80,32\%$ \\*
+ & & & & & usa & $94,49\%$ & $90,55\%$ \\*
+ & & & & & west-germany & $43,28\%$ & $69,05\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{86,37\%}$} \\
+\hline
+\multirow{7}{*}{6} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$40\%$/$60\%$} & \multirow{7}{*}{$R^n$, zb. rozm., $d_e$} & \multirow{7}{*}{11} & canada & $26,50\%$ & $75,68\%$ \\*
+ & & & & & france & $53,93\%$ & $71,64\%$ \\*
+ & & & & & japan & $73,58\%$ & $80,41\%$ \\*
+ & & & & & uk & $65,69\%$ & $83,40\%$ \\*
+ & & & & & usa & $97,85\%$ & $89,90\%$ \\*
+ & & & & & west-germany & $35,82\%$ & $76,19\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{88,58\%}$} \\
+\hline
+\multirow{7}{*}{7} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$20\%$/$30\%$, losowanie} & \multirow{7}{*}{$R^n$, zb. rozm., $d_e$} & \multirow{7}{*}{5} & canada & $34,87\%$ & $73,61\%$ \\*
+ & & & & & france & $50,00\%$ & $48,39\%$ \\*
+ & & & & & japan & $65,66\%$ & $80,25\%$ \\*
+ & & & & & uk & $60,71\%$ & $78,16\%$ \\*
+ & & & & & usa & $97,46\%$ & $91,04\%$ \\*
+ & & & & & west-germany & $18,52\%$ & $55,56\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{89,10\%}$} \\
+\hline
+\multirow{7}{*}{8} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$40\%$/$60\%$, losowanie} & \multirow{7}{*}{$R^n$, zb. rozm., $d_e$} & \multirow{7}{*}{5} & canada & $29,57\%$ & $72,04\%$ \\*
+ & & & & & france & $60,14\%$ & $70,34\%$ \\*
+ & & & & & japan & $67,97\%$ & $83,77\%$ \\*
+ & & & & & uk & $70,43\%$ & $83,26\%$ \\*
+ & & & & & usa & $97,19\%$ & $89,39\%$ \\*
+ & & & & & west-germany & $34,36\%$ & $67,00\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{87,86\%}$} \\
+\hline
+\multirow{7}{*}{9} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$40\%$/$60\%$, losowanie, zachodzenie} & \multirow{7}{*}{$R^n$, zb. rozm., $d_e$} & \multirow{7}{*}{5} & canada & $32,07\%$ & $69,70\%$ \\*
+ & & & & & france & $66,01\%$ & $78,91\%$ \\*
+ & & & & & japan & $75,09\%$ & $83,14\%$ \\*
+ & & & & & uk & $74,32\%$ & $85,36\%$ \\*
+ & & & & & usa & $97,32\%$ & $90,75\%$ \\*
+ & & & & & west-germany & $52,26\%$ & $78,20\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{89,19\%}$} \\
+\hline
+\multirow{7}{*}{10} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$60\%$/$90\%$, losowanie, zachodzenie} & \multirow{7}{*}{$R^n$, zb. rozm., $d_e$} & \multirow{7}{*}{5} & canada & $33,99\%$ & $78,25\%$ \\*
+ & & & & & france & $71,24\%$ & $82,56\%$ \\*
+ & & & & & japan & $79,19\%$ & $88,50\%$ \\*
+ & & & & & uk & $74,33\%$ & $87,91\%$ \\*
+ & & & & & usa & $98,20\%$ & $91,22\%$ \\*
+ & & & & & west-germany & $45,67\%$ & $82,53\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{90,35\%}$} \\
+\hline
+\multirow{7}{*}{11} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$20\%$/$30\%$} & \multirow{7}{*}{$R^n$, wszystko, $d_e$} & \multirow{7}{*}{5} & canada & $5,26\%$ & $16,33\%$ \\*
+ & & & & & france & $36,67\%$ & $40,74\%$ \\*
+ & & & & & japan & $39,39\%$ & $58,21\%$ \\*
+ & & & & & uk & $61,61\%$ & $51,49\%$ \\*
+ & & & & & usa & $95,94\%$ & $89,44\%$ \\*
+ & & & & & west-germany & $12,96\%$ & $100,00\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{84,98\%}$} \\
+\hline
+\multirow{7}{*}{12} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$20\%$/$30\%$} & \multirow{7}{*}{$R^n$, wybr. sł., $d_e$} & \multirow{7}{*}{5} & canada & $32,89\%$ & $83,33\%$ \\*
+ & & & & & france & $40,00\%$ & $50,00\%$ \\*
+ & & & & & japan & $52,53\%$ & $75,36\%$ \\*
+ & & & & & uk & $53,57\%$ & $69,77\%$ \\*
+ & & & & & usa & $97,59\%$ & $90,38\%$ \\*
+ & & & & & west-germany & $22,22\%$ & $41,38\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{88,29\%}$} \\
+\hline
+\multirow{7}{*}{13} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$20\%$/$30\%$} & \multirow{7}{*}{$R^n$, zb. rozm., $d_e$} & \multirow{7}{*}{5} & canada & $35,53\%$ & $72,97\%$ \\*
+ & & & & & france & $50,00\%$ & $48,39\%$ \\*
+ & & & & & japan & $64,65\%$ & $80,00\%$ \\*
+ & & & & & uk & $60,71\%$ & $78,16\%$ \\*
+ & & & & & usa & $97,32\%$ & $91,14\%$ \\*
+ & & & & & west-germany & $24,07\%$ & $56,52\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{89,10\%}$} \\
+\hline
+\multirow{7}{*}{14} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$20\%$/$30\%$} & \multirow{7}{*}{Jaccard} & \multirow{7}{*}{5} & canada & $17,11\%$ & $50,00\%$ \\*
+ & & & & & france & $40,00\%$ & $60,00\%$ \\*
+ & & & & & japan & $54,55\%$ & $71,05\%$ \\*
+ & & & & & uk & $67,86\%$ & $78,35\%$ \\*
+ & & & & & usa & $98,39\%$ & $90,74\%$ \\*
+ & & & & & west-germany & $20,37\%$ & $84,62\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{88,69\%}$} \\
+\hline
+\multirow{7}{*}{15} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$10\%$/$15\%$} & \multirow{7}{*}{$R^n$, wszystko, $d_e$} & \multirow{7}{*}{5} & canada & $3,28\%$ & $4,88\%$ \\*
+ & & & & & france & $12,50\%$ & $9,09\%$ \\*
+ & & & & & japan & $11,76\%$ & $80,00\%$ \\*
+ & & & & & uk & $43,75\%$ & $26,92\%$ \\*
+ & & & & & usa & $95,69\%$ & $91,58\%$ \\*
+ & & & & & west-germany & $0,00\%$ & $0,00\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{85,65\%}$} \\
+\hline
+\multirow{7}{*}{16} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$10\%$/$15\%$} & \multirow{7}{*}{$R^n$, wybr. sł., $d_e$} & \multirow{7}{*}{5} & canada & $31,15\%$ & $90,48\%$ \\*
+ & & & & & france & $25,00\%$ & $25,00\%$ \\*
+ & & & & & japan & $52,94\%$ & $94,74\%$ \\*
+ & & & & & uk & $34,38\%$ & $68,75\%$ \\*
+ & & & & & usa & $98,56\%$ & $92,09\%$ \\*
+ & & & & & west-germany & $21,43\%$ & $37,50\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{90,78\%}$} \\
+\hline
+\multirow{7}{*}{17} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$10\%$/$15\%$} & \multirow{7}{*}{$R^n$, zb. rozm., $d_e$} & \multirow{7}{*}{5} & canada & $29,51\%$ & $90,00\%$ \\*
+ & & & & & france & $50,00\%$ & $57,14\%$ \\*
+ & & & & & japan & $61,76\%$ & $84,00\%$ \\*
+ & & & & & uk & $40,62\%$ & $72,22\%$ \\*
+ & & & & & usa & $98,82\%$ & $92,33\%$ \\*
+ & & & & & west-germany & $25,00\%$ & $70,00\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{91,52\%}$} \\
+\hline
+\multirow{7}{*}{18} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$10\%$/$15\%$} & \multirow{7}{*}{Jaccard} & \multirow{7}{*}{5} & canada & $16,39\%$ & $43,48\%$ \\*
+ & & & & & france & $12,50\%$ & $33,33\%$ \\*
+ & & & & & japan & $32,35\%$ & $91,67\%$ \\*
+ & & & & & uk & $46,88\%$ & $55,56\%$ \\*
+ & & & & & usa & $98,56\%$ & $91,23\%$ \\*
+ & & & & & west-germany & $3,57\%$ & $33,33\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{89,44\%}$} \\
+\hline
+\multirow{7}{*}{19} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$10\%$/$15\%$} & \multirow{7}{*}{Wg. sł. kluczowych} & \multirow{7}{*}{5} & canada & $19,67\%$ & $92,31\%$ \\*
+ & & & & & france & $0,00\%$ & $0,00\%$ \\*
+ & & & & & japan & $41,18\%$ & $93,33\%$ \\*
+ & & & & & uk & $31,25\%$ & $55,56\%$ \\*
+ & & & & & usa & $99,24\%$ & $90,93\%$ \\*
+ & & & & & west-germany & $10,71\%$ & $42,86\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{90,11\%}$} \\
+\hline
+\multirow{7}{*}{20} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$/$6\%$} & \multirow{7}{*}{$R^n$, wszystko, $d_e$} & \multirow{7}{*}{5} & canada & $0,00\%$ & $0,00\%$ \\*
+ & & & & & france & $0,00\%$ & $0,00\%$ \\*
+ & & & & & japan & $30,00\%$ & $50,00\%$ \\*
+ & & & & & uk & $20,00\%$ & $33,33\%$ \\*
+ & & & & & usa & $95,48\%$ & $92,26\%$ \\*
+ & & & & & west-germany & $0,00\%$ & $0,00\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{87,36\%}$} \\
+\hline
+\multirow{7}{*}{21} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$/$6\%$} & \multirow{7}{*}{$R^n$, wszystko, $d_\infty$} & \multirow{7}{*}{5} & canada & $5,00\%$ & $5,88\%$ \\*
+ & & & & & france & $0,00\%$ & $0,00\%$ \\*
+ & & & & & japan & $40,00\%$ & $50,00\%$ \\*
+ & & & & & uk & $10,00\%$ & $11,11\%$ \\*
+ & & & & & usa & $94,25\%$ & $91,62\%$ \\*
+ & & & & & west-germany & $0,00\%$ & $0,00\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{86,43\%}$} \\
+\hline
+\multirow{7}{*}{22} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$/$6\%$} & \multirow{7}{*}{$R^n$, wszystko, $d_1$} & \multirow{7}{*}{5} & canada & $0,00\%$ & $0,00\%$ \\*
+ & & & & & france & $0,00\%$ & $0,00\%$ \\*
+ & & & & & japan & $0,00\%$ & $0,00\%$ \\*
+ & & & & & uk & $40,00\%$ & $11,76\%$ \\*
+ & & & & & usa & $94,87\%$ & $92,77\%$ \\*
+ & & & & & west-germany & $0,00\%$ & $0,00\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{86,62\%}$} \\
+\hline
+\multirow{7}{*}{23} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$/$6\%$} & \multirow{7}{*}{$R^n$, wszystko, $d_e$} & \multirow{7}{*}{3} & canada & $15,00\%$ & $8,57\%$ \\*
+ & & & & & france & $0,00\%$ & $0,00\%$ \\*
+ & & & & & japan & $30,00\%$ & $60,00\%$ \\*
+ & & & & & uk & $20,00\%$ & $33,33\%$ \\*
+ & & & & & usa & $92,20\%$ & $93,74\%$ \\*
+ & & & & & west-germany & $0,00\%$ & $0,00\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{84,94\%}$} \\
+\hline
+\multirow{7}{*}{24} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$/$6\%$} & \multirow{7}{*}{$R^n$, wszystko, $d_e$} & \multirow{7}{*}{11} & canada & $0,00\%$ & $0,00\%$ \\*
+ & & & & & france & $0,00\%$ & $0,00\%$ \\*
+ & & & & & japan & $30,00\%$ & $60,00\%$ \\*
+ & & & & & uk & $10,00\%$ & $33,33\%$ \\*
+ & & & & & usa & $99,59\%$ & $91,68\%$ \\*
+ & & & & & west-germany & $0,00\%$ & $0,00\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{90,89\%}$} \\
+\hline
+\multirow{7}{*}{25} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$/$6\%$} & \multirow{7}{*}{$R^n$, wybr. sł., $d_e$} & \multirow{7}{*}{5} & canada & $15,00\%$ & $100,00\%$ \\*
+ & & & & & france & $33,33\%$ & $50,00\%$ \\*
+ & & & & & japan & $40,00\%$ & $66,67\%$ \\*
+ & & & & & uk & $20,00\%$ & $33,33\%$ \\*
+ & & & & & usa & $98,97\%$ & $92,51\%$ \\*
+ & & & & & west-germany & $0,00\%$ & $0,00\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{91,45\%}$} \\
+\hline
+\multirow{7}{*}{26} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$/$6\%$} & \multirow{7}{*}{$R^n$, zb. rozm., $d_e$} & \multirow{7}{*}{5} & canada & $25,00\%$ & $83,33\%$ \\*
+ & & & & & france & $66,67\%$ & $66,67\%$ \\*
+ & & & & & japan & $70,00\%$ & $100,00\%$ \\*
+ & & & & & uk & $30,00\%$ & $60,00\%$ \\*
+ & & & & & usa & $99,38\%$ & $93,80\%$ \\*
+ & & & & & west-germany & $0,00\%$ & $0,00\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{93,12\%}$} \\
+\hline
+\multirow{7}{*}{27} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$/$6\%$} & \multirow{7}{*}{Jaccard} & \multirow{7}{*}{5} & canada & $5,00\%$ & $8,33\%$ \\*
+ & & & & & france & $100,00\%$ & $100,00\%$ \\*
+ & & & & & japan & $30,00\%$ & $50,00\%$ \\*
+ & & & & & uk & $40,00\%$ & $44,44\%$ \\*
+ & & & & & usa & $96,71\%$ & $92,72\%$ \\*
+ & & & & & west-germany & $0,00\%$ & $0,00\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{89,59\%}$} \\
+\hline
+\multirow{7}{*}{28} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$/$6\%$} & \multirow{7}{*}{Wg. sł. kluczowych} & \multirow{7}{*}{5} & canada & $5,00\%$ & $50,00\%$ \\*
+ & & & & & france & $0,00\%$ & $0,00\%$ \\*
+ & & & & & japan & $10,00\%$ & $100,00\%$ \\*
+ & & & & & uk & $20,00\%$ & $100,00\%$ \\*
+ & & & & & usa & $99,79\%$ & $91,18\%$ \\*
+ & & & & & west-germany & $0,00\%$ & $0,00\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{91,08\%}$} \\
+\hline
+\multirow{7}{*}{29} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$/$6\%$} & \multirow{7}{*}{fuzzy} & \multirow{7}{*}{5} & canada & $0,00\%$ & $0,00\%$ \\*
+ & & & & & france & $0,00\%$ & $0,00\%$ \\*
+ & & & & & japan & $0,00\%$ & $0,00\%$ \\*
+ & & & & & uk & $10,00\%$ & $16,67\%$ \\*
+ & & & & & usa & $98,36\%$ & $91,24\%$ \\*
+ & & & & & west-germany & $0,00\%$ & $0,00\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{89,22\%}$} \\
+\hline
+\multirow{3}{*}{30} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{$R^n$, wszystko, $d_e$} & \multirow{3}{*}{5} & grain & $93,78\%$ & $98,60\%$ \\*
+ & & & & & interest & $98,29\%$ & $92,47\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{95,75\%}$} \\
+\hline
+\multirow{3}{*}{31} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{$R^n$, wszystko, $d_\infty$} & \multirow{3}{*}{5} & grain & $84,89\%$ & $90,95\%$ \\*
+ & & & & & interest & $89,14\%$ & $82,11\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{86,75\%}$} \\
+\hline
+\multirow{3}{*}{32} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{$R^n$, wszystko, $d_1$} & \multirow{3}{*}{5} & grain & $83,56\%$ & $98,95\%$ \\*
+ & & & & & interest & $98,86\%$ & $82,38\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{90,25\%}$} \\
+\hline
+\multirow{3}{*}{33} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{$R^n$, wszystko, $d_e$} & \multirow{3}{*}{3} & grain & $93,78\%$ & $99,06\%$ \\*
+ & & & & & interest & $98,86\%$ & $92,51\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{96,00\%}$} \\
+\hline
+\multirow{3}{*}{34} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{$R^n$, wszystko, $d_e$} & \multirow{3}{*}{11} & grain & $94,67\%$ & $100,00\%$ \\*
+ & & & & & interest & $100,00\%$ & $93,58\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{97,00\%}$} \\
+\hline
+\multirow{3}{*}{35} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$20\%$/$30\%$, losowanie} & \multirow{3}{*}{$R^n$, wszystko, $d_e$} & \multirow{3}{*}{5} & grain & $75,24\%$ & $100,00\%$ \\*
+ & & & & & interest & $100,00\%$ & $78,51\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{87,00\%}$} \\
+\hline
+\multirow{3}{*}{36} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$, losowanie} & \multirow{3}{*}{$R^n$, wszystko, $d_e$} & \multirow{3}{*}{5} & grain & $86,03\%$ & $100,00\%$ \\*
+ & & & & & interest & $100,00\%$ & $82,76\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{91,64\%}$} \\
+\hline
+\multirow{3}{*}{37} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$, losowanie, zachodzenie} & \multirow{3}{*}{$R^n$, wszystko, $d_e$} & \multirow{3}{*}{5} & grain & $91,81\%$ & $100,00\%$ \\*
+ & & & & & interest & $100,00\%$ & $90,18\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{95,33\%}$} \\
+\hline
+\multirow{3}{*}{38} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$60\%$/$90\%$, losowanie, zachodzenie} & \multirow{3}{*}{$R^n$, wszystko, $d_e$} & \multirow{3}{*}{5} & grain & $92,04\%$ & $99,79\%$ \\*
+ & & & & & interest & $99,74\%$ & $90,33\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{95,33\%}$} \\
+\hline
+\multirow{3}{*}{39} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{$R^n$, wybr. sł., $d_e$} & \multirow{3}{*}{5} & grain & $85,78\%$ & $98,47\%$ \\*
+ & & & & & interest & $98,29\%$ & $84,31\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{91,25\%}$} \\
+\hline
+\multirow{3}{*}{40} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{$R^n$, zb. rozm., $d_e$} & \multirow{3}{*}{5} & grain & $98,67\%$ & $96,52\%$ \\*
+ & & & & & interest & $95,43\%$ & $98,24\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{97,25\%}$} \\
+\hline
+\multirow{3}{*}{41} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{Jaccard} & \multirow{3}{*}{5} & grain & $98,22\%$ & $99,10\%$ \\*
+ & & & & & interest & $98,86\%$ & $97,74\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{98,50\%}$} \\
+\hline
+\multirow{3}{*}{42} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{Wg. sł. kluczowych} & \multirow{3}{*}{5} & grain & $86,22\%$ & $100,00\%$ \\*
+ & & & & & interest & $100,00\%$ & $84,95\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{92,25\%}$} \\
+\hline
+\multirow{3}{*}{43} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{fuzzy} & \multirow{3}{*}{5} & grain & $93,33\%$ & $99,53\%$ \\*
+ & & & & & interest & $99,43\%$ & $92,06\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{96,00\%}$} \\
+\hline
+\multirow{3}{*}{44} & \multirow{3}{*}{Autorzy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{$R^n$, wszystko, $d_e$} & \multirow{3}{*}{5} & Byron & $76,42\%$ & $70,43\%$ \\*
+ & & & & & Shakespeare & $72,13\%$ & $77,88\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{74,12\%}$} \\
+\hline
+\multirow{3}{*}{45} & \multirow{3}{*}{Autorzy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{$R^n$, wszystko, $d_\infty$} & \multirow{3}{*}{5} & Byron & $63,21\%$ & $62,04\%$ \\*
+ & & & & & Shakespeare & $66,39\%$ & $67,50\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{64,91\%}$} \\
+\hline
+\multirow{3}{*}{46} & \multirow{3}{*}{Autorzy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{$R^n$, wszystko, $d_1$} & \multirow{3}{*}{5} & Byron & $93,40\%$ & $54,10\%$ \\*
+ & & & & & Shakespeare & $31,15\%$ & $84,44\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{60,09\%}$} \\
+\hline
+\multirow{3}{*}{47} & \multirow{3}{*}{Autorzy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{$R^n$, wszystko, $d_e$} & \multirow{3}{*}{3} & Byron & $76,42\%$ & $71,05\%$ \\*
+ & & & & & Shakespeare & $72,95\%$ & $78,07\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{74,56\%}$} \\
+\hline
+\multirow{3}{*}{48} & \multirow{3}{*}{Autorzy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{$R^n$, wszystko, $d_e$} & \multirow{3}{*}{11} & Byron & $73,58\%$ & $71,56\%$ \\*
+ & & & & & Shakespeare & $74,59\%$ & $76,47\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{74,12\%}$} \\
+\hline
+\multirow{3}{*}{49} & \multirow{3}{*}{Autorzy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{$R^n$, wybr. sł., $d_e$} & \multirow{3}{*}{5} & Byron & $32,08\%$ & $58,62\%$ \\*
+ & & & & & Shakespeare & $80,33\%$ & $57,65\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{57,89\%}$} \\
+\hline
+\multirow{3}{*}{50} & \multirow{3}{*}{Autorzy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{$R^n$, zb. rozm., $d_e$} & \multirow{3}{*}{5} & Byron & $23,58\%$ & $53,19\%$ \\*
+ & & & & & Shakespeare & $81,97\%$ & $55,25\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{54,82\%}$} \\
+\hline
+\multirow{3}{*}{51} & \multirow{3}{*}{Autorzy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{Jaccard} & \multirow{3}{*}{5} & Byron & $53,77\%$ & $79,17\%$ \\*
+ & & & & & Shakespeare & $87,70\%$ & $68,59\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{71,93\%}$} \\
+\hline
+\multirow{3}{*}{52} & \multirow{3}{*}{Autorzy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{Wg. sł. kluczowych} & \multirow{3}{*}{5} & Byron & $30,19\%$ & $50,79\%$ \\*
+ & & & & & Shakespeare & $74,59\%$ & $55,15\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{53,95\%}$} \\
+\hline
+\multirow{3}{*}{53} & \multirow{3}{*}{Autorzy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{N-gramy} & \multirow{3}{*}{5} & Byron & $1,89\%$ & $100,00\%$ \\*
+ & & & & & Shakespeare & $100,00\%$ & $53,98\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{54,39\%}$} \\
+\hline
+}\endgroup
+}

@@ -1,0 +1,7 @@
+Category,Elements in category,Sensitivity (TPR),Elements classified as category,Precision (PPV)
+canada,20,0.0%,22,0.0%
+france,3,0.0%,0,NaN%
+japan,10,30.0%,6,50.0%
+uk,10,20.0%,6,33.333333333333336%
+usa,487,95.48254620123203%,504,92.26190476190476%
+west-germany,8,0.0%,0,NaN%
