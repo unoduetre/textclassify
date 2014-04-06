@@ -147,15 +147,56 @@ cel konkretnego testu. Najlepiej byłoby wyraźnie wyszczególnić (ponumerować
 poszczególne eksperymenty tak, aby łatwo było się do nich odwoływać dalej.}
 
 \section{Wyniki}
-{\color{blue}
-W tej sekcji należy zaprezentować, dla każdego przeprowadzonego eksperymentu,
-kompletny zestaw wyników w postaci tabel, wykresów itp. Powinny być one tak
-ponazywane, aby było wiadomo, do czego się odnoszą. Wszystkie tabele i wykresy
-należy oczywiście opisać (opisać co jest na osiach, w kolumnach itd.) stosując
-się do przyjętych wcześniej oznaczeń. Nie należy tu komentować i interpretować
-wyników, gdyż miejsce na to jest w kolejnej sekcji. Tu również dobrze jest
-wprowadzić oznaczenia (tabel, wykresów) aby móc się do nich odwoływać
-poniżej.}
+%{\color{blue}
+%W tej sekcji należy zaprezentować, dla każdego przeprowadzonego eksperymentu,
+%kompletny zestaw wyników w postaci tabel, wykresów itp. Powinny być one tak
+%ponazywane, aby było wiadomo, do czego się odnoszą. Wszystkie tabele i wykresy
+%należy oczywiście opisać (opisać co jest na osiach, w kolumnach itd.) stosując
+%się do przyjętych wcześniej oznaczeń. Nie należy tu komentować i interpretować
+%wyników, gdyż miejsce na to jest w kolejnej sekcji. Tu również dobrze jest
+%wprowadzić oznaczenia (tabel, wykresów) aby móc się do nich odwoływać
+%poniżej.}
+
+Eksperymenty przeprowadzane były dla trzech problemów klasyfikacji:
+\begin{itemize}
+\item \textbf{Kraje} -- klasyfikacja próbek tekstowych ze zbioru
+\emph{Reuters-21578 Text Categorization Collection Data Set}, gdzie jako etykiety
+wybrane zostały kraje, których dotyczy dana próbka. Wybrane zostały wyłącznie
+te próbki, które dotyczą dokładnie jednego kraju i w przypadku których krajem tym
+jest Kanada, Francja, Japonia, Wielka Brytania, USA lub RFN. W przypadku
+tego problemu mamy do dyspozycji \textbf{13441} próbek, w których (po uproszczonej
+stemizacji i usunięciu słów nieznaczących) występuje \textbf{28145} różnych słów.
+\item \textbf{Tematy} -- próbki wybierane z tego samego zbioru, co w przypadku
+problemu \emph{Kraje}, jednakże tym razem klasami względem których chcemy rozróżniać
+próbki są tematy artykułów. Wzięte pod uwagę zostały te próbki, których lista tematów
+zawiera temat \emph{interest} albo temat \emph{grain} (próbki dotyczące obu tych
+tematów jednocześnie były pomijane). Problem klasyfikacji polega zatem na podziale
+zbioru wybranych próbek na dwie klasy, odpowiadające charakterystycznym tematom.
+W przypadku tego problemu mamy do dyspozycji \textbf{998} próbek, w których
+występuje \textbf{7533} rozróżnialnych, uwzględnianych przez nasz program słów.
+\item \textbf{Autorzy} -- tym razem wykorzystaliśmy własny zbiór tekstów, przygotowany
+w oparciu o dane przygotowane w ramach inicjatywy \emph{Project Gutenberg}. Z danych
+tekstowych z plików \emph{The Complete Works of William Shakespeare} \cite{2} oraz
+\emph{The Works of Lord Byron, Vol. 4} \cite{3} usunięte zostały przypisy, a następnie wybrane
+zostały ciągłe próbki zawierające po kilka zdań lub wersów, tak aby każda z nich
+zawierała od 50 do 200 słów. Kryterium klasyfikacji tak przygotowanych próbek
+jest autor tekstu (po usunięciu przypisów, próbki wybierane są wprost z dzieł
+literackich, więc autorem każdej z próbek jest William Shakespeare lub Lord George Gordon Byron).
+W przypadku tego problemu mamy do dyspozycji \textbf{568} próbek, w których
+występuje \textbf{6028} rozróżnialnych, uwzględnianych przez nasz program słów.
+\end{itemize}
+
+\vskip\baselineskip
+
+Dla każdego ze przedstawionych powyżej problemów testowaliśmy różne podejścia do wyboru zbioru
+uczącego oraz zbioru sprawdzającego. Domyślnym ustawieniem było potraktowanie $60\%$ początkowych
+próbek jako zbioru uczącego, zaś pozostałych $40\%$ próbek -- jako zbioru sprawdzającego.
+Oceniane było także zachowanie na mniejszych zbiorach -- wtedy zbiór uczący wybierany był
+zawsze od początku, zaś zbiór sprawdzający -- od końca (podanie odpowiedniego argumentu
+w przygotowanej przez nas implementacji powoduje, że dozwolone jest nachodzenie na siebie
+tych dwóch zbiorów, zatem suma ich miar może przekroczyć liczbę wszystkich próbek w danym
+problemie). Dodatkowa opcja pozwala spowodować, aby  przy części testów wybierać próbki
+w sposób pseudolosowy (zamiast stosowania schematu opisanego powyżej).
 
 \include{results}
 
@@ -182,5 +223,7 @@ charakterze uniwersalnym.}
 
 \begin{thebibliography}{2}
 \bibitem{1} Niewiadomski A., 2009, \textit{Materiały, przykłady i ćwiczenia do przedmiotu Komputerowe Systemy Rozpoznawania}, skrypt
+\bibitem{2} Shakespeare W., 1564-1616, \textit{The Complete Works of William Shakespeare}, Project Gutenberg, \url{http://www.gutenberg.org/ebooks/100}
+\bibitem{3} Lord Byron, G. G. 1788-1824, \textit{The Works of Lord Byron, Vol. 4}, Project Gutenberg, \url{http://www.gutenberg.org/ebooks/20158}
 \end{thebibliography}
 \end{document}
