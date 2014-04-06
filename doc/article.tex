@@ -38,24 +38,32 @@ Pokazuje to jak szerokie zastosowanie może mieć ten klasyfikator.
 
 W naszym projekcie użyliśmy następujących funkcji podobieństwa:
 \begin{itemize}
-\item miara Jaccarda,
-\item metoda \(n\)-gramów,
-\item autorska metoda bazująca na słowach kluczowych
+\item miara Jaccarda na słowach po filtracji stoplistą i stemizacji jako podobieństwo tekstów
+\[J(A,B) = \frac{\mu(A\cap B)}{\mu(A \cup B)}\],
+\item metoda \(n\)-gramów (użyliśmy metody 3-gramów, gdyż tekst jest tekstem angielskim, przy czym użyliśmy 3-gramów w mierze podobieństwa zdań)
+\begin{eqnarray*}
+\textrm{sim}_3(s_1,s_2) & = & \frac{1}{N-2}\sum_{i=1}^{N-2}h(i) \\
+\mu_{N_z}(z_1, z_2) & = & \frac{1}{N} \sum_{i=1}^{N(z_1)}\max_{j=1,\ldots,N(z_1)} \textrm{sim}_3(s_{1j}, s_{2i})
+\end{eqnarray*}
+\item autorska metoda bazująca na słowach kluczowych i prostym współczynniku dopasowania (opis poniżej) 
 \end{itemize}
 Użyte zostały następujące metryki:
 \begin{itemize}
 \item metryka euklidesowa
+\[d_e(X,Y)=\sqrt{\sum_{i=1}^n(x_i-y_i)^2}\]
 \item metryka uliczna
+\[d_1(X,Y)=\sum_{i=1}^n|x_i-y_i|\]
 \item metryka Czebyszewa
+\[d_\infty(X,Y)=\max_{i=1,\ldots,n}|x_i-y_i|\]
 \end{itemize}
 
 Klasyfikacji można dokonywać bezpośrednio na podanych tekstach, jednak takie rozwiązanie charakteryzuje się wysokim kosztem obliczeniowym. Dlatego często lepiej jest
 wyekstrachować ze zbiorów pewne wektory cech, które pozwolą szybko sklasyfikować dane teksty. Wybór wektorów cech zależy od postawionego zadania.
 W naszym projekcie użyliśmy trzech sposobów ekstrakcji cech:
 \begin{itemize}
-\item naiwny sposób bazujący na użyciu wszystkich słów
-\item bazujący na macierzy częstości terminów
-\item autorska matoda bazująca na zbiorach rozmytych
+\item naiwny sposób bazujący na użyciu wszystkich słów (po filtracji przez stoplistę i stemizacji), ilość wymiarów wektora jest zależna od ilości wszystkich słów w zbiorze uczącym
+\item bazujący na słowach kluczowych (jak powyżej, ale wybierane są tylko słowa kluczowe, co zmniejsza ilość wymiarów)
+\item autorska metoda bazująca na zbiorach rozmytych (opis poniżej)
 \end{itemize}
 
 Sama klasyfikacja została wykonana na dwóch zbiorach danych, każdy podzielony na podzbiór uczący i podzbiór testowy, przy czym sposób podziału jest wybierany w aplikacji.
@@ -76,11 +84,17 @@ funkcję przynależności do danego zbioru.
 Mając taki zestaw zbiorów możemy wyekstrachować cechy z tekstów zbioru uczącego i na tej podstawie nauczyć klasyfikator. Ekstrakcja przebiega następująco. Wstępnie każdy element wektora
 cech jest liczbą, która jest sumą wartości funkcji przynależności dla każdego słowa, kluczowego z podanego zbioru rozmytego, które wystąpiło w podanym tekście.
 Opisuje to wzór
-\[f_1(T,n)=\sum_{s\in K(n) \cap T} \mu_{K(n)}(s),\]
+\[V_T(n)=\sum_{s\in K(n) \cap T} \mu_{K(n)}(s),\]
 przy czym \(T\) to tekst z którego ekstrachujemy cechy, \(n\) to numer składowej wektora cech którą obliczamy, \(K(n)\) to \(n\)-ty zbiór rozmyty, \(\mu(s)\) to funkcja przynależności
 dla zbioru \(K(n)\).
-Następnie wektor taki jest normalizowany do długości równej \(1\).
-Przy obliczaniu funkcji podobieństwa również użyliśmy słów kluczowych. Dla wybranych słów kluczowych liczony jest prosty współczynnik dopasowania (simple matching coefficient).
+Następnie wektor \(V_T\) jest normalizowany do długości równej \(1\) według wzoru
+\[v_T = \frac{V_T}{|V_T|}.\]
+
+
+Natomiast jeśli chodzi o obliczanie funkcji podobieństwa, metoda ta również opiera się na słowach kluczowych. Dla słów kluczowych, które znajdują się w obu tekstach, liczony jest prosty współczynnik dopasowania (simple matching coefficient), wyznaczony
+wzorem
+\[SMC(A,B) = \frac{\mu(A \cap B)+\mu(A^C \cap B^C)}{\mu(X)}.\]
+Dzięki użyciu słów kluczowych jesteśmy w stanie znaleźć przestrzeń \(X\), gdyż jest to po prostu zestaw wszystkich słów kluczowych.
 %Tworzymy 36 zbiorów rozmytych, po jednym dla każdej kombinacji podzbioru słów kluczowych i klasy.
 %Do każdego zbioru rozmytego dla określonej kategorii i określonej klasy wrzucamy wszystkie słowa kluczowe z tej kategorii i początkowo przypisujemy im \(0{,}0\) jako wartośc
 %funkcji przynależności do zbioru. Następnie przeglądamy zbiór uczący i do każdego elementu elementu przypisujemy stosunek pojawiania się danego słowa kluczowego w danej klasie
@@ -102,20 +116,6 @@ Przy obliczaniu funkcji podobieństwa również użyliśmy słów kluczowych. Dl
 %podać, w jakim języku programowania została stworzona aplikacja. }
 Implementacja programu została wykonana w języku Java. Poniżej prezentujemy orientacyjny wycinek diagramu klas naszego programu.
 \obraz{uml}{uml}{Wycinek uproszczonego diagramu klas aplikacji}
-\section{Materiały i metody}
-%{\color{blue}
-%W tym miejscu należy opisać, jak przeprowadzone zostały wszystkie badania,
-%których wyniki i dyskusja zamieszczane są w dalszych sekcjach. Opis ten
-%powinien być na tyle dokładny, aby osoba czytająca go potrafiła wszystkie
-%przeprowadzone badania samodzielnie powtórzyć w celu zweryfikowania ich
-%poprawności (a zatem m.in. należy zamieścić tu opis architektury sieci,
-%wartości współczynników użytych w kolejnych eksperymentach, sposób
-%inicjalizacji wag, metodę uczenia itp. oraz informacje o danych, na których
-%prowadzone były badania). Przy opisie należy odwoływać się i stosować do
-%opisanych w sekcji drugiej wzorów i oznaczeń, a także w jasny sposób opisać
-%cel konkretnego testu. Najlepiej byłoby wyraźnie wyszczególnić (ponumerować)
-%poszczególne eksperymenty tak, aby łatwo było się do nich odwoływać dalej.}
-
 Przygotowane rozwiązanie zawiera w sobie także interfejs graficzny wykonany
 przy wykorzystaniu biblioteki Swing. Wybór ten został podyktowany tym, że
 biblioteka ta jest domyślnie obecna w środowisku uruchomieniowym Javy,
@@ -133,30 +133,7 @@ trzy tryby generowania szczegółowych wyników:
 \item Macierz, w której dla każdej pary właściwa kategoria/kategoria wskazana przez klasyfikator przechowywane są liczby przypadków w których tak się stało
 \end{itemize}
 
-{\color{blue}
-W tym miejscu należy opisać, jak przeprowadzone zostały wszystkie badania,
-których wyniki i dyskusja zamieszczane są w dalszych sekcjach. Opis ten
-powinien być na tyle dokładny, aby osoba czytająca go potrafiła wszystkie
-przeprowadzone badania samodzielnie powtórzyć w celu zweryfikowania ich
-poprawności (a zatem m.in. należy zamieścić tu opis architektury sieci,
-wartości współczynników użytych w kolejnych eksperymentach, sposób
-inicjalizacji wag, metodę uczenia itp. oraz informacje o danych, na których
-prowadzone były badania). Przy opisie należy odwoływać się i stosować do
-opisanych w sekcji drugiej wzorów i oznaczeń, a także w jasny sposób opisać
-cel konkretnego testu. Najlepiej byłoby wyraźnie wyszczególnić (ponumerować)
-poszczególne eksperymenty tak, aby łatwo było się do nich odwoływać dalej.}
-
-\section{Wyniki}
-%{\color{blue}
-%W tej sekcji należy zaprezentować, dla każdego przeprowadzonego eksperymentu,
-%kompletny zestaw wyników w postaci tabel, wykresów itp. Powinny być one tak
-%ponazywane, aby było wiadomo, do czego się odnoszą. Wszystkie tabele i wykresy
-%należy oczywiście opisać (opisać co jest na osiach, w kolumnach itd.) stosując
-%się do przyjętych wcześniej oznaczeń. Nie należy tu komentować i interpretować
-%wyników, gdyż miejsce na to jest w kolejnej sekcji. Tu również dobrze jest
-%wprowadzić oznaczenia (tabel, wykresów) aby móc się do nich odwoływać
-%poniżej.}
-
+\section{Materiały i metody}
 Eksperymenty przeprowadzane były dla trzech problemów klasyfikacji:
 \begin{itemize}
 \item \textbf{Kraje} -- klasyfikacja próbek tekstowych ze zbioru
@@ -198,27 +175,31 @@ tych dwóch zbiorów, zatem suma ich miar może przekroczyć liczbę wszystkich 
 problemie). Dodatkowa opcja pozwala spowodować, aby  przy części testów wybierać próbki
 w sposób pseudolosowy (zamiast stosowania schematu opisanego powyżej).
 
-\include{results}
-
+\section{Wyniki}
+\include{resultskraje}
+\include{resultstematy}
+\include{resultsautorzy}
 \section{Dyskusja}
-Powyższe wyniki wskazują, że zwiększając parametr \(k\) klasyfikatora w podanych granicach polepsza się jakość klasyfikacji. Najlepsza dla zbioru notatek prasowych 
-okazała się nasza autorska metoda bazująca na zbiorach rozmytych. Dla zbioru tekstów znanych pisarzy bardzo dobre wyniki uzyskała metoda naiwnej ekstrakcji z metyryką euklidesową,
-a także metoda bazująca na mierze Jaccarda. Niektóre metody nie są skuteczne, gdyż ich czas obliczeń jest zbyt długi dla dużego zbioru tekstów. Do tych metod należą:
-metoda n-gramów, naiwna ekstrakcja bazująca na wszystkich słowach a także podobieństwo bazujące na słowach kluczowych. 
-{\color{blue}
-Sekcja ta powinna zawierać dokładną interpretację uzyskanych wyników
-eksperymentów wraz ze szczegółowymi wnioskami z nich płynącymi. Najcenniejsze
-są, rzecz jasna, wnioski o charakterze uniwersalnym, które mogą być istotne
-przy innych, podobnych zadaniach. Należy również omówić i wyjaśnić wszystkie
-napotakane problemy (jeśli takie były). Każdy wniosek powinien mieć poparcie
-we wcześniej przeprowadzonych eksperymentach (odwołania do konkretnych
-wyników). Jest to jedna z najważniejszych sekcji tego sprawozdania, gdyż
-prezentuje poziom zrozumienia badanego problemu.}
+Pierwszym wnioskiem, który możemy wysnuć z powyższych wyników jest fakt, że zwiększając parametr \(k\) (w granicach od \(3\) do \(11\)) jakość klasyfikacji rośnie. Widać także,
+że wybór metryki ma jedynie niewielki wpływ na jakość klasyfikacji tekstów notatek prasowych. Ma ona natomiast dużo większy wpływ dla klasyfikacji tekstów literackich.
+Jeśli chodzi o jakość konkretnych metod klasyfikacji, to najlepsza dla zbioru notatek prasowych (klasyfikacja według kraju i według tematu)
+okazała się nasza autorska metoda bazująca na zbiorach rozmytych. Pozwoliła ona w rozsądnym czasie sklasyfikować wszystkie teksty ze skutecznością sięgającą 89\%. Sensownym, aczkolwiek
+dużo wolniej działającym wyborem jest też metoda oparta na mierze Jaccarda.
+Dla zbioru tekstów znanych pisarzy bardzo dobre wyniki uzyskała metoda naiwnej ekstrakcji z metryką euklidesową,
+a także metoda bazująca na mierze Jaccarda. Niektóre metody nie są przydatne, gdyż ich czas obliczeń jest zbyt długi dla dużego zbioru tekstów. Do tych metod należą:
+metoda n-gramów, naiwna ekstrakcja bazująca na wszystkich słowach a także podobieństwo bazujące na słowach kluczowych.
+
+Uogólniając powyższe widać, że metoda bazująca na mierze Jaccarda, choć nie jest to metoda najszybsza, to sprawdza się w różnych zastosowaniach. Co więcej metoda ta jest
+prosta w implementacji i nie wymaga żadnej wstępnej preparacji danych, na przykład znajdywania słów kluczowych. Jeżeli zależy nam na szybkości, a określony problem pozwala
+na zastosowanie metody ekstrakcji opartej o zbiory rozmyte, to warto jej użyć. Jednakże w problemach, w których trudno jest odnaleźć właściwe słowa kluczowe, jak na przykład
+w problemie rozpoznawania autorstwa, lepiej użyć metody bardziej ogólnej. Metoda ekstrachująca wszystkie słowa ma dobrą skuteczność, ale jej czas działania  niestety ją dyskwalifikuje.
+Zupełnie natomiast nie radzi sobie miara bazująca na n-gramach, ze względu na powolność działania, co wynika z dużej ilości obliczeń niezbędnych do zastosowania metody. 
 \section{Wnioski}
-{\color{blue}W tej, przedostatniej, sekcji należy zamieścić podsumowanie
-najważniejszych wniosków z sekcji poprzedniej. Najlepiej jest je po prostu
-wypunktować. Znów, tak jak poprzednio, najistotniejsze są wnioski o
-charakterze uniwersalnym.}
+\begin{itemize}
+\item Nasza autorska metoda bazująca na zbiorach rozmytych jest bardzo skuteczna w problemach w których można wyróżnić słowa kluczowe.
+\item Dla problemów, w których wyróżnienie słów kluczowych nie jest skuteczne dobrą metodą jest metoda oparta na mierze Jaccarda.
+\item Metoda n-gramów, choć może być skuteczna, to działa zbyt wolno.
+\end{itemize}
 
 
 \begin{thebibliography}{2}

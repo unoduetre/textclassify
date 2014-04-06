@@ -1,0 +1,95 @@
+{
+
+\makeatletter
+\newcommand\nobreakcline[1]{\@nobreakcline#1\@nil}%
+\def\@nobreakcline#1-#2\@nil{%
+  \omit
+  \@multicnt#1%
+  \advance\@multispan\m@ne
+  \ifnum\@multicnt=\@ne\@firstofone{&\omit}\fi
+  \@multicnt#2%
+  \advance\@multicnt-#1%
+  \advance\@multispan\@ne
+  \leaders\hrule\@height\arrayrulewidth\hfill\\*
+  \noalign{\vskip-\arrayrulewidth}}
+\makeatother
+
+\begingroup
+\setlength{\LTleft}{-20cm plus -1fill}
+\setlength{\LTright}{\LTleft}
+\ltabela{Wyniki przeprowadzonych prób dla kategoryzacji względem tematów}{|c|c|c|c|c|c|c|c|}{ \hline
+\textbf{\#} & \textbf{Zestaw} & \textbf{Zb. tr./ucz.} & \textbf{Podobieństwo} & $\mathbf{k}$ & \textbf{Kategoria} & \textbf{TPR} & \textbf{PPV} \\
+\hline
+\endhead
+\multirow{3}{*}{33} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{$R^n$, wszystko, $d_e$} & \multirow{3}{*}{3} & grain & $93,78\%$ & $99,06\%$ \\*
+ & & & & & interest & $98,86\%$ & $92,51\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{96,00\%}$} \\
+\hline
+\multirow{3}{*}{30} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{$R^n$, wszystko, $d_e$} & \multirow{3}{*}{5} & grain & $93,78\%$ & $98,60\%$ \\*
+ & & & & & interest & $98,29\%$ & $92,47\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{95,75\%}$} \\
+\hline
+\multirow{3}{*}{34} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{$R^n$, wszystko, $d_e$} & \multirow{3}{*}{11} & grain & $94,67\%$ & $100,00\%$ \\*
+ & & & & & interest & $100,00\%$ & $93,58\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{97,00\%}$} \\
+\hline
+\multirow{3}{*}{31} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{$R^n$, wszystko, $d_\infty$} & \multirow{3}{*}{5} & grain & $84,89\%$ & $90,95\%$ \\*
+ & & & & & interest & $89,14\%$ & $82,11\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{86,75\%}$} \\
+\hline
+\multirow{3}{*}{32} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{$R^n$, wszystko, $d_1$} & \multirow{3}{*}{5} & grain & $83,56\%$ & $98,95\%$ \\*
+ & & & & & interest & $98,86\%$ & $82,38\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{90,25\%}$} \\
+\hline
+\multirow{3}{*}{35} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$20\%$/$30\%$, losowanie} & \multirow{3}{*}{$R^n$, wszystko, $d_e$} & \multirow{3}{*}{5} & grain & $75,24\%$ & $100,00\%$ \\*
+ & & & & & interest & $100,00\%$ & $78,51\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{87,00\%}$} \\
+\hline
+\multirow{3}{*}{36} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$, losowanie} & \multirow{3}{*}{$R^n$, wszystko, $d_e$} & \multirow{3}{*}{5} & grain & $86,03\%$ & $100,00\%$ \\*
+ & & & & & interest & $100,00\%$ & $82,76\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{91,64\%}$} \\
+\hline
+\multirow{3}{*}{37} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$, losowanie, zachodzenie} & \multirow{3}{*}{$R^n$, wszystko, $d_e$} & \multirow{3}{*}{5} & grain & $91,81\%$ & $100,00\%$ \\*
+ & & & & & interest & $100,00\%$ & $90,18\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{95,33\%}$} \\
+\hline
+\multirow{3}{*}{38} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$60\%$/$90\%$, losowanie, zachodzenie} & \multirow{3}{*}{$R^n$, wszystko, $d_e$} & \multirow{3}{*}{5} & grain & $92,04\%$ & $99,79\%$ \\*
+ & & & & & interest & $99,74\%$ & $90,33\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{95,33\%}$} \\
+\hline
+\multirow{3}{*}{39} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{$R^n$, wybr. sł., $d_e$} & \multirow{3}{*}{5} & grain & $85,78\%$ & $98,47\%$ \\*
+ & & & & & interest & $98,29\%$ & $84,31\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{91,25\%}$} \\
+\hline
+\multirow{3}{*}{40} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{$R^n$, zb. rozm., $d_e$} & \multirow{3}{*}{5} & grain & $98,67\%$ & $96,52\%$ \\*
+ & & & & & interest & $95,43\%$ & $98,24\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{97,25\%}$} \\
+\hline
+\multirow{3}{*}{41} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{Jaccard} & \multirow{3}{*}{5} & grain & $98,22\%$ & $99,10\%$ \\*
+ & & & & & interest & $98,86\%$ & $97,74\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{98,50\%}$} \\
+\hline
+\multirow{3}{*}{42} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{Wg. sł. kluczowych} & \multirow{3}{*}{5} & grain & $86,22\%$ & $100,00\%$ \\*
+ & & & & & interest & $100,00\%$ & $84,95\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{92,25\%}$} \\
+\hline
+\multirow{3}{*}{43} & \multirow{3}{*}{Tematy} & \multirow{3}{*}{$40\%$/$60\%$} & \multirow{3}{*}{fuzzy} & \multirow{3}{*}{5} & grain & $93,33\%$ & $99,53\%$ \\*
+ & & & & & interest & $99,43\%$ & $92,06\%$ \\*
+\nobreakcline{6-8}
+& & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{96,00\%}$} \\
+\hline
+}\endgroup
+}

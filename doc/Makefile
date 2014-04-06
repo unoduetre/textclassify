@@ -1,6 +1,6 @@
 default_targets=article
 
-article_includes=
+article_includes=resultstematy.tex resultsautorzy.tex resultskraje.tex
 article_figures=uml.png
 
 presentation_includes=

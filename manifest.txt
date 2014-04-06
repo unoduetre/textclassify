@@ -1,2 +1,2 @@
-Main-Class: main.Main
+Main-Class: gui.MainFrame
 Class-Path: lib
