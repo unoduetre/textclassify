@@ -14,21 +14,21 @@ import metrics.MetricClassifiable;
 public class FuzzyVector implements MetricClassifiable {
 
   Category category;
-  List<Double> data;
+  List<Float> data;
 
   public FuzzyVector(Text text, List<FuzzySet> fuzzySets) {
-    data = new ArrayList<Double>(fuzzySets.size());
+    data = new ArrayList<Float>(fuzzySets.size());
     category = text.getCategory();
     double sqsum = 0.0;
     for(FuzzySet fs: fuzzySets) {
       double c = calculate(text, fs);
-      data.add(c);
+      data.add((float) c);
       sqsum += c * c;
     }
     if(sqsum != 0.0) {
       double mul = Math.pow(sqsum, -0.5);
       for(int i = 0; i < data.size(); ++i) {
-        data.set(i, data.get(i) * mul);
+        data.set(i, (float) (data.get(i) * mul));
       }
     }
   }
@@ -60,7 +60,7 @@ public class FuzzyVector implements MetricClassifiable {
   }
 
   @Override
-  public List<Double> getVector() {
+  public List<Float> getVector() {
     return data;
   }
 }

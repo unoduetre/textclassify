@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.PriorityQueue;
+import java.util.logging.Logger;
 
 public class KNN
 {
   private List<Classifiable> votes = null;
   private Integer k = null;
+  private static final Logger LOGGER = Logger.getLogger("KNN");
 
   public KNN(Integer aK)
   {
@@ -22,6 +24,7 @@ public class KNN
 
   public void classify(List<Classifiable> objects, KNNComparator comparator)
   {
+    int counter = 0;
     for(Classifiable object : objects)
     {
       comparator.setReference(object);
@@ -65,6 +68,11 @@ public class KNN
       }
 
       object.setCategory(maximalCategory);
+      
+      ++counter;
+      if(counter % 10 == 0 || counter == objects.size()) {
+        LOGGER.info(Integer.toString(counter) + " out of " + Integer.toString(objects.size()) + " objects classified.");
+      }
     }
   }
 }

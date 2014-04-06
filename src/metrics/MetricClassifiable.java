@@ -6,5 +6,5 @@ import knn.Classifiable;
 
 public interface MetricClassifiable extends Classifiable
 {
-  List<Double> getVector();
+  List<Float> getVector();
 }

@@ -4,11 +4,11 @@ import java.util.List;
 
 public class EuclidMetric extends Metric
 {
-  public int compare(List<Double> reference, List<Double> vector1, List<Double> vector2)
+  public int compare(List<Float> reference, List<Float> vector1, List<Float> vector2)
   {
-    Double sum1 = 0.0;
-    Double sum2 = 0.0;
-    Double temp = 0.0;
+    Float sum1 = 0.0f;
+    Float sum2 = 0.0f;
+    Float temp = 0.0f;
     for(Integer i = 0; i < reference.size(); ++i)
     {
       temp = reference.get(i)-vector1.get(i);

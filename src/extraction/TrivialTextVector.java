@@ -13,21 +13,21 @@ import metrics.MetricClassifiable;
 public class TrivialTextVector implements MetricClassifiable {
 
   Category category;
-  List<Double> data;
+  List<Float> data;
   
   public TrivialTextVector(Text text, List<String> keywords) {
-    data = new ArrayList<Double>(keywords.size());
+    data = new ArrayList<Float>(keywords.size());
     category = text.getCategory();
     double sqsum = 0.0;
     for(String word: keywords) {
-      double c = (double) text.getWordCount(word);
+      float c = (float) text.getWordCount(word);
       data.add(c);
       sqsum += c * c;
     }
     if(sqsum != 0.0) {
       double mul = Math.pow(sqsum, -0.5);
       for(int i = 0; i < data.size(); ++i) {
-        data.set(i, data.get(i) * mul);
+        data.set(i, (float) (data.get(i) * mul));
       }
     }
   }
@@ -46,7 +46,7 @@ public class TrivialTextVector implements MetricClassifiable {
   }
 
   @Override
-  public List<Double> getVector() {
+  public List<Float> getVector() {
     return data;
   }
 }

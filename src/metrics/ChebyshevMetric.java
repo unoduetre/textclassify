@@ -4,11 +4,11 @@ import java.util.List;
 
 public class ChebyshevMetric extends Metric
 {
-  public int compare(List<Double> reference, List<Double> vector1, List<Double> vector2)
+  public int compare(List<Float> reference, List<Float> vector1, List<Float> vector2)
   {
-    Double max1 = 0.0;
-    Double max2 = 0.0;
-    Double temp = null;
+    Float max1 = 0.0f;
+    Float max2 = 0.0f;
+    Float temp = null;
     for(Integer i = 0; i < reference.size(); ++i)
     {
       temp = Math.abs(reference.get(i)-vector1.get(i));
