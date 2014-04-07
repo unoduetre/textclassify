@@ -175,10 +175,85 @@ tych dwóch zbiorów, zatem suma ich miar może przekroczyć liczbę wszystkich 
 problemie). Dodatkowa opcja pozwala spowodować, aby  przy części testów wybierać próbki
 w sposób pseudolosowy (zamiast stosowania schematu opisanego powyżej).
 
+
+\vskip\baselineskip
+
+Kluczowym elementem testów jest porównanie różnych miar podobieństwa próbek (bądź równoważnie
+-- różnych funkcji odległości między próbkami). W zastosowanych przez nas metodach
+nacisk położony był albo na ekstrakcję cech (po której można było zastosować metody
+porównania oparte na różnych metrykach w $\mathbb{R}^n$) albo na zaawansowane miary podobieństwa.
+Możliwości obejmowały:
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\renewcommand{\labelitemii}{$\circ$}
+\item W przypadku zastosowania metod opartych na metrykach w $\mathbb{R}^n$
+\begin{itemize}
+\item Wybór metody ekstrakcji cech:
+\begin{itemize}
+\item poprzez obliczanie częstości występowania poszczególnych słów (\emph{,,wszystko''})
+\item poprzez obliczanie częstości występowania wybranych wcześniej słów kluczowych (\emph{,,wybr. sł.''})
+\item poprzez wykorzystanie opisanej w poprzednich sekcjach metody wykorzystującej zbiory rozmyte  (\emph{,,zb. rozm.''})
+\end{itemize}
+\item Wybór odległości na $\mathbb{R}^n$:
+\begin{itemize}
+\item euklidesowej (\emph{,,\(d_e\)''})
+\item Czebyszewa (\emph{,,\(d_\infty\)''})
+\item taksówkowej (\emph{,,\(d_1\)''})
+\end{itemize}
+\end{itemize}
+\item W przypadku zastosowania metod opartych na szczególnych miarach podobieństwa próbek
+\begin{itemize}
+\item miary Jaccarda
+\item metody $n$-gramów
+\item miary podobieństwa opartej o słowa kluczowe
+\end{itemize}
+\end{itemize}
+
+Zdefiniowany zbiór słów kluczowych składa się ze skrótów giełdowych, nazw organizacji,
+nazwisk, nazw geograficznych oraz nazw tematów dołączonych do zbioru danych
+\emph{Reuters-21578 Text Categorization Collection Data Set}. Po wyróżnieniu
+pojedynczych słów oznacza to zastosowanie zbioru \textbf{853} słów kluczowych.
+
+\vskip\baselineskip
+
+Dodatkowym elementem testów była ocena znaczenia parametru \(k\) na wyniki klasyfikacji.
+Większość prób wykonywana była przy ustawieniu \(k=5\), lecz dla typowych przypadków
+wykonano dodatkowe próby przy \(k=3\) oraz \(k=11\), aby zaobserwować jaki
+wpływ będzie to miało na wyniki.
+
 \section{Wyniki}
 \include{resultskraje}
 \include{resultstematy}
 \include{resultsautorzy}
+
+Wykonana seria pomiarów, poza zawartymi w tabeli informacjami o skuteczności klasyfikacji
+dała nam także pogląd na szybkość poszczególnych metod. Czasy wykonania zależą oczywiście
+od parametrów komputera, na którym uruchamiany jest program. W przypadku wybranej przez
+nas konfiguracji referencyjnej (znaczenie mają tu tylko proporcje pomiędzy przedstawionymi
+czasami) dla zestawu danych \textbf{Kraje} czasy klasyfikacji różnymi metodami prezentują
+się następująco:
+
+\begin{table}[H]
+\makebox[\textwidth][c]{
+\centering
+\begin{tabular}[t]{|c|c|c|c|c|}
+\hline
+& \textbf{$\mathbf{10\%}$ danych} & \textbf{$\mathbf{25\%}$ danych} & \textbf{$\mathbf{50\%}$ danych}  & \textbf{pełny zestaw danych} \\ \hline
+\textbf{Zb. rozm.} & $< 1\,\mbox{min}$ & $< 1\,\mbox{min}$ & około $1\,\mbox{min}$ & około $5\,\mbox{min}$ \\ \hline
+\textbf{$\mathbf{\mathbb{R}^n}$, wybr. sł.} & $< 1\,\mbox{min}$ & około $5\,\mbox{min}$ & około $15\,\mbox{min}$ & około $1,5\,\mbox{h}$ \\ \hline
+\textbf{Jaccard} & około $1\,\mbox{min}$ & około $5\,\mbox{min}$ & około $40\,\mbox{min}$ & \emph{zbyt długo} \\ \hline
+\textbf{$\mathbf{\mathbb{R}^n}$, wszystkie} & około $5\,\mbox{min}$ & około $30\,\mbox{min}$ & około $3\,\mbox{h}$ & \emph{zbyt długo} \\ \hline
+\textbf{Wg. sł. kluczowych} & około $10\,\mbox{min}$ & około $1,5\,\mbox{h}$ & \emph{zbyt długo} & \emph{zbyt długo} \\ \hline
+\textbf{$\mathbf{n}$-gramy} & około $30\,\mbox{min}$ & \emph{zbyt długo} & \emph{zbyt długo} & \emph{zbyt długo} \\ \hline
+\hline
+\end{tabular}
+}
+\caption{Przybliżone czasy dla wybranego zestawu}
+\end{table}
+
+Zapis \emph{zbyt długo} oznacza, że szacowany czas wykonania testu istotnie przekraczał $3\,\mbox{h}$ i wykonywanie
+go nie było w naszym odczuciu warunkiem koniecznym aby móc wyciągnąć wnioski z niniejszego zadania laboratoryjnego.
+
 \section{Dyskusja}
 Pierwszym wnioskiem, który możemy wysnuć z powyższych wyników jest fakt, że zwiększając parametr \(k\) (w granicach od \(3\) do \(11\)) jakość klasyfikacji rośnie. Widać także,
 że wybór metryki ma jedynie niewielki wpływ na jakość klasyfikacji tekstów notatek prasowych. Ma ona natomiast dużo większy wpływ dla klasyfikacji tekstów literackich.
