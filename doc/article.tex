@@ -29,7 +29,8 @@ a wszystkie te elementy znajdą swoje odzwierciedlenie w przygotowanej
 przez nas implementacji, co umożliwi nam wygenerowanie i ocenę wyników
 działania różnych metod.
 \section{Wprowadzenie}
-Klasyfikator kNN (k nearest neighbours, k najbliższych sąsiadów) to słaby klasyfikator, posiadający jednak istotną zaletę jaką jest prostota implementacji.
+\subsection{Podstawowe algorytmy}
+Klasyfikator kNN (k nearest neighbours, k najbliższych sąsiadów) to słaby klasyfikator, posiadający jednak istotną zaletę jaką jest prostota implementacji. Słabość klasyfikatora rozumiemy tak jak w teorii boostingu -- słabym nazywamy taki klasyfikator, który nie zawsze jest w stanie osiągnąć dowolnie wysoką dokładność klasyfikacji.
 Dlatego jest on szeroko stosowany, gdyż pomimo swojej prostoty daje relatywnie dobre wyniki. Dodatkowo można go użyć w technikach typu AdaBoost,
 które pozwalają z kilku słabych klasyfikatorów stworzyć jeden silny. Jego idea polega na wybraniu takiej kategorii która jest najczęstsza wśród sąsiadów wektora podlegającego klasyfikacji.
 Potencjalni sąsiedzi są dostarczani do klasyfikatora na etapie jego uczenia. Aby wskazać najbliższych sąsiadów należy oczywiście użyć jakiejś miary odległości, czyli metryki.
@@ -40,27 +41,32 @@ W naszym projekcie użyliśmy następujących funkcji podobieństwa:
 \begin{itemize}
 \item miara Jaccarda na słowach po filtracji stoplistą i stemizacji jako podobieństwo tekstów
 \begin{equation}
-J(A,B) = \frac{\mu(A\cap B)}{\mu(A \cup B)},
+\label{eq:jaccard}
+J(A,B) = \frac{\mu(A\cap B)}{\mu(A \cup B)}
 \end{equation}
 \item metoda \(n\)-gramów (użyliśmy metody 3-gramów, gdyż tekst jest tekstem angielskim, przy czym użyliśmy 3-gramów w mierze podobieństwa zdań)
 \begin{eqnarray}
 \textrm{sim}_3(s_1,s_2) & = & \frac{1}{N-2}\sum_{i=1}^{N-2}h(i) \\
+\label{eq:ngram}
 \mu_{N_z}(z_1, z_2) & = & \frac{1}{N} \sum_{i=1}^{N(z_1)}\max_{j=1,\ldots,N(z_1)} \textrm{sim}_3(s_{1j}, s_{2i})
 \end{eqnarray}
-\item autorska metoda bazująca na słowach kluczowych i prostym współczynniku dopasowania (opis poniżej) 
+\item autorska metoda bazująca na słowach kluczowych i prostym współczynniku dopasowania (patrz sekcja \ref{sec:autorskiepodobienstwo})
 \end{itemize}
 Użyte zostały następujące metryki:
 \begin{itemize}
 \item metryka euklidesowa
 \begin{equation}
+\label{eq:euklides}
 d_e(X,Y)=\sqrt{\sum_{i=1}^n(x_i-y_i)^2}
 \end{equation}
 \item metryka uliczna
 \begin{equation}
+\label{eq:uliczna}
 d_1(X,Y)=\sum_{i=1}^n|x_i-y_i|
 \end{equation}
 \item metryka Czebyszewa
 \begin{equation}
+\label{eq:czebyszew}
 d_\infty(X,Y)=\max_{i=1,\ldots,n}|x_i-y_i|
 \end{equation}
 \end{itemize}
@@ -68,17 +74,31 @@ d_\infty(X,Y)=\max_{i=1,\ldots,n}|x_i-y_i|
 Klasyfikacji można dokonywać bezpośrednio na podanych tekstach, jednak takie rozwiązanie charakteryzuje się wysokim kosztem obliczeniowym. Dlatego często lepiej jest
 wyekstrahować ze zbiorów pewne wektory cech, które pozwolą szybko sklasyfikować dane teksty. Wybór wektorów cech zależy od postawionego zadania.
 W naszym projekcie użyliśmy trzech sposobów ekstrakcji cech:
-\begin{itemize}
-\item naiwny sposób bazujący na użyciu wszystkich słów (po filtracji przez stoplistę i stemizacji), ilość wymiarów wektora jest zależna od ilości wszystkich słów w zbiorze uczącym
-\item bazujący na słowach kluczowych (jak powyżej, ale wybierane są tylko słowa kluczowe, co zmniejsza ilość wymiarów)
-\item autorska metoda bazująca na zbiorach rozmytych (opis poniżej)
-\end{itemize}
+\begin{enumerate}
+\item naiwny sposób bazujący na użyciu wszystkich słów (po filtracji przez stoplistę i stemizacji), ilość wymiarów wektora jest zależna od ilości wszystkich słów w zbiorze uczącym (patrz sekcja \ref{sec:naiwna})
+\item bazujący na słowach kluczowych (jak powyżej, ale wybierane są tylko słowa kluczowe, co zmniejsza ilość wymiarów) (patrz sekcja \ref{sec:kluczowe})
+\item autorska metoda bazująca na zbiorach rozmytych (opis poniżej) (patrz sekcja \ref{sec:autorska})
+\end{enumerate}
 
 Sama klasyfikacja została wykonana na dwóch zbiorach danych, każdy podzielony na podzbiór uczący i podzbiór testowy, przy czym sposób podziału jest wybierany w aplikacji.
 Można dokonać podziału w sposób losowy (przy zadanych proporcjach), lub w ustalony sposób (60\% początkowych tekstów jako zbiór uczący, reszta to zbiór testowy).
-Pierwszy zbiór danych, to zestaw krótkich wiadomości prasowych firmy Reuters. Drugi zestaw przygotowany przez nas, to teksty znanych pisarzy. Teksty prasowe zostały
-sklasyfikowane na podstawie dwóch kategorii: miejsca którego dotyczą i tematu. Jeśli chodzi o teksty znanych pisarzy, to zostały one sklasyfikowane kategorią, którą są nazwiska pisarzy.
-
+Użyliśmy następujących zbiorów danych:
+\begin{enumerate}
+\item zestaw krótkich wiadomości prasowych firmy Reuters,
+\item przygotowany przez nas zestaw fragmentów tekstów znanych pisarzy.
+\end{enumerate}
+Teksty prasowe zostały sklasyfikowane na podstawie dwóch kategorii: miejsca którego dotyczą i tematu.
+Jeśli chodzi o teksty znanych pisarzy, to zostały one sklasyfikowane kategorią, którą są nazwiska pisarzy.
+\subsection{Naiwna metoda ekstrakcji cech}
+\label{sec:naiwna}
+Do celów porównawczych zaimplementowaliśmy naiwną metodę ekstrakcji. Metoda ta działa w następujący sposób. Najpierw teksty są dzielone na słowa. Słowa te podlegają prostej stemizacji,
+a następnie filtrowane są przez stop-listę. Otrzymujemy zestaw skończonych ciągów słów. Każdemu słowu z zestawu (w sensie typu, a nie egzemplarza słowa) przypisywana jest pozycja
+w wektorze (w kolejności występowania słów). Następnie dla każdego tekstu budowany jest wektor w którym na kolejnych pozycjach występują ilości znalezionych słów.
+\subsection{Metoda ekstrakcji cech bazująca na słowach kluczowych}
+\label{sec:kluczowe}
+Ta metoda działa podobnie do powyższej, jednakże zamiast użycia wszystkich słów, zostały użyte tylko słowa kluczowe. Dla notatek prasowych użyliśmy zestawu słów kluczowych znajdujących się w kolekcji. Dla autorów opracowaliśmy automatycznie własny zestaw słów kluczowych. Dzięki użyciu słów kluczowych zmniejszyła się ilość wymiarów w wektorze cech.
+\subsection{Autorska metoda ekstrakcji cech}
+\label{sec:autorska}
 Poniżej omówimy autorskie metody ekstrakcji cech i miarę podobieństwa, których użyliśmy. 
 Główną ideą naszej metody ekstrakcji są słowa kluczowe. Zbiór takich słów należy przygotować dla konkretnego zadania. Może on być wyznaczony ręcznie,
 lub wygenerowany automatycznie na podstawie danych uczących. Zbiór takich słów dzielimy na podzbiory na podstawie ich znaczenia. Można oczywiście używać tylko jednego podzbioru
@@ -93,30 +113,61 @@ Mając taki zestaw zbiorów możemy wyekstrahować cechy z tekstów zbioru uczą
 cech jest liczbą, która jest sumą wartości funkcji przynależności dla każdego słowa, kluczowego z podanego zbioru rozmytego, które wystąpiło w podanym tekście.
 Opisuje to wzór
 \begin{equation}
-V_T(n)=\sum_{s\in K(n) \cap T} \mu_{K(n)}(s),
+V_T(n)=\sum_{s\in K(n) \cap T} \mu_{K(n)}(s)
 \end{equation}
-przy czym:
-{
-\begin{description}
-\leftskip=1.5em
-\item [\(T\)] to tekst z którego ekstrahujemy cechy,
-\item [\(n\)] to numer składowej wektora cech którą obliczamy,
-\item [\(K(n)\)] to \(n\)-ty zbiór rozmyty,
-\item [\(\mu_{K(n)}(s)\)] to funkcja przynależności dla zbioru \(K(n)\).
-\end{description}
-}
+gdzie:
+\begin{itemize}
+\item \(T\) to tekst (jako zbiór słów) z którego ekstrahujemy cechy,
+\item \(n\) to numer składowej wektora cech którą obliczamy,
+\item \(K(n)\) to \(n\)-ty zbiór rozmyty słów kluczowych,
+\item \(\mu_{K(n)}(s)\) to funkcja przynależności słowa \(s\) do zbioru \(K(n)\).
+\end{itemize}
 \noindent Następnie wektor \(V_T\) jest normalizowany do długości równej \(1\) według wzoru
 \begin{equation}
-v_T = \frac{V_T}{|V_T|}.
+V_T' = \frac{V_T}{|V_T|}
 \end{equation}
 
+Przykładowo, załóżmy, że mamy 2 teksty postaci:
+\begin{description}
+\item [T1]Showers continued throughout the week in the Bahia cocoa zone. Ms Smith said there is still some doubt as to how 
+much old crop cocoa is still available as harvesting has practically come to an end.
+\item [T2]``I'd put it off as long as they conceivably could,'' said Lawrence Cohn, analyst with Merrill Lynch, Pierce, Fenner and Smith.
+\end{description}
+Załóżmy także, że tekst 1 jest przyporządkowany do kategorii ,,el-salvador'', a tekst 2 do kateogrii ,,usa''.
+Do dyspozycji mamy 3 słowa (frazy) kluczowe: ,,bahia'', ,,smith'', ,,merill lynch''. Załóżmy także, że mamy dwa następujące zbiory rozmyte słów (fraz) kluczowych:
+\begin{eqnarray*}
+\textrm{elSalvadorWords}\;\;\;= &\{& \\
+  && <\textrm{bahia}; 1{,}0>, \\
+  && <\textrm{smith}; 0{,}2>, \\
+  && <\textrm{merill lynch}; 0{,}0> \\
+  &\}& \\
+\textrm{usaWords}\;\;\;= &\{& \\
+  && <\textrm{bahia}; 0{,}0>, \\
+  && <\textrm{smith}; 0{,}7>, \\
+  && <\textrm{merill lynch}; 0{,}9> \\
+  &\}&
+\end{eqnarray*}
+Naszym zadaniem jest utworzyć dwa wektory cech opisujących powyższe teksty. Zgodnie z powyższymi wzorami Wektory te będą wyglądać następująco:
+\begin{eqnarray*}
+V_{T1} &=& <1{,}2; 0{,}7> \\
+V_{T2} &=& <0{,}2; 1{,}6>
+\end{eqnarray*}
+a po normalizacji:
+\begin{eqnarray*}
+V_{T1}' &\approx& <0{,}86; 0{,}50> \\
+V_{T2}' &\approx& <0{,}12; 0{,}99>
+\end{eqnarray*}
 
+\subsection{Autorska funkcja podobieństwa}
+\label{sec:autorskiepodobienstwo}
 Natomiast jeśli chodzi o obliczanie funkcji podobieństwa, metoda ta również opiera się na słowach kluczowych. Dla słów kluczowych, które znajdują się w obu tekstach, liczony jest prosty współczynnik dopasowania (simple matching coefficient), wyznaczony
 wzorem
 \begin{equation}
-SMC(A,B) = \frac{\mu(A \cap B)+\mu(A^C \cap B^C)}{\mu(X)}.
+SMC(A,B) = \frac{\mu(A \cap B)+\mu(A^C \cap B^C)}{\mu(X)}
 \end{equation}
 Dzięki użyciu słów kluczowych jesteśmy w stanie znaleźć przestrzeń \(X\), gdyż jest to po prostu zestaw wszystkich słów kluczowych.
+Na przykład dla powyższych tekstów i zbiorów rozmytych mamy następującą wartość funkcji:
+\[SMC(T1,T2) = \frac{1}{3}\]
 %Tworzymy 36 zbiorów rozmytych, po jednym dla każdej kombinacji podzbioru słów kluczowych i klasy.
 %Do każdego zbioru rozmytego dla określonej kategorii i określonej klasy wrzucamy wszystkie słowa kluczowe z tej kategorii i początkowo przypisujemy im \(0{,}0\) jako wartośc
 %funkcji przynależności do zbioru. Następnie przeglądamy zbiór uczący i do każdego elementu elementu przypisujemy stosunek pojawiania się danego słowa kluczowego w danej klasie
@@ -212,22 +263,22 @@ Możliwości obejmowały:
 \begin{itemize}
 \item Wybór metody ekstrakcji cech:
 \begin{itemize}
-\item poprzez obliczanie częstości występowania poszczególnych słów (\emph{,,wszystko''})
-\item poprzez obliczanie częstości występowania wybranych wcześniej słów kluczowych (\emph{,,wybr. sł.''})
-\item poprzez wykorzystanie opisanej w poprzednich sekcjach metody wykorzystującej zbiory rozmyte  (\emph{,,zb. rozm.''})
+\item poprzez obliczanie częstości występowania poszczególnych słów: \emph{,,wszystko''} (patrz sekcja \ref{sec:naiwna}) 
+\item poprzez obliczanie częstości występowania wybranych wcześniej słów kluczowych: \emph{,,wybr. sł.''} (patrz sekcja \ref{sec:kluczowe})
+\item poprzez wykorzystanie opisanej w poprzednich sekcjach metody wykorzystującej zbiory rozmyte: \emph{,,zb. rozm.''} (patrz sekcja \ref{sec:autorska})
 \end{itemize}
 \item Wybór odległości na $\mathbb{R}^n$:
 \begin{itemize}
-\item euklidesowej (\emph{,,\(d_e\)''})
-\item Czebyszewa (\emph{,,\(d_\infty\)''})
-\item taksówkowej (\emph{,,\(d_1\)''})
+\item euklidesowej: \emph{,,\(d_e\)''} (patrz równanie \ref{eq:euklides})
+\item ulicznej: \emph{,,\(d_1\)''} (patrz równanie \ref{eq:uliczna}) 
+\item Czebyszewa: \emph{,,\(d_\infty\)''} (patrz równanie \ref{eq:czebyszew}) 
 \end{itemize}
 \end{itemize}
 \item W przypadku zastosowania metod opartych na szczególnych miarach podobieństwa próbek
 \begin{itemize}
-\item miary Jaccarda
-\item metody $n$-gramów
-\item miary podobieństwa opartej o słowa kluczowe
+\item miary Jaccarda (patrz równanie \ref{eq:jaccard})
+\item metody $n$-gramów (patrz równanie \ref{eq:ngram})
+\item miary podobieństwa opartej o słowa kluczowe (patrz sekcja \ref{sec:autorskiepodobienstwo})
 \end{itemize}
 \end{itemize}
 
@@ -244,8 +295,38 @@ wykonano dodatkowe próby przy \(k=3\) oraz \(k=11\), aby zaobserwować jaki
 wpływ będzie to miało na wyniki.
 
 \section{Wyniki}
+\footnotetext[1]{przekształcenie na wektor cech w \(R^n\)}
+\footnotetext[2]{patrz sekcja \ref{sec:naiwna}}
+\footnotetext[3]{patrz równanie \ref{eq:euklides}}
+\footnotetext[4]{patrz równanie \ref{eq:uliczna}}
+\footnotetext[5]{patrz równanie \ref{eq:czebyszew}}
+\footnotetext[6]{patrz sekcja \ref{sec:kluczowe}}
+\footnotetext[7]{patrz sekcja \ref{sec:autorska}}
+\footnotetext[8]{patrz równanie \ref{eq:jaccard}}
+\footnotetext[9]{patrz sekcja \ref{sec:autorskiepodobienstwo}}
+\footnotetext[10]{patrz równanie \ref{eq:ngram}}
 \include{resultskraje}
+%\footnotetext[1]{przekształcenie na wektor cech w \(R^n\)}
+%\footnotetext[2]{patrz sekcja \ref{sec:naiwna}}
+%\footnotetext[3]{patrz równanie \ref{eq:euklides}}
+%\footnotetext[4]{patrz równanie \ref{eq:uliczna}}
+%\footnotetext[5]{patrz równanie \ref{eq:czebyszew}}
+%\footnotetext[6]{patrz sekcja \ref{sec:kluczowe}}
+%\footnotetext[7]{patrz sekcja \ref{sec:autorska}}
+%\footnotetext[8]{patrz równanie \ref{eq:jaccard}}
+%\footnotetext[9]{patrz sekcja \ref{sec:autorskiepodobienstwo}}
+%\footnotetext[10]{patrz równanie \ref{eq:ngram}}
 \include{resultstematy}
+%\footnotetext[1]{przekształcenie na wektor cech w \(R^n\)}
+%\footnotetext[2]{patrz sekcja \ref{sec:naiwna}}
+%\footnotetext[3]{patrz równanie \ref{eq:euklides}}
+%\footnotetext[4]{patrz równanie \ref{eq:uliczna}}
+%\footnotetext[5]{patrz równanie \ref{eq:czebyszew}}
+%\footnotetext[6]{patrz sekcja \ref{sec:kluczowe}}
+%\footnotetext[7]{patrz sekcja \ref{sec:autorska}}
+%\footnotetext[8]{patrz równanie \ref{eq:jaccard}}
+%\footnotetext[9]{patrz sekcja \ref{sec:autorskiepodobienstwo}}
+%\footnotetext[10]{patrz równanie \ref{eq:ngram}}
 \include{resultsautorzy}
 
 Wykonana seria pomiarów, poza zawartymi w tabeli informacjami o skuteczności klasyfikacji
@@ -267,7 +348,6 @@ się następująco:
 \textbf{$\mathbf{\mathbb{R}^n}$, wszystkie} & około $5\,\mbox{min}$ & około $30\,\mbox{min}$ & około $3\,\mbox{h}$ & \emph{zbyt długo} \\ \hline
 \textbf{Wg. sł. kluczowych} & około $10\,\mbox{min}$ & około $1,5\,\mbox{h}$ & \emph{zbyt długo} & \emph{zbyt długo} \\ \hline
 \textbf{$\mathbf{n}$-gramy} & około $30\,\mbox{min}$ & \emph{zbyt długo} & \emph{zbyt długo} & \emph{zbyt długo} \\ \hline
-\hline
 \end{tabular}
 }
 \caption{Przybliżone czasy dla wybranego zestawu}

@@ -1,5 +1,4 @@
 {
-
 \makeatletter
 \newcommand\nobreakcline[1]{\@nobreakcline#1\@nil}%
 \def\@nobreakcline#1-#2\@nil{%
@@ -13,15 +12,14 @@
   \leaders\hrule\@height\arrayrulewidth\hfill\\*
   \noalign{\vskip-\arrayrulewidth}}
 \makeatother
-
 \begingroup
 \setlength{\LTleft}{-20cm plus -1fill}
 \setlength{\LTright}{\LTleft}
 \ltabela{Wyniki przeprowadzonych prób dla kategoryzacji względem krajów}{|c|c|c|c|c|c|c|c|}{ \hline
-\textbf{\#} & \textbf{Zestaw} & \textbf{Zb. tr./ucz.} & \textbf{Podobieństwo} & $\mathbf{k}$ & \textbf{Kategoria} & \textbf{TPR} & \textbf{PPV} \\
+\textbf{L.p.} & \textbf{Zest.} & \textbf{Zb. tr. i ucz.} & \textbf{Podobieństwo} & $\mathbf{k}$ & \textbf{Kategoria} & \textbf{TPR} & \textbf{PPV} \\
 \hline
 \endhead
-\multirow{7}{*}{23} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$/$6\%$} & \multirow{7}{*}{$R^n$, wszystko, $d_e$} & \multirow{7}{*}{3} & canada & $15,00\%$ & $8,57\%$ \\*
+\multirow{7}{*}{1} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$ i $6\%$} & \multirow{7}{*}{$R^n$\footnotemark[1], wszystko\footnotemark[2], $d_e$\footnotemark[3]} & \multirow{7}{*}{3} & canada & $15,00\%$ & $8,57\%$ \\*
  & & & & & france & $0,00\%$ & $0,00\%$ \\*
  & & & & & japan & $30,00\%$ & $60,00\%$ \\*
  & & & & & uk & $20,00\%$ & $33,33\%$ \\*
@@ -30,7 +28,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{84,94\%}$} \\
 \hline
-\multirow{7}{*}{20} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$/$6\%$} & \multirow{7}{*}{$R^n$, wszystko, $d_e$} & \multirow{7}{*}{5} & canada & $0,00\%$ & $0,00\%$ \\*
+\multirow{7}{*}{2} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$ i $6\%$} & \multirow{7}{*}{$R^n$\footnotemark[1], wszystko\footnotemark[2], $d_e$\footnotemark[3]} & \multirow{7}{*}{5} & canada & $0,00\%$ & $0,00\%$ \\*
  & & & & & france & $0,00\%$ & $0,00\%$ \\*
  & & & & & japan & $30,00\%$ & $50,00\%$ \\*
  & & & & & uk & $20,00\%$ & $33,33\%$ \\*
@@ -39,7 +37,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{87,36\%}$} \\
 \hline
-\multirow{7}{*}{24} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$/$6\%$} & \multirow{7}{*}{$R^n$, wszystko, $d_e$} & \multirow{7}{*}{11} & canada & $0,00\%$ & $0,00\%$ \\*
+\multirow{7}{*}{3} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$ i $6\%$} & \multirow{7}{*}{$R^n$\footnotemark[1], wszystko\footnotemark[2], $d_e$\footnotemark[3]} & \multirow{7}{*}{11} & canada & $0,00\%$ & $0,00\%$ \\*
  & & & & & france & $0,00\%$ & $0,00\%$ \\*
  & & & & & japan & $30,00\%$ & $60,00\%$ \\*
  & & & & & uk & $10,00\%$ & $33,33\%$ \\*
@@ -48,7 +46,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{90,89\%}$} \\
 \hline
-\multirow{7}{*}{22} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$/$6\%$} & \multirow{7}{*}{$R^n$, wszystko, $d_1$} & \multirow{7}{*}{5} & canada & $0,00\%$ & $0,00\%$ \\*
+\multirow{7}{*}{4} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$ i $6\%$} & \multirow{7}{*}{$R^n$\footnotemark[1], wszystko\footnotemark[2], $d_1$\footnotemark[4]} & \multirow{7}{*}{5} & canada & $0,00\%$ & $0,00\%$ \\*
  & & & & & france & $0,00\%$ & $0,00\%$ \\*
  & & & & & japan & $0,00\%$ & $0,00\%$ \\*
  & & & & & uk & $40,00\%$ & $11,76\%$ \\*
@@ -57,7 +55,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{86,62\%}$} \\
 \hline
-\multirow{7}{*}{21} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$/$6\%$} & \multirow{7}{*}{$R^n$, wszystko, $d_\infty$} & \multirow{7}{*}{5} & canada & $5,00\%$ & $5,88\%$ \\*
+\multirow{7}{*}{5} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$ i $6\%$} & \multirow{7}{*}{$R^n$\footnotemark[1], wszystko\footnotemark[2], $d_\infty$\footnotemark[5]} & \multirow{7}{*}{5} & canada & $5,00\%$ & $5,88\%$ \\*
  & & & & & france & $0,00\%$ & $0,00\%$ \\*
  & & & & & japan & $40,00\%$ & $50,00\%$ \\*
  & & & & & uk & $10,00\%$ & $11,11\%$ \\*
@@ -66,7 +64,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{86,43\%}$} \\
 \hline
-\multirow{7}{*}{15} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$10\%$/$15\%$} & \multirow{7}{*}{$R^n$, wszystko, $d_e$} & \multirow{7}{*}{5} & canada & $3,28\%$ & $4,88\%$ \\*
+\multirow{7}{*}{6} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$10\%$ i $15\%$} & \multirow{7}{*}{$R^n$\footnotemark[1], wszystko\footnotemark[2], $d_e$\footnotemark[3]} & \multirow{7}{*}{5} & canada & $3,28\%$ & $4,88\%$ \\*
  & & & & & france & $12,50\%$ & $9,09\%$ \\*
  & & & & & japan & $11,76\%$ & $80,00\%$ \\*
  & & & & & uk & $43,75\%$ & $26,92\%$ \\*
@@ -75,7 +73,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{85,65\%}$} \\
 \hline
-\multirow{7}{*}{11} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$20\%$/$30\%$} & \multirow{7}{*}{$R^n$, wszystko, $d_e$} & \multirow{7}{*}{5} & canada & $5,26\%$ & $16,33\%$ \\*
+\multirow{7}{*}{7} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$20\%$ i $30\%$} & \multirow{7}{*}{$R^n$\footnotemark[1], wszystko\footnotemark[2], $d_e$\footnotemark[3]} & \multirow{7}{*}{5} & canada & $5,26\%$ & $16,33\%$ \\*
  & & & & & france & $36,67\%$ & $40,74\%$ \\*
  & & & & & japan & $39,39\%$ & $58,21\%$ \\*
  & & & & & uk & $61,61\%$ & $51,49\%$ \\*
@@ -84,7 +82,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{84,98\%}$} \\
 \hline
-\multirow{7}{*}{25} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$/$6\%$} & \multirow{7}{*}{$R^n$, wybr. sł., $d_e$} & \multirow{7}{*}{5} & canada & $15,00\%$ & $100,00\%$ \\*
+\multirow{7}{*}{8} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$ i $6\%$} & \multirow{7}{*}{$R^n$\footnotemark[1], wybr. sł.\footnotemark[6], $d_e$\footnotemark[3]} & \multirow{7}{*}{5} & canada & $15,00\%$ & $100,00\%$ \\*
  & & & & & france & $33,33\%$ & $50,00\%$ \\*
  & & & & & japan & $40,00\%$ & $66,67\%$ \\*
  & & & & & uk & $20,00\%$ & $33,33\%$ \\*
@@ -93,7 +91,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{91,45\%}$} \\
 \hline
-\multirow{7}{*}{16} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$10\%$/$15\%$} & \multirow{7}{*}{$R^n$, wybr. sł., $d_e$} & \multirow{7}{*}{5} & canada & $31,15\%$ & $90,48\%$ \\*
+\multirow{7}{*}{9} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$10\%$ i $15\%$} & \multirow{7}{*}{$R^n$\footnotemark[1], wybr. sł.\footnotemark[6], $d_e$\footnotemark[3]} & \multirow{7}{*}{5} & canada & $31,15\%$ & $90,48\%$ \\*
  & & & & & france & $25,00\%$ & $25,00\%$ \\*
  & & & & & japan & $52,94\%$ & $94,74\%$ \\*
  & & & & & uk & $34,38\%$ & $68,75\%$ \\*
@@ -102,7 +100,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{90,78\%}$} \\
 \hline
-\multirow{7}{*}{12} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$20\%$/$30\%$} & \multirow{7}{*}{$R^n$, wybr. sł., $d_e$} & \multirow{7}{*}{5} & canada & $32,89\%$ & $83,33\%$ \\*
+\multirow{7}{*}{10} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$20\%$ i $30\%$} & \multirow{7}{*}{$R^n$\footnotemark[1], wybr. sł.\footnotemark[6], $d_e$\footnotemark[3]} & \multirow{7}{*}{5} & canada & $32,89\%$ & $83,33\%$ \\*
  & & & & & france & $40,00\%$ & $50,00\%$ \\*
  & & & & & japan & $52,53\%$ & $75,36\%$ \\*
  & & & & & uk & $53,57\%$ & $69,77\%$ \\*
@@ -111,7 +109,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{88,29\%}$} \\
 \hline
-\multirow{7}{*}{1} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$40\%$/$60\%$} & \multirow{7}{*}{$R^n$, wybr. sł., $d_e$} & \multirow{7}{*}{5} & canada & $28,39\%$ & $72,00\%$ \\*
+\multirow{7}{*}{11} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$40\%$ i $60\%$} & \multirow{7}{*}{$R^n$\footnotemark[1], wybr. sł.\footnotemark[6], $d_e$\footnotemark[3]} & \multirow{7}{*}{5} & canada & $28,39\%$ & $72,00\%$ \\*
  & & & & & france & $56,18\%$ & $75,76\%$ \\*
  & & & & & japan & $65,09\%$ & $82,63\%$ \\*
  & & & & & uk & $65,69\%$ & $84,81\%$ \\*
@@ -120,7 +118,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{88,41\%}$} \\
 \hline
-\multirow{7}{*}{26} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$/$6\%$} & \multirow{7}{*}{$R^n$, zb. rozm., $d_e$} & \multirow{7}{*}{5} & canada & $25,00\%$ & $83,33\%$ \\*
+\multirow{7}{*}{12} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$ i $6\%$} & \multirow{7}{*}{$R^n$\footnotemark[1], zb. rozm.\footnotemark[7], $d_e$\footnotemark[3]} & \multirow{7}{*}{5} & canada & $25,00\%$ & $83,33\%$ \\*
  & & & & & france & $66,67\%$ & $66,67\%$ \\*
  & & & & & japan & $70,00\%$ & $100,00\%$ \\*
  & & & & & uk & $30,00\%$ & $60,00\%$ \\*
@@ -129,7 +127,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{93,12\%}$} \\
 \hline
-\multirow{7}{*}{17} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$10\%$/$15\%$} & \multirow{7}{*}{$R^n$, zb. rozm., $d_e$} & \multirow{7}{*}{5} & canada & $29,51\%$ & $90,00\%$ \\*
+\multirow{7}{*}{13} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$10\%$ i $15\%$} & \multirow{7}{*}{$R^n$\footnotemark[1], zb. rozm.\footnotemark[7], $d_e$\footnotemark[3]} & \multirow{7}{*}{5} & canada & $29,51\%$ & $90,00\%$ \\*
  & & & & & france & $50,00\%$ & $57,14\%$ \\*
  & & & & & japan & $61,76\%$ & $84,00\%$ \\*
  & & & & & uk & $40,62\%$ & $72,22\%$ \\*
@@ -138,7 +136,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{91,52\%}$} \\
 \hline
-\multirow{7}{*}{13} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$20\%$/$30\%$} & \multirow{7}{*}{$R^n$, zb. rozm., $d_e$} & \multirow{7}{*}{5} & canada & $35,53\%$ & $72,97\%$ \\*
+\multirow{7}{*}{14} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$20\%$ i $30\%$} & \multirow{7}{*}{$R^n$\footnotemark[1], zb. rozm.\footnotemark[7], $d_e$\footnotemark[3]} & \multirow{7}{*}{5} & canada & $35,53\%$ & $72,97\%$ \\*
  & & & & & france & $50,00\%$ & $48,39\%$ \\*
  & & & & & japan & $64,65\%$ & $80,00\%$ \\*
  & & & & & uk & $60,71\%$ & $78,16\%$ \\*
@@ -147,7 +145,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{89,10\%}$} \\
 \hline
-\multirow{7}{*}{5} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$40\%$/$60\%$} & \multirow{7}{*}{$R^n$, zb. rozm., $d_e$} & \multirow{7}{*}{3} & canada & $31,55\%$ & $38,76\%$ \\*
+\multirow{7}{*}{15} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$40\%$ i $60\%$} & \multirow{7}{*}{$R^n$\footnotemark[1], zb. rozm.\footnotemark[7], $d_e$\footnotemark[3]} & \multirow{7}{*}{3} & canada & $31,55\%$ & $38,76\%$ \\*
  & & & & & france & $58,43\%$ & $57,78\%$ \\*
  & & & & & japan & $72,17\%$ & $80,95\%$ \\*
  & & & & & uk & $65,36\%$ & $80,32\%$ \\*
@@ -156,7 +154,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{86,37\%}$} \\
 \hline
-\multirow{7}{*}{2} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$40\%$/$60\%$} & \multirow{7}{*}{$R^n$, zb. rozm., $d_e$} & \multirow{7}{*}{5} & canada & $28,08\%$ & $72,36\%$ \\*
+\multirow{7}{*}{16} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$40\%$ i $60\%$} & \multirow{7}{*}{$R^n$\footnotemark[1], zb. rozm.\footnotemark[7], $d_e$\footnotemark[3]} & \multirow{7}{*}{5} & canada & $28,08\%$ & $72,36\%$ \\*
  & & & & & france & $60,67\%$ & $68,35\%$ \\*
  & & & & & japan & $74,53\%$ & $82,29\%$ \\*
  & & & & & uk & $68,63\%$ & $80,15\%$ \\*
@@ -165,7 +163,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{88,88\%}$} \\
 \hline
-\multirow{7}{*}{3} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$40\%$/$60\%$} & \multirow{7}{*}{$R^n$, zb. rozm., $d_\infty$} & \multirow{7}{*}{5} & canada & $29,34\%$ & $72,09\%$ \\*
+\multirow{7}{*}{17} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$40\%$ i $60\%$} & \multirow{7}{*}{$R^n$\footnotemark[1], zb. rozm.\footnotemark[7], $d_\infty$\footnotemark[5]} & \multirow{7}{*}{5} & canada & $29,34\%$ & $72,09\%$ \\*
  & & & & & france & $66,29\%$ & $68,60\%$ \\*
  & & & & & japan & $75,94\%$ & $83,85\%$ \\*
  & & & & & uk & $66,99\%$ & $79,77\%$ \\*
@@ -174,7 +172,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{89,01\%}$} \\
 \hline
-\multirow{7}{*}{4} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$40\%$/$60\%$} & \multirow{7}{*}{$R^n$, zb. rozm., $d_1$} & \multirow{7}{*}{5} & canada & $28,08\%$ & $72,36\%$ \\*
+\multirow{7}{*}{18} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$40\%$ i $60\%$} & \multirow{7}{*}{$R^n$\footnotemark[1], zb. rozm.\footnotemark[7], $d_1$\footnotemark[4]} & \multirow{7}{*}{5} & canada & $28,08\%$ & $72,36\%$ \\*
  & & & & & france & $53,93\%$ & $72,73\%$ \\*
  & & & & & japan & $70,75\%$ & $82,87\%$ \\*
  & & & & & uk & $65,69\%$ & $83,06\%$ \\*
@@ -183,7 +181,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{88,67\%}$} \\
 \hline
-\multirow{7}{*}{7} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$20\%$/$30\%$, losowanie} & \multirow{7}{*}{$R^n$, zb. rozm., $d_e$} & \multirow{7}{*}{5} & canada & $34,87\%$ & $73,61\%$ \\*
+\multirow{7}{*}{19} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$20\%$ i $30\%$, losowanie} & \multirow{7}{*}{$R^n$\footnotemark[1], zb. rozm.\footnotemark[7], $d_e$\footnotemark[3]} & \multirow{7}{*}{5} & canada & $34,87\%$ & $73,61\%$ \\*
  & & & & & france & $50,00\%$ & $48,39\%$ \\*
  & & & & & japan & $65,66\%$ & $80,25\%$ \\*
  & & & & & uk & $60,71\%$ & $78,16\%$ \\*
@@ -192,7 +190,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{89,10\%}$} \\
 \hline
-\multirow{7}{*}{8} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$40\%$/$60\%$, losowanie} & \multirow{7}{*}{$R^n$, zb. rozm., $d_e$} & \multirow{7}{*}{5} & canada & $29,57\%$ & $72,04\%$ \\*
+\multirow{7}{*}{20} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$40\%$ i $60\%$, losowanie} & \multirow{7}{*}{$R^n$\footnotemark[1], zb. rozm.\footnotemark[7], $d_e$\footnotemark[3]} & \multirow{7}{*}{5} & canada & $29,57\%$ & $72,04\%$ \\*
  & & & & & france & $60,14\%$ & $70,34\%$ \\*
  & & & & & japan & $67,97\%$ & $83,77\%$ \\*
  & & & & & uk & $70,43\%$ & $83,26\%$ \\*
@@ -201,7 +199,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{87,86\%}$} \\
 \hline
-\multirow{7}{*}{9} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$40\%$/$60\%$, losowanie, zachodzenie} & \multirow{7}{*}{$R^n$, zb. rozm., $d_e$} & \multirow{7}{*}{5} & canada & $32,07\%$ & $69,70\%$ \\*
+\multirow{7}{*}{21} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$40\%$ i $60\%$, losowanie, zachodzenie} & \multirow{7}{*}{$R^n$\footnotemark[1], zb. rozm.\footnotemark[7], $d_e$\footnotemark[3]} & \multirow{7}{*}{5} & canada & $32,07\%$ & $69,70\%$ \\*
  & & & & & france & $66,01\%$ & $78,91\%$ \\*
  & & & & & japan & $75,09\%$ & $83,14\%$ \\*
  & & & & & uk & $74,32\%$ & $85,36\%$ \\*
@@ -210,7 +208,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{89,19\%}$} \\
 \hline
-\multirow{7}{*}{10} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$60\%$/$90\%$, losowanie, zachodzenie} & \multirow{7}{*}{$R^n$, zb. rozm., $d_e$} & \multirow{7}{*}{5} & canada & $33,99\%$ & $78,25\%$ \\*
+\multirow{7}{*}{22} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$60\%$ i $90\%$, losowanie, zachodzenie} & \multirow{7}{*}{$R^n$\footnotemark[1], zb. rozm.\footnotemark[7], $d_e$\footnotemark[3]} & \multirow{7}{*}{5} & canada & $33,99\%$ & $78,25\%$ \\*
  & & & & & france & $71,24\%$ & $82,56\%$ \\*
  & & & & & japan & $79,19\%$ & $88,50\%$ \\*
  & & & & & uk & $74,33\%$ & $87,91\%$ \\*
@@ -219,7 +217,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{90,35\%}$} \\
 \hline
-\multirow{7}{*}{27} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$/$6\%$} & \multirow{7}{*}{Jaccard} & \multirow{7}{*}{5} & canada & $5,00\%$ & $8,33\%$ \\*
+\multirow{7}{*}{23} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$ i $6\%$} & \multirow{7}{*}{Jaccard\footnotemark[8]} & \multirow{7}{*}{5} & canada & $5,00\%$ & $8,33\%$ \\*
  & & & & & france & $100,00\%$ & $100,00\%$ \\*
  & & & & & japan & $30,00\%$ & $50,00\%$ \\*
  & & & & & uk & $40,00\%$ & $44,44\%$ \\*
@@ -228,7 +226,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{89,59\%}$} \\
 \hline
-\multirow{7}{*}{18} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$10\%$/$15\%$} & \multirow{7}{*}{Jaccard} & \multirow{7}{*}{5} & canada & $16,39\%$ & $43,48\%$ \\*
+\multirow{7}{*}{24} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$10\%$ i $15\%$} & \multirow{7}{*}{Jaccard\footnotemark[8]} & \multirow{7}{*}{5} & canada & $16,39\%$ & $43,48\%$ \\*
  & & & & & france & $12,50\%$ & $33,33\%$ \\*
  & & & & & japan & $32,35\%$ & $91,67\%$ \\*
  & & & & & uk & $46,88\%$ & $55,56\%$ \\*
@@ -237,7 +235,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{89,44\%}$} \\
 \hline
-\multirow{7}{*}{14} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$20\%$/$30\%$} & \multirow{7}{*}{Jaccard} & \multirow{7}{*}{5} & canada & $17,11\%$ & $50,00\%$ \\*
+\multirow{7}{*}{25} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$20\%$ i $30\%$} & \multirow{7}{*}{Jaccard\footnotemark[8]} & \multirow{7}{*}{5} & canada & $17,11\%$ & $50,00\%$ \\*
  & & & & & france & $40,00\%$ & $60,00\%$ \\*
  & & & & & japan & $54,55\%$ & $71,05\%$ \\*
  & & & & & uk & $67,86\%$ & $78,35\%$ \\*
@@ -246,7 +244,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{88,69\%}$} \\
 \hline
-\multirow{7}{*}{28} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$/$6\%$} & \multirow{7}{*}{Wg. sł. kluczowych} & \multirow{7}{*}{5} & canada & $5,00\%$ & $50,00\%$ \\*
+\multirow{7}{*}{26} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$ i $6\%$} & \multirow{7}{*}{Wg. sł. kluczowych\footnotemark[9]} & \multirow{7}{*}{5} & canada & $5,00\%$ & $50,00\%$ \\*
  & & & & & france & $0,00\%$ & $0,00\%$ \\*
  & & & & & japan & $10,00\%$ & $100,00\%$ \\*
  & & & & & uk & $20,00\%$ & $100,00\%$ \\*
@@ -255,7 +253,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{91,08\%}$} \\
 \hline
-\multirow{7}{*}{19} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$10\%$/$15\%$} & \multirow{7}{*}{Wg. sł. kluczowych} & \multirow{7}{*}{5} & canada & $19,67\%$ & $92,31\%$ \\*
+\multirow{7}{*}{27} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$10\%$ i $15\%$} & \multirow{7}{*}{Wg. sł. kluczowych\footnotemark[9]} & \multirow{7}{*}{5} & canada & $19,67\%$ & $92,31\%$ \\*
  & & & & & france & $0,00\%$ & $0,00\%$ \\*
  & & & & & japan & $41,18\%$ & $93,33\%$ \\*
  & & & & & uk & $31,25\%$ & $55,56\%$ \\*
@@ -264,7 +262,7 @@
 \nobreakcline{6-8}
 & & & & & \textbf{poprawne:} & \multicolumn{2}{c|}{$\mathbf{90,11\%}$} \\
 \hline
-\multirow{7}{*}{29} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$/$6\%$} & \multirow{7}{*}{fuzzy} & \multirow{7}{*}{5} & canada & $0,00\%$ & $0,00\%$ \\*
+\multirow{7}{*}{28} & \multirow{7}{*}{Kraje} & \multirow{7}{*}{$4\%$ i $6\%$} & \multirow{7}{*}{N-gramy\footnotemark[10]} & \multirow{7}{*}{5} & canada & $0,00\%$ & $0,00\%$ \\*
  & & & & & france & $0,00\%$ & $0,00\%$ \\*
  & & & & & japan & $0,00\%$ & $0,00\%$ \\*
  & & & & & uk & $10,00\%$ & $16,67\%$ \\*

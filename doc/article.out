@@ -1,5 +1,10 @@
 \BOOKMARK [1][-]{section.1}{Cel}{}
 \BOOKMARK [1][-]{section.2}{Wprowadzenie}{}
+\BOOKMARK [2][-]{subsection.2.1}{Podstawowe algorytmy}{section.2}
+\BOOKMARK [2][-]{subsection.2.2}{Naiwna metoda ekstrakcji cech}{section.2}
+\BOOKMARK [2][-]{subsection.2.3}{Metoda ekstrakcji cech bazujaca na slowach kluczowych}{section.2}
+\BOOKMARK [2][-]{subsection.2.4}{Autorska metoda ekstrakcji cech}{section.2}
+\BOOKMARK [2][-]{subsection.2.5}{Autorska funkcja podobienstwa}{section.2}
 \BOOKMARK [1][-]{section.3}{Opis implementacji}{}
 \BOOKMARK [1][-]{section.4}{Materialy i metody}{}
 \BOOKMARK [1][-]{section.5}{Wyniki}{}
