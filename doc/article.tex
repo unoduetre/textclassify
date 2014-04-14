@@ -69,9 +69,9 @@ Klasyfikacji można dokonywać bezpośrednio na podanych tekstach, jednak takie 
 wyekstrahować ze zbiorów pewne wektory cech, które pozwolą szybko sklasyfikować dane teksty. Wybór wektorów cech zależy od postawionego zadania.
 W naszym projekcie użyliśmy trzech sposobów ekstrakcji cech:
 \begin{itemize}
-\item naiwny sposób bazujący na użyciu wszystkich słów (po filtracji przez stoplistę i stemizacji), ilość wymiarów wektora jest zależna od ilości wszystkich słów w zbiorze uczącym
-\item bazujący na słowach kluczowych (jak powyżej, ale wybierane są tylko słowa kluczowe, co zmniejsza ilość wymiarów)
-\item autorska metoda bazująca na zbiorach rozmytych (opis poniżej)
+\item naiwny sposób bazujący na użyciu wszystkich słów (po filtracji przez stoplistę i stemizacji), ilość wymiarów wektora jest zależna od ilości wszystkich słów w zbiorze uczącym -- np. dla połowy największego testowanego zbioru wynosi ona \(15075\), a dla całego zbioru -- \(21349\)
+\item bazujący na słowach kluczowych (jak powyżej, ale wybierane są tylko słowa kluczowe, co zmniejsza ilość wymiarów do \(853\))
+\item autorska metoda bazująca na zbiorach rozmytych (opis poniżej), zastosowanie której powoduje w naszym przypadku pracę w zaledwie \(30\) wymiarach
 \end{itemize}
 
 Sama klasyfikacja została wykonana na dwóch zbiorach danych, każdy podzielony na podzbiór uczący i podzbiór testowy, przy czym sposób podziału jest wybierany w aplikacji.
@@ -293,9 +293,9 @@ w problemie rozpoznawania autorstwa, lepiej użyć metody bardziej ogólnej. Met
 Zupełnie natomiast nie radzi sobie miara bazująca na n-gramach, ze względu na powolność działania, co wynika z dużej ilości obliczeń niezbędnych do zastosowania metody. 
 \section{Wnioski}
 \begin{itemize}
-\item Nasza autorska metoda bazująca na zbiorach rozmytych jest bardzo skuteczna w problemach w których można wyróżnić słowa kluczowe.
-\item Dla problemów, w których wyróżnienie słów kluczowych nie jest skuteczne dobrą metodą jest metoda oparta na mierze Jaccarda.
-\item Metoda n-gramów działa zbyt wolno. Wynika to jednak z faktu, że liczymy n-gramy dla liter. Możliwe, że gdybyśmy użyli modyfikacji tej metody, w której zamiast
+\item Nasza autorska metoda bazująca na zbiorach rozmytych jest bardzo skuteczna w problemach w których można wyróżnić słowa kluczowe -- dla podzbiorów wybieranych w ramach problemu ,,Kraje'' przy zastosowaniu odległości euklidesowej osiągaliśmy od \(88,88\%\) do \(93,12\%\) poprawnych klasyfikacji, a dla problemu ,,Tematy'' -- \(97,25\%\).
+\item Dla problemów, w których wyróżnienie słów kluczowych nie jest skuteczne (chodzi o problem ,,Autorzy'', gdzie metody wykorzystujące słowa kluczowe lub zbiory rozmyte osiągnęły co najwyżej \(57,65\%\) poprawnych klasyfikacji) dobrą metodą jest metoda oparta na mierze Jaccarda (która w omawianym przypadku sklasyfikowała poprawnie \(79,17\%\) próbek).
+\item Metoda \(n\)-gramów działa zbyt wolno (tylko w przypadku bardzo małych zbiorów danych doczekaliśmy się wyniku w czasie poniżej \(3\,\mbox{h}\), a i tak czas wykonania był około \(6\)x gorszy niż w przypadku naiwnego sposobu bazującego na użyciu wszystkich słów). Wynika to jednak z faktu, że liczymy \(n\)-gramy dla liter. Możliwe, że gdybyśmy użyli modyfikacji tej metody, w której zamiast
 liter użylibyśmy całych słów, to metoda byłaby szybsza i dawała lepsze wyniki.
 \end{itemize}
 
