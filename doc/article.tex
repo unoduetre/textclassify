@@ -9,7 +9,7 @@
 \coursename{Komputerowe systemy rozpoznawania}
 \courseyear{2013/2014}
 
-\courseteacher{prof. dr hab. inż. Adam Niewiadomski}
+\courseteacher{dr hab. inż. Adam Niewiadomski, prof. PŁ}
 \coursegroup{poniedziałek, 10:30}
 
 \author{%
@@ -39,26 +39,34 @@ Pokazuje to jak szerokie zastosowanie może mieć ten klasyfikator.
 W naszym projekcie użyliśmy następujących funkcji podobieństwa:
 \begin{itemize}
 \item miara Jaccarda na słowach po filtracji stoplistą i stemizacji jako podobieństwo tekstów
-\[J(A,B) = \frac{\mu(A\cap B)}{\mu(A \cup B)}\],
+\begin{equation}
+J(A,B) = \frac{\mu(A\cap B)}{\mu(A \cup B)},
+\end{equation}
 \item metoda \(n\)-gramów (użyliśmy metody 3-gramów, gdyż tekst jest tekstem angielskim, przy czym użyliśmy 3-gramów w mierze podobieństwa zdań)
-\begin{eqnarray*}
+\begin{eqnarray}
 \textrm{sim}_3(s_1,s_2) & = & \frac{1}{N-2}\sum_{i=1}^{N-2}h(i) \\
 \mu_{N_z}(z_1, z_2) & = & \frac{1}{N} \sum_{i=1}^{N(z_1)}\max_{j=1,\ldots,N(z_1)} \textrm{sim}_3(s_{1j}, s_{2i})
-\end{eqnarray*}
+\end{eqnarray}
 \item autorska metoda bazująca na słowach kluczowych i prostym współczynniku dopasowania (opis poniżej) 
 \end{itemize}
 Użyte zostały następujące metryki:
 \begin{itemize}
 \item metryka euklidesowa
-\[d_e(X,Y)=\sqrt{\sum_{i=1}^n(x_i-y_i)^2}\]
+\begin{equation}
+d_e(X,Y)=\sqrt{\sum_{i=1}^n(x_i-y_i)^2}
+\end{equation}
 \item metryka uliczna
-\[d_1(X,Y)=\sum_{i=1}^n|x_i-y_i|\]
+\begin{equation}
+d_1(X,Y)=\sum_{i=1}^n|x_i-y_i|
+\end{equation}
 \item metryka Czebyszewa
-\[d_\infty(X,Y)=\max_{i=1,\ldots,n}|x_i-y_i|\]
+\begin{equation}
+d_\infty(X,Y)=\max_{i=1,\ldots,n}|x_i-y_i|
+\end{equation}
 \end{itemize}
 
 Klasyfikacji można dokonywać bezpośrednio na podanych tekstach, jednak takie rozwiązanie charakteryzuje się wysokim kosztem obliczeniowym. Dlatego często lepiej jest
-wyekstrachować ze zbiorów pewne wektory cech, które pozwolą szybko sklasyfikować dane teksty. Wybór wektorów cech zależy od postawionego zadania.
+wyekstrahować ze zbiorów pewne wektory cech, które pozwolą szybko sklasyfikować dane teksty. Wybór wektorów cech zależy od postawionego zadania.
 W naszym projekcie użyliśmy trzech sposobów ekstrakcji cech:
 \begin{itemize}
 \item naiwny sposób bazujący na użyciu wszystkich słów (po filtracji przez stoplistę i stemizacji), ilość wymiarów wektora jest zależna od ilości wszystkich słów w zbiorze uczącym
@@ -76,24 +84,38 @@ Główną ideą naszej metody ekstrakcji są słowa kluczowe. Zbiór takich sł�
 lub wygenerowany automatycznie na podstawie danych uczących. Zbiór takich słów dzielimy na podzbiory na podstawie ich znaczenia. Można oczywiście używać tylko jednego podzbioru
 w którym są umieszczone wszystkie słowa kluczowe, ale zwiększenie ilości podzbiorów może poprawić klasyfikację, ze względu na zwiększenie wymiarowości przestrzeni. 
 W jednym podzbiorze powinny być słowa oznaczająca podobne obiekty, na przykład nazwy geograficzne. Następnie dla każdej kategorii względem której klasyfikujemy przygotowujemy
-osobny zestaw podzbiorów. Inaczej mówiąc jeżeli kategorią jest ,,kanada'' a jednym w jednym z podzbiorów znajdują się ,,organizacje'', to tworzymy podzbiór ,,kanadyjskie organizacje''.
-Widać, że jest to metoda analogiczna do tego jak ludzie kategoryzują obiekty. Wystarczy następnie zauważyć, że określenie ,,kanadyjskie organizacji'' możemy modelować
+osobny zestaw podzbiorów. Inaczej mówiąc jeżeli kategorią jest ,,kanada'' a w jednym z podzbiorów znajdują się ,,organizacje'', to tworzymy podzbiór ,,kanadyjskie organizacje''.
+Widać, że jest to metoda analogiczna do tego jak ludzie kategoryzują obiekty. Wystarczy następnie zauważyć, że określenie ,,kanadyjskie organizacje'' możemy modelować
 jako pewien zbiór rozmyty. Niektóre organizacje są stricte kanadyjskie, inne tylko częściowo. Na podstawie danych uczących, lub wiedzy eksperckiej jesteśmy w stanie podać
 funkcję przynależności do danego zbioru.
 
-Mając taki zestaw zbiorów możemy wyekstrachować cechy z tekstów zbioru uczącego i na tej podstawie nauczyć klasyfikator. Ekstrakcja przebiega następująco. Wstępnie każdy element wektora
+Mając taki zestaw zbiorów możemy wyekstrahować cechy z tekstów zbioru uczącego i na tej podstawie nauczyć klasyfikator. Ekstrakcja przebiega następująco. Wstępnie każdy element wektora
 cech jest liczbą, która jest sumą wartości funkcji przynależności dla każdego słowa, kluczowego z podanego zbioru rozmytego, które wystąpiło w podanym tekście.
 Opisuje to wzór
-\[V_T(n)=\sum_{s\in K(n) \cap T} \mu_{K(n)}(s),\]
-przy czym \(T\) to tekst z którego ekstrachujemy cechy, \(n\) to numer składowej wektora cech którą obliczamy, \(K(n)\) to \(n\)-ty zbiór rozmyty, \(\mu(s)\) to funkcja przynależności
-dla zbioru \(K(n)\).
-Następnie wektor \(V_T\) jest normalizowany do długości równej \(1\) według wzoru
-\[v_T = \frac{V_T}{|V_T|}.\]
+\begin{equation}
+V_T(n)=\sum_{s\in K(n) \cap T} \mu_{K(n)}(s),
+\end{equation}
+przy czym:
+{
+\begin{description}
+\leftskip=1.5em
+\item [\(T\)] to tekst z którego ekstrahujemy cechy,
+\item [\(n\)] to numer składowej wektora cech którą obliczamy,
+\item [\(K(n)\)] to \(n\)-ty zbiór rozmyty,
+\item [\(\mu_{K(n)}(s)\)] to funkcja przynależności dla zbioru \(K(n)\).
+\end{description}
+}
+\noindent Następnie wektor \(V_T\) jest normalizowany do długości równej \(1\) według wzoru
+\begin{equation}
+v_T = \frac{V_T}{|V_T|}.
+\end{equation}
 
 
 Natomiast jeśli chodzi o obliczanie funkcji podobieństwa, metoda ta również opiera się na słowach kluczowych. Dla słów kluczowych, które znajdują się w obu tekstach, liczony jest prosty współczynnik dopasowania (simple matching coefficient), wyznaczony
 wzorem
-\[SMC(A,B) = \frac{\mu(A \cap B)+\mu(A^C \cap B^C)}{\mu(X)}.\]
+\begin{equation}
+SMC(A,B) = \frac{\mu(A \cap B)+\mu(A^C \cap B^C)}{\mu(X)}.
+\end{equation}
 Dzięki użyciu słów kluczowych jesteśmy w stanie znaleźć przestrzeń \(X\), gdyż jest to po prostu zestaw wszystkich słów kluczowych.
 %Tworzymy 36 zbiorów rozmytych, po jednym dla każdej kombinacji podzbioru słów kluczowych i klasy.
 %Do każdego zbioru rozmytego dla określonej kategorii i określonej klasy wrzucamy wszystkie słowa kluczowe z tej kategorii i początkowo przypisujemy im \(0{,}0\) jako wartośc
@@ -135,7 +157,7 @@ trzy tryby generowania szczegółowych wyników:
 
 \section{Materiały i metody}
 Eksperymenty przeprowadzane były dla trzech problemów klasyfikacji:
-\begin{itemize}
+\begin{enumerate}
 \item \textbf{Kraje} -- klasyfikacja próbek tekstowych ze zbioru
 \emph{Reuters-21578 Text Categorization Collection Data Set}, gdzie jako etykiety
 wybrane zostały kraje, których dotyczy dana próbka. Wybrane zostały wyłącznie
@@ -161,7 +183,7 @@ jest autor tekstu (po usunięciu przypisów, próbki wybierane są wprost z dzie
 literackich, więc autorem każdej z próbek jest William Shakespeare lub Lord George Gordon Byron).
 W przypadku tego problemu mamy do dyspozycji \textbf{568} próbek, w których
 występuje \textbf{6028} rozróżnialnych, uwzględnianych przez nasz program słów.
-\end{itemize}
+\end{enumerate}
 
 \vskip\baselineskip
 
@@ -267,13 +289,14 @@ metoda n-gramów, naiwna ekstrakcja bazująca na wszystkich słowach a także po
 Uogólniając powyższe widać, że metoda bazująca na mierze Jaccarda, choć nie jest to metoda najszybsza, to sprawdza się w różnych zastosowaniach. Co więcej metoda ta jest
 prosta w implementacji i nie wymaga żadnej wstępnej preparacji danych, na przykład znajdywania słów kluczowych. Jeżeli zależy nam na szybkości, a określony problem pozwala
 na zastosowanie metody ekstrakcji opartej o zbiory rozmyte, to warto jej użyć. Jednakże w problemach, w których trudno jest odnaleźć właściwe słowa kluczowe, jak na przykład
-w problemie rozpoznawania autorstwa, lepiej użyć metody bardziej ogólnej. Metoda ekstrachująca wszystkie słowa ma dobrą skuteczność, ale jej czas działania  niestety ją dyskwalifikuje.
+w problemie rozpoznawania autorstwa, lepiej użyć metody bardziej ogólnej. Metoda ekstrahująca wszystkie słowa ma dobrą skuteczność, ale jej czas działania  niestety ją dyskwalifikuje.
 Zupełnie natomiast nie radzi sobie miara bazująca na n-gramach, ze względu na powolność działania, co wynika z dużej ilości obliczeń niezbędnych do zastosowania metody. 
 \section{Wnioski}
 \begin{itemize}
 \item Nasza autorska metoda bazująca na zbiorach rozmytych jest bardzo skuteczna w problemach w których można wyróżnić słowa kluczowe.
 \item Dla problemów, w których wyróżnienie słów kluczowych nie jest skuteczne dobrą metodą jest metoda oparta na mierze Jaccarda.
-\item Metoda n-gramów, choć może być skuteczna, to działa zbyt wolno.
+\item Metoda n-gramów działa zbyt wolno. Wynika to jednak z faktu, że liczymy n-gramy dla liter. Możliwe, że gdybyśmy użyli modyfikacji tej metody, w której zamiast
+liter użylibyśmy całych słów, to metoda byłaby szybsza i dawała lepsze wyniki.
 \end{itemize}
 
 

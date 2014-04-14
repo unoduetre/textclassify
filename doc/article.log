@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2009.4.7)  7 APR 2014 01:28
+This is pdfTeX, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2009.4.7)  14 APR 2014 07:39
 entering extended mode
 **article.tex
 (./article.tex
@@ -568,7 +568,7 @@ File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 File: uni-0.def 2004/10/17 UCS: Unicode data U+0000..U+00FF
 ) [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] <uml.pdf, id=60, 674.5
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] <uml.pdf, id=65, 674.5
 2pt x 481.8pt>
 File: uml.pdf Graphic file (type pdf)
  <use uml.pdf>
@@ -576,65 +576,77 @@ File: uml.pdf Graphic file (type pdf)
 1}) has been already used, duplicate ignored
 <to be read again> 
                    \endgroup \set@typeset@protect 
-l.146 \item \textbf
+l.168 \item \textbf
                    {Tematy} -- prÃ³bki wybierane z tego samego zbioru, co w ...
  <./uml.pdf>] [5]
+Overfull \hbox (26.87491pt too wide) in paragraph at lines 215--216
+[]\T1/cmr/m/n/12 poprzez ob-li-cza-nie cz¦-sto-±ci wy-st¦-po-wa-nia po-szcze-gó
+l-nych sªów (\T1/cmr/m/it/12 ,,wszyst-
+ []
+
+[6]
 \openout2 = `resultskraje.aux'.
 
- (./resultskraje.tex [6
+ (./resultskraje.tex [7
 
 
-] [7] [8] [9]) [10]
+] [8] [9] [10]) [11]
 \openout2 = `resultstematy.aux'.
 
-
-(./resultstematy.tex) [11
+ (./resultstematy.tex) [12
 
 
 
 ]
 \openout2 = `resultsautorzy.aux'.
 
- (./resultsautorzy.tex) [12
+
+(./resultsautorzy.tex) [13
 
 
 
-]
+] [14
+
+pdfTeX warning (ext4): destination with the same identifier (name{table.4}) has
+ been already used, duplicate ignored
+<to be read again> 
+                   \endgroup \set@typeset@protect 
+l.294 \section
+              {Wnioski}]
 LaTeX Font Info:    External font `plex10' loaded for size
-(Font)              <10.95> on input line 207.
- [13
-
-] (./article.aux
-(./resultskraje.aux) (./resultstematy.aux) (./resultsautorzy.aux)) ) 
+(Font)              <10.95> on input line 305.
+ [15] (./article.aux (./resultskraje.aux)
+(./resultstematy.aux) (./resultsautorzy.aux)) ) 
 Here is how much of TeX's memory you used:
- 8866 strings out of 94086
- 116638 string characters out of 1167701
- 222876 words of memory out of 3500000
- 11879 multiletter control sequences out of 10000+50000
+ 8882 strings out of 94086
+ 116780 string characters out of 1167701
+ 222887 words of memory out of 3500000
+ 11881 multiletter control sequences out of 10000+50000
  22358 words of font info for 58 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
- 39i,8n,34p,384b,501s stack positions out of 5000i,500n,6000p,200000b,5000s
-{/usr/share
-/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/share/texmf/fonts/enc/dvi
-ps/pl/plrm.enc}{/usr/share/texmf/fonts/enc/dvips/pl/plmi.enc}{/usr/share/texmf/
-fonts/enc/dvips/pl/plme.enc}{/usr/share/texmf/fonts/enc/dvips/pl/plms.enc}</usr
-/share/texmf/fonts/type1/public/pl/plbx12.pfb></usr/share/texmf/fonts/type1/pub
-lic/pl/plex10.pfb></usr/share/texmf/fonts/type1/public/pl/plmi12.pfb></usr/shar
-e/texmf/fonts/type1/public/pl/plmi6.pfb></usr/share/texmf/fonts/type1/public/pl
-/plmi8.pfb></usr/share/texmf/fonts/type1/public/pl/plr12.pfb></usr/share/texmf/
-fonts/type1/public/pl/plr6.pfb></usr/share/texmf/fonts/type1/public/pl/plr8.pfb
-></usr/share/texmf/fonts/type1/public/pl/plsy10.pfb></usr/share/texmf/fonts/typ
-e1/public/pl/plsy8.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.p
-fb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf
-/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/
-cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1440.pf
-b></usr/share/texmf/fonts/type1/public/cm-super/sfrm2074.pfb></usr/share/texmf/
-fonts/type1/public/cm-super/sfti1095.pfb></usr/share/texmf/fonts/type1/public/c
-m-super/sfti1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1095.pfb
->
-Output written on article.pdf (13 pages, 512918 bytes).
+ 39i,13n,34p,384b,501s stack positions out of 5000i,500n,6000p,200000b,5000s
+{/usr/share/texmf/fonts/enc/dvip
+s/cm-super/cm-super-t1.enc}{/usr/share/texmf/fonts/enc/dvips/pl/plrm.enc}{/usr/
+share/texmf/fonts/enc/dvips/pl/plmi.enc}{/usr/share/texmf/fonts/enc/dvips/pl/pl
+me.enc}{/usr/share/texmf/fonts/enc/dvips/pl/plms.enc}</usr/share/texmf/fonts/ty
+pe1/bluesky/ams/msbm10.pfb></usr/share/texmf/fonts/type1/public/pl/plbx12.pfb><
+/usr/share/texmf/fonts/type1/public/pl/plbx8.pfb></usr/share/texmf/fonts/type1/
+public/pl/plex10.pfb></usr/share/texmf/fonts/type1/public/pl/plmi12.pfb></usr/s
+hare/texmf/fonts/type1/public/pl/plmi6.pfb></usr/share/texmf/fonts/type1/public
+/pl/plmi8.pfb></usr/share/texmf/fonts/type1/public/pl/plr12.pfb></usr/share/tex
+mf/fonts/type1/public/pl/plr6.pfb></usr/share/texmf/fonts/type1/public/pl/plr8.
+pfb></usr/share/texmf/fonts/type1/public/pl/plsy10.pfb></usr/share/texmf/fonts/
+type1/public/pl/plsy8.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx120
+0.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/te
+xmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/publ
+ic/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1440
+.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm2074.pfb></usr/share/tex
+mf/fonts/type1/public/cm-super/sfti1095.pfb></usr/share/texmf/fonts/type1/publi
+c/cm-super/sfti1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1095.
+pfb>
+Output written on article.pdf (15 pages, 527957 bytes).
 PDF statistics:
- 199 PDF objects out of 1000 (max. 8388607)
- 28 named destinations out of 1000 (max. 131072)
+ 231 PDF objects out of 1000 (max. 8388607)
+ 42 named destinations out of 1000 (max. 131072)
  86 words of extra memory for PDF output out of 10000 (max. 10000000)
 
