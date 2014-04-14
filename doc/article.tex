@@ -290,7 +290,7 @@ Uogólniając powyższe widać, że metoda bazująca na mierze Jaccarda, choć n
 prosta w implementacji i nie wymaga żadnej wstępnej preparacji danych, na przykład znajdywania słów kluczowych. Jeżeli zależy nam na szybkości, a określony problem pozwala
 na zastosowanie metody ekstrakcji opartej o zbiory rozmyte, to warto jej użyć. Jednakże w problemach, w których trudno jest odnaleźć właściwe słowa kluczowe, jak na przykład
 w problemie rozpoznawania autorstwa, lepiej użyć metody bardziej ogólnej. Metoda ekstrahująca wszystkie słowa ma dobrą skuteczność, ale jej czas działania  niestety ją dyskwalifikuje.
-Zupełnie natomiast nie radzi sobie miara bazująca na n-gramach, ze względu na powolność działania, co wynika z dużej ilości obliczeń niezbędnych do zastosowania metody. 
+Zupełnie natomiast nie radzi sobie miara bazująca na n-gramach, ze względu na powolność działania (\(6\)x wolniej niż naiwny sposób bazujący na wykorzystaniu wszystkich słów), co wynika z dużej ilości obliczeń niezbędnych do zastosowania metody (zależnej od iloczynu średniej długości tekstu, mocy zbioru uczącego oraz mocy zbioru testowego -- co nie jest problemem samo w sobie; kluczową kwestią jest duży współczynnik decydujący o praktycznym czasie wykonania obliczeń, wynikający z dużej liczby możliwych $n$-gramów do rozważenia). 
 \section{Wnioski}
 \begin{itemize}
 \item Nasza autorska metoda bazująca na zbiorach rozmytych jest bardzo skuteczna w problemach w których można wyróżnić słowa kluczowe -- dla podzbiorów wybieranych w ramach problemu ,,Kraje'' przy zastosowaniu odległości euklidesowej osiągaliśmy od \(88,88\%\) do \(93,12\%\) poprawnych klasyfikacji, a dla problemu ,,Tematy'' -- \(97,25\%\).
