@@ -105,7 +105,7 @@ Główną ideą naszej metody ekstrakcji są słowa kluczowe. Zbiór takich sł�
 lub wygenerowany automatycznie na podstawie danych uczących. Zbiór takich słów dzielimy na podzbiory na podstawie ich znaczenia. Można oczywiście używać tylko jednego podzbioru
 w którym są umieszczone wszystkie słowa kluczowe, ale zwiększenie ilości podzbiorów może poprawić klasyfikację, ze względu na zwiększenie wymiarowości przestrzeni. 
 W jednym podzbiorze powinny być słowa oznaczająca podobne obiekty, na przykład nazwy geograficzne. Następnie dla każdej kategorii względem której klasyfikujemy przygotowujemy
-osobny zestaw podzbiorów. Inaczej mówiąc jeżeli kategorią jest ,,kanada'' a w jednym z podzbiorów znajdują się ,,organizacje'', to tworzymy podzbiór ,,kanadyjskie organizacje''.
+osobny zestaw podzbiorów. Inaczej mówiąc jeżeli kategorią jest ,,kanada'' a~w~jednym z podzbiorów znajdują się ,,organizacje'', to tworzymy podzbiór ,,kanadyjskie organizacje''.
 Widać, że jest to metoda analogiczna do tego jak ludzie kategoryzują obiekty. Wystarczy następnie zauważyć, że określenie ,,kanadyjskie organizacje'' możemy modelować
 jako pewien zbiór rozmyty. Niektóre organizacje są stricte kanadyjskie, inne tylko częściowo. Na podstawie danych uczących, lub wiedzy eksperckiej jesteśmy w stanie podać
 funkcję przynależności do danego zbioru.
@@ -215,7 +215,7 @@ Eksperymenty przeprowadzane były dla trzech problemów klasyfikacji:
 \emph{Reuters-21578 Text Categorization Collection Data Set}, gdzie jako etykiety
 wybrane zostały kraje, których dotyczy dana próbka. Wybrane zostały wyłącznie
 te próbki, które dotyczą dokładnie jednego kraju i w przypadku których krajem tym
-jest Kanada, Francja, Japonia, Wielka Brytania, USA lub RFN. W przypadku
+jest Kanada, Francja, Japonia, Wielka Brytania, USA lub RFN. W~przypadku
 tego problemu mamy do dyspozycji \textbf{13441} próbek, w których (po uproszczonej
 stemizacji i usunięciu słów nieznaczących) występuje \textbf{28145} różnych słów.
 \item \textbf{Tematy} -- próbki wybierane z tego samego zbioru, co w przypadku
@@ -296,17 +296,6 @@ Większość prób wykonywana była przy ustawieniu \(k=5\), lecz dla typowych p
 wykonano dodatkowe próby przy \(k=3\) oraz \(k=11\), aby zaobserwować jaki
 wpływ będzie to miało na wyniki.
 
-\section{Wyniki}
-\footnotetext[1]{przekształcenie na wektor cech w \(R^n\)}
-\footnotetext[2]{patrz sekcja \ref{sec:naiwna}}
-\footnotetext[3]{patrz równanie \ref{eq:euklides}}
-\footnotetext[4]{patrz równanie \ref{eq:uliczna}}
-\footnotetext[5]{patrz równanie \ref{eq:czebyszew}}
-\footnotetext[6]{patrz sekcja \ref{sec:kluczowe}}
-\footnotetext[7]{patrz sekcja \ref{sec:autorska}}
-\footnotetext[8]{patrz równanie \ref{eq:jaccard}}
-\footnotetext[9]{patrz sekcja \ref{sec:autorskiepodobienstwo}}
-\footnotetext[10]{patrz równanie \ref{eq:ngram}}
 \include{resultskraje}
 %\footnotetext[1]{przekształcenie na wektor cech w \(R^n\)}
 %\footnotetext[2]{patrz sekcja \ref{sec:naiwna}}
@@ -370,7 +359,7 @@ metoda n-gramów, naiwna ekstrakcja bazująca na wszystkich słowach a także po
 
 Uogólniając powyższe widać, że metoda bazująca na mierze Jaccarda, choć nie jest to metoda najszybsza, to sprawdza się w różnych zastosowaniach. Co więcej metoda ta jest
 prosta w implementacji i nie wymaga żadnej wstępnej preparacji danych, na przykład znajdywania słów kluczowych. Jeżeli zależy nam na szybkości, a określony problem pozwala
-na zastosowanie metody ekstrakcji opartej o zbiory rozmyte, to warto jej użyć. Jednakże w problemach, w których trudno jest odnaleźć właściwe słowa kluczowe, jak na przykład
+na zastosowanie metody ekstrakcji opartej o zbiory rozmyte, to warto jej użyć. Jednakże w~problemach, w których trudno jest odnaleźć właściwe słowa kluczowe, jak na przykład
 w problemie rozpoznawania autorstwa, lepiej użyć metody bardziej ogólnej. Metoda ekstrahująca wszystkie słowa ma dobrą skuteczność, ale jej czas działania  niestety ją dyskwalifikuje.
 Zupełnie natomiast nie radzi sobie miara bazująca na n-gramach, ze względu na powolność działania (\(6\)x wolniej niż naiwny sposób bazujący na wykorzystaniu wszystkich słów), co wynika z dużej ilości obliczeń niezbędnych do zastosowania metody (zależnej od iloczynu średniej długości tekstu, mocy zbioru uczącego oraz mocy zbioru testowego -- co nie jest problemem samo w sobie; kluczową kwestią jest duży współczynnik decydujący o praktycznym czasie wykonania obliczeń, wynikający z dużej liczby możliwych $n$-gramów do rozważenia). 
 \section{Wnioski}
