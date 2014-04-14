@@ -93,13 +93,14 @@ Jeśli chodzi o teksty znanych pisarzy, to zostały one sklasyfikowane kategori�
 \label{sec:naiwna}
 Do celów porównawczych zaimplementowaliśmy naiwną metodę ekstrakcji. Metoda ta działa w następujący sposób. Najpierw teksty są dzielone na słowa. Słowa te podlegają prostej stemizacji,
 a następnie filtrowane są przez stop-listę. Otrzymujemy zestaw skończonych ciągów słów. Każdemu słowu z zestawu (w sensie typu, a nie egzemplarza słowa) przypisywana jest pozycja
-w wektorze (w kolejności występowania słów). Następnie dla każdego tekstu budowany jest wektor w którym na kolejnych pozycjach występują ilości znalezionych słów.
+w wektorze (w kolejności występowania słów). Następnie dla każdego tekstu budowany jest wektor w którym na kolejnych pozycjach występują ilości znalezionych słów. Ilość wymiarów takiego wektora
+wynosi (dla notatek prasowych) \(21349\) dla całego zbioru, a dla jego połowy \(15074\).
 \subsection{Metoda ekstrakcji cech bazująca na słowach kluczowych}
 \label{sec:kluczowe}
-Ta metoda działa podobnie do powyższej, jednakże zamiast użycia wszystkich słów, zostały użyte tylko słowa kluczowe. Dla notatek prasowych użyliśmy zestawu słów kluczowych znajdujących się w kolekcji. Dla autorów opracowaliśmy automatycznie własny zestaw słów kluczowych. Dzięki użyciu słów kluczowych zmniejszyła się ilość wymiarów w wektorze cech.
+Ta metoda działa podobnie do powyższej, jednakże zamiast użycia wszystkich słów, zostały użyte tylko słowa kluczowe. Dla notatek prasowych użyliśmy zestawu słów kluczowych znajdujących się w kolekcji. Dla autorów opracowaliśmy automatycznie własny zestaw słów kluczowych. Dzięki użyciu słów kluczowych zmniejszyła się w porównaniu z metoda naiwną ilość wymiarów w wektorze cech do \(853\).
 \subsection{Autorska metoda ekstrakcji cech}
 \label{sec:autorska}
-Poniżej omówimy autorskie metody ekstrakcji cech i miarę podobieństwa, których użyliśmy. 
+Poniżej omówimy autorskie metody ekstrakcji cech i miarę podobieństwa, których użyliśmy. Metoda ta pozwala opisać teksty notatek prasowych przy użyciu wektorów o zaledwie \(30\) wymiarach.
 Główną ideą naszej metody ekstrakcji są słowa kluczowe. Zbiór takich słów należy przygotować dla konkretnego zadania. Może on być wyznaczony ręcznie,
 lub wygenerowany automatycznie na podstawie danych uczących. Zbiór takich słów dzielimy na podzbiory na podstawie ich znaczenia. Można oczywiście używać tylko jednego podzbioru
 w którym są umieszczone wszystkie słowa kluczowe, ale zwiększenie ilości podzbiorów może poprawić klasyfikację, ze względu na zwiększenie wymiarowości przestrzeni. 
@@ -158,6 +159,7 @@ V_{T1}' &\approx& <0{,}86; 0{,}50> \\
 V_{T2}' &\approx& <0{,}12; 0{,}99>
 \end{eqnarray*}
 
+W n
 \subsection{Autorska funkcja podobieństwa}
 \label{sec:autorskiepodobienstwo}
 Natomiast jeśli chodzi o obliczanie funkcji podobieństwa, metoda ta również opiera się na słowach kluczowych. Dla słów kluczowych, które znajdują się w obu tekstach, liczony jest prosty współczynnik dopasowania (simple matching coefficient), wyznaczony
@@ -370,12 +372,12 @@ Uogólniając powyższe widać, że metoda bazująca na mierze Jaccarda, choć n
 prosta w implementacji i nie wymaga żadnej wstępnej preparacji danych, na przykład znajdywania słów kluczowych. Jeżeli zależy nam na szybkości, a określony problem pozwala
 na zastosowanie metody ekstrakcji opartej o zbiory rozmyte, to warto jej użyć. Jednakże w problemach, w których trudno jest odnaleźć właściwe słowa kluczowe, jak na przykład
 w problemie rozpoznawania autorstwa, lepiej użyć metody bardziej ogólnej. Metoda ekstrahująca wszystkie słowa ma dobrą skuteczność, ale jej czas działania  niestety ją dyskwalifikuje.
-Zupełnie natomiast nie radzi sobie miara bazująca na n-gramach, ze względu na powolność działania, co wynika z dużej ilości obliczeń niezbędnych do zastosowania metody. 
+Zupełnie natomiast nie radzi sobie miara bazująca na n-gramach, ze względu na powolność działania (\(6\)x wolniej niż naiwny sposób bazujący na wykorzystaniu wszystkich słów), co wynika z dużej ilości obliczeń niezbędnych do zastosowania metody (zależnej od iloczynu średniej długości tekstu, mocy zbioru uczącego oraz mocy zbioru testowego -- co nie jest problemem samo w sobie; kluczową kwestią jest duży współczynnik decydujący o praktycznym czasie wykonania obliczeń, wynikający z dużej liczby możliwych $n$-gramów do rozważenia). 
 \section{Wnioski}
 \begin{itemize}
-\item Nasza autorska metoda bazująca na zbiorach rozmytych jest bardzo skuteczna w problemach w których można wyróżnić słowa kluczowe.
-\item Dla problemów, w których wyróżnienie słów kluczowych nie jest skuteczne dobrą metodą jest metoda oparta na mierze Jaccarda.
-\item Metoda n-gramów działa zbyt wolno. Wynika to jednak z faktu, że liczymy n-gramy dla liter. Możliwe, że gdybyśmy użyli modyfikacji tej metody, w której zamiast
+\item Nasza autorska metoda bazująca na zbiorach rozmytych jest bardzo skuteczna w problemach w których można wyróżnić słowa kluczowe -- dla podzbiorów wybieranych w ramach problemu ,,Kraje'' przy zastosowaniu odległości euklidesowej osiągaliśmy od \(88,88\%\) do \(93,12\%\) poprawnych klasyfikacji, a dla problemu ,,Tematy'' -- \(97,25\%\).
+\item Dla problemów, w których wyróżnienie słów kluczowych nie jest skuteczne (chodzi o problem ,,Autorzy'', gdzie metody wykorzystujące słowa kluczowe lub zbiory rozmyte osiągnęły co najwyżej \(57,65\%\) poprawnych klasyfikacji) dobrą metodą jest metoda oparta na mierze Jaccarda (która w omawianym przypadku sklasyfikowała poprawnie \(79,17\%\) próbek).
+\item Metoda \(n\)-gramów działa zbyt wolno (tylko w przypadku bardzo małych zbiorów danych doczekaliśmy się wyniku w czasie poniżej \(3\,\mbox{h}\), a i tak czas wykonania był około \(6\)x gorszy niż w przypadku naiwnego sposobu bazującego na użyciu wszystkich słów). Wynika to jednak z faktu, że liczymy \(n\)-gramy dla liter. Możliwe, że gdybyśmy użyli modyfikacji tej metody, w której zamiast
 liter użylibyśmy całych słów, to metoda byłaby szybsza i dawała lepsze wyniki.
 \end{itemize}
 
